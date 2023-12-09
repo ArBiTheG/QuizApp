@@ -33,6 +33,7 @@ namespace QuizApp.Model.Adapter
                         Console.WriteLine("Корректных вопросов: " + countValided);
                         Console.WriteLine("Генерация вопросов...");
                         quiz.Questions = Quiz.ScatterQuestions(quiz.Questions, 10);
+                        Console.WriteLine("Отобрано случайных вопросов: " + quiz.Questions.Count);
                     }
                     else
                     {
@@ -50,6 +51,30 @@ namespace QuizApp.Model.Adapter
             }
             return quiz;
         }
+
+        public Question GetQuestion(int id)
+        {
+            if (quiz!= null)
+            {
+                if (quiz.Questions != null)
+                {
+                    if (quiz.Questions.Count > 0)
+                    {
+                        int lastId = quiz.Questions.Count-1;
+                        if (id < 0) id = 0;
+                        if (id > lastId) id = lastId;
+
+                        return quiz.Questions[id];
+                    }
+                }
+            }
+            return null;
+        }
+        public int GetCountQuestions()
+        {
+            return quiz.Questions.Count;
+        }
+
         public AdapterJSON(string jSONFileName)
         {
             JSONFileName = jSONFileName;
@@ -62,7 +87,7 @@ namespace QuizApp.Model.Adapter
             quiz.Description = "Description";
             quiz.Author = "Daniil";
 
-            for (int i = 0; i< 100; i++)
+            for (int i = 0; i< 5; i++)
             {
                 Question question = new Question();
 

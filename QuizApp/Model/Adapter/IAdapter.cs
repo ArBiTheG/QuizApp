@@ -10,5 +10,8 @@ namespace QuizApp.Model.Adapter
     public interface IAdapter
     {
         Quiz GetQuiz();
+        int GetCountQuestions();
+
+        Question GetQuestion(int id);
     }
 }

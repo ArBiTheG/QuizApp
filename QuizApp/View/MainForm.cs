@@ -21,21 +21,61 @@ namespace QuizApp.View
         public string QuizGuid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string QuizTitle 
         { 
-            get => titleQuizLabel.Text;
+            get => throw new NotImplementedException();
             set => titleQuizLabel.Text = value; 
         }
         public string QuizDescription
         {
-            get => descrQuizLabel.Text;
+            get => throw new NotImplementedException();
             set => descrQuizLabel.Text = value;
         }
-        public string QuizAuthor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string QuestionDescription { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string QuizAuthor
+        {
+            get => throw new NotImplementedException();
+            set
+            {
+                nextQuestionButton.Text = "Следующий вопрос";
+            }
+        }
+
+        public bool CanBackQuestion
+        {
+            get => throw new NotImplementedException();
+            set => backQuestionButton.Visible = value;
+        }
+        public bool CanNextQuestion
+        {
+            get => throw new NotImplementedException();
+            set {
+                if (value)
+                {
+                    nextQuestionButton.Text = "Следующий вопрос";
+                }
+                else
+                {
+                    nextQuestionButton.Text = "Завершить тестирование";
+                }
+            }
+        }
+        public int CurrentQuestion
+        {
+            get => throw new NotImplementedException();
+            set => quizCounterLabel.Text = "Вопрос №" + value; 
+        }
+        public string QuestionDescription
+        {
+            get => throw new NotImplementedException();
+            set
+            {
+               descrQuestionLabel.Text = value;
+            }
+        }
 
         public MainForm()
         {
             InitializeComponent();
             MainTabControl.TabPages.Clear();
+            backQuestionButton.Visible = false;
             InitializeEvent();
         }
         public void InitializeEvent()
@@ -43,6 +83,8 @@ namespace QuizApp.View
             Load += delegate { PrepareQuiz?.Invoke(this, EventArgs.Empty); };
             startQuizButton.Click += delegate { StartQuiz?.Invoke(this, EventArgs.Empty); };
             finishQuizButton.Click += delegate { FinishQuiz?.Invoke(this, EventArgs.Empty); };
+            backQuestionButton.Click += delegate { BackQuestion?.Invoke(this, EventArgs.Empty); };
+            nextQuestionButton.Click += delegate { NextQuestion?.Invoke(this, EventArgs.Empty); };
         }
 
         public void ChangePage(Page page)

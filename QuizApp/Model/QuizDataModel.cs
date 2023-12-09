@@ -12,11 +12,14 @@ namespace QuizApp.Model
     {
         Quiz quiz;
         Question question;
+        int maxQuestions = 0;
         bool quizReady = false;
 
         public Quiz Quiz => quiz;
         public Question Question => question;
         public bool QuizReady => quizReady;
+
+        public int MaxQuestions => maxQuestions;
 
         IAdapter Adapter { get; set; }
         public QuizDataModel()
@@ -29,6 +32,7 @@ namespace QuizApp.Model
             quiz = Adapter.GetQuiz();
             if (quiz != null)
             {
+                maxQuestions = Adapter.GetCountQuestions();
                 quizReady = true;
             }
             else
@@ -42,9 +46,9 @@ namespace QuizApp.Model
             }
         }
 
-        public void LoadQuestion()
+        public void LoadQuestion(int number)
         {
-
+            question = Adapter.GetQuestion(number - 1);
         }
     }
 }

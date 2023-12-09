@@ -68,26 +68,32 @@ namespace QuizApp.Model.Entity
                     if (count <= 0 || count > maxCount) count = maxCount;
 
                     int[] busyIds = new int[count];
-
-                    Random random = new Random();
-                    //Раскидываем идентификаторы тестов
-                    for (int i = 0; i < count; i++)
+                    //Забиваем массив числами по умолчанию (-1)
+                    for (int i = 0; i < busyIds.Length; ++i)
                     {
-                        int id = random.Next(0, maxCount - 1);
-                        if (!busyIds.Contains(id))
-                        {
-                            busyIds[i] = id;
-                        }
+                        busyIds[i] = -1;
                     }
 
-                    // Выкидываем лишнее
-                    for (int i = 0; i < maxCount; ++i)
+                    Random random = new Random();
+                    //Подбираем случайные идентификаторы вопросов
+                    for (int i = 0; i < busyIds.Length; ++i)
                     {
-                        result.Add(questions[i]); 
+                        int id;
+                        do
+                        {
+                            id = random.Next(maxCount);
+                        }
+                        while (busyIds.Contains(id));
+                        busyIds[i] = id;
+                    }
+
+                    //Добавляем случайные вопросы в список
+                    for (int i = 0; i < busyIds.Length; ++i)
+                    {
+                        result.Add(questions[busyIds[i]]); 
                     }
                 }
             }
-
             return result;
         }
     }

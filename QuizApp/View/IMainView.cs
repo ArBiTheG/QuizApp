@@ -22,6 +22,10 @@ namespace QuizApp.View
         event EventHandler BackQuestion;
         event EventHandler NextQuestion;
 
+        bool CanBackQuestion { get; set; }
+        bool CanNextQuestion { get; set; }
+        int CurrentQuestion { get; set; }
+
         string QuizGuid { get; set; }
         string QuizTitle { get; set; }
         string QuizDescription { get; set; }

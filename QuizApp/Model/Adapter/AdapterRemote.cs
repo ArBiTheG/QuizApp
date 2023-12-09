@@ -13,5 +13,15 @@ namespace QuizApp.Model.Adapter
         {
             throw new NotImplementedException();
         }
+
+        public Question GetQuestion(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCountQuestions()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -45,6 +45,7 @@
             this.infoQuizTable = new System.Windows.Forms.TableLayoutPanel();
             this.finishQuizButton = new System.Windows.Forms.Button();
             this.resultPage = new System.Windows.Forms.TabPage();
+            this.quizCounterLabel = new System.Windows.Forms.Label();
             this.MainTabControl.SuspendLayout();
             this.preparePage.SuspendLayout();
             this.handlePrepareTable.SuspendLayout();
@@ -236,6 +237,7 @@
             this.infoQuizTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.infoQuizTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.infoQuizTable.Controls.Add(this.finishQuizButton, 3, 0);
+            this.infoQuizTable.Controls.Add(this.quizCounterLabel, 0, 0);
             this.infoQuizTable.Dock = System.Windows.Forms.DockStyle.Top;
             this.infoQuizTable.Location = new System.Drawing.Point(3, 3);
             this.infoQuizTable.Name = "infoQuizTable";
@@ -256,12 +258,22 @@
             // 
             // resultPage
             // 
-            this.resultPage.Location = new System.Drawing.Point(4, 29);
+            this.resultPage.Location = new System.Drawing.Point(4, 22);
             this.resultPage.Name = "resultPage";
-            this.resultPage.Size = new System.Drawing.Size(768, 504);
+            this.resultPage.Size = new System.Drawing.Size(768, 511);
             this.resultPage.TabIndex = 2;
             this.resultPage.Text = "Результат";
             this.resultPage.UseVisualStyleBackColor = true;
+            // 
+            // quizCounterLabel
+            // 
+            this.quizCounterLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.quizCounterLabel.Location = new System.Drawing.Point(3, 0);
+            this.quizCounterLabel.Name = "quizCounterLabel";
+            this.quizCounterLabel.Size = new System.Drawing.Size(184, 36);
+            this.quizCounterLabel.TabIndex = 2;
+            this.quizCounterLabel.Text = "Вопрос №1";
+            this.quizCounterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
             // 
@@ -306,5 +318,6 @@
         private System.Windows.Forms.Label descrQuestionLabel;
         private System.Windows.Forms.Panel answerPanel;
         private System.Windows.Forms.Label answerLabel;
+        private System.Windows.Forms.Label quizCounterLabel;
     }
 }
