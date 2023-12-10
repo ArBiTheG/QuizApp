@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using QuizApp.Model.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,29 +68,20 @@ namespace QuizApp.Model.Entity
 
                     if (count <= 0 || count > maxCount) count = maxCount;
 
-                    int[] busyIds = new int[count];
-                    //Забиваем массив числами по умолчанию (-1)
+                    int[] busyIds = new int[maxCount];
+                    //Забиваем массив порядковыми числами 
                     for (int i = 0; i < busyIds.Length; ++i)
                     {
-                        busyIds[i] = -1;
+                        busyIds[i] = i;
                     }
+                    //Выполняем перемешивание
+                    Shuffler.Shuffle(busyIds);
 
-                    Random random = new Random();
-                    //Подбираем случайные идентификаторы вопросов
-                    for (int i = 0; i < busyIds.Length; ++i)
+                    //Отспекаем первые count вопросы
+                    for (int i = 0; i < count; ++i)
                     {
-                        int id;
-                        do
-                        {
-                            id = random.Next(maxCount);
-                        }
-                        while (busyIds.Contains(id));
-                        busyIds[i] = id;
-                    }
-
-                    //Добавляем случайные вопросы в список
-                    for (int i = 0; i < busyIds.Length; ++i)
-                    {
+                        Question q = questions[busyIds[i]];
+                        Shuffler.ShuffleObj(q.Answers);
                         result.Add(questions[busyIds[i]]); 
                     }
                 }

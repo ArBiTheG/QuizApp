@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizApp.View.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace QuizApp.View
         event EventHandler FinishQuiz;
         event EventHandler BackQuestion;
         event EventHandler NextQuestion;
+        event EventHandler<Guid> SelectAnswer;
 
         bool CanBackQuestion { get; set; }
         bool CanNextQuestion { get; set; }
@@ -31,5 +33,7 @@ namespace QuizApp.View
         string QuizDescription { get; set; }
         string QuizAuthor { get; set; }
         string QuestionDescription { get; set; }
+
+        void AddAnswers(IAnswerView[] answerView);
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QuizApp.Model.Entity;
+using QuizApp.View.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +19,7 @@ namespace QuizApp.View
         public event EventHandler FinishQuiz;
         public event EventHandler BackQuestion;
         public event EventHandler NextQuestion;
+        public event EventHandler<Guid> SelectAnswer;
 
         public string QuizGuid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string QuizTitle 
@@ -74,8 +77,10 @@ namespace QuizApp.View
         public MainForm()
         {
             InitializeComponent();
+
             MainTabControl.TabPages.Clear();
             backQuestionButton.Visible = false;
+
             InitializeEvent();
         }
         public void InitializeEvent()
@@ -106,6 +111,22 @@ namespace QuizApp.View
                     MainTabControl.SelectTab(resultPage);
                     break;
             }
+        }
+
+        public void AddAnswers(IAnswerView[] answersView)
+        {
+            answerPanel.SuspendLayout();
+            answerPanel.Controls.Clear();
+            foreach (IAnswerView answer in answersView)
+            {
+                RadioButton radioButton = new RadioButton();
+                radioButton.Text = answer.Content;
+                radioButton.Checked = answer.Checked;
+                radioButton.CheckedChanged += delegate { if (radioButton.Checked) SelectAnswer?.Invoke(this, answer.Guid); };
+                radioButton.Dock = DockStyle.Top;
+                answerPanel.Controls.Add(radioButton);
+            }
+            answerPanel.ResumeLayout();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace QuizApp.Model.Adapter
 {
     public class AdapterRemote : IAdapter
     {
-        public Quiz GetQuiz()
+        public Quiz Connect()
         {
             throw new NotImplementedException();
         }

@@ -57,10 +57,14 @@
     <Compile Include="Model\Entity\Quiz.cs" />
     <Compile Include="Model\Entity\Setting.cs" />
     <Compile Include="Model\QuizDataModel.cs" />
+    <Compile Include="Model\Utils\Cloner.cs" />
+    <Compile Include="Model\Utils\Shuffler.cs" />
     <Compile Include="Presenter\IMainPresenter.cs" />
     <Compile Include="Presenter\MainPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Entity\AnswerView.cs" />
+    <Compile Include="View\Entity\IAnswerView.cs" />
     <Compile Include="View\IMainView.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
@@ -94,5 +98,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

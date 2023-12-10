@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using QuizApp.Model.Entity;
+using QuizApp.Model.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,7 @@ namespace QuizApp.Model.Adapter
         string JSONFileName;
         Quiz quiz;
 
-        public Quiz GetQuiz()
+        public Quiz Connect()
         {
             if (File.Exists(JSONFileName))
             {
@@ -24,15 +25,16 @@ namespace QuizApp.Model.Adapter
                     Console.WriteLine("Загрузка файла с тестированием...");
                     string jsonText = File.ReadAllText(JSONFileName);
                     Console.WriteLine("Десериализация JSON...");
-                    quiz = JsonConvert.DeserializeObject<Quiz>(jsonText);
+                    Quiz obj = JsonConvert.DeserializeObject<Quiz>(jsonText);
                     Console.WriteLine("Проверка корретности файла JSON...");
-                    int countValided = quiz.ValidateQuestions();
+                    int countValided = obj.ValidateQuestions();
                     if (countValided>0)
                     {
-                        Console.WriteLine("Всего вопросов: " + quiz.Questions.Count);
-                        Console.WriteLine("Корректных вопросов: " + countValided);
                         Console.WriteLine("Генерация вопросов...");
-                        quiz.Questions = Quiz.ScatterQuestions(quiz.Questions, 10);
+                        quiz = (Quiz)obj.Clone();
+                        quiz.Questions = Quiz.ScatterQuestions(obj.Questions, 8);
+                        Console.WriteLine("Всего вопросов: " + obj.Questions.Count);
+                        Console.WriteLine("Корректных вопросов: " + countValided);
                         Console.WriteLine("Отобрано случайных вопросов: " + quiz.Questions.Count);
                     }
                     else
@@ -78,21 +80,21 @@ namespace QuizApp.Model.Adapter
         public AdapterJSON(string jSONFileName)
         {
             JSONFileName = jSONFileName;
-            //Test();
+            Test(jSONFileName);
         }
-        public static void Test()
+        public static void Test(string file)
         {
             Quiz quiz = new Quiz();
             quiz.Title = "Title";
             quiz.Description = "Description";
             quiz.Author = "Daniil";
 
-            for (int i = 0; i< 5; i++)
+            for (int i = 0; i< 10; i++)
             {
                 Question question = new Question();
 
                 question.Description = "Question:" + i;
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 12; j++)
                 {
                     Answer answer = new Answer();
                     answer.Description = "Answer:" + j;
@@ -101,6 +103,7 @@ namespace QuizApp.Model.Adapter
                 quiz.Questions.Add(question);
             }
 
+            if (File.Exists(file)) File.Delete(file);
             string textJson = JsonConvert.SerializeObject(quiz);
             File.WriteAllText("test.json", textJson);
         }

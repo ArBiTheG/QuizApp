@@ -44,8 +44,8 @@
             this.backQuestionButton = new System.Windows.Forms.Button();
             this.infoQuizTable = new System.Windows.Forms.TableLayoutPanel();
             this.finishQuizButton = new System.Windows.Forms.Button();
-            this.resultPage = new System.Windows.Forms.TabPage();
             this.quizCounterLabel = new System.Windows.Forms.Label();
+            this.resultPage = new System.Windows.Forms.TabPage();
             this.MainTabControl.SuspendLayout();
             this.preparePage.SuspendLayout();
             this.handlePrepareTable.SuspendLayout();
@@ -256,15 +256,6 @@
             this.finishQuizButton.Text = "Завершить тестирование";
             this.finishQuizButton.UseVisualStyleBackColor = true;
             // 
-            // resultPage
-            // 
-            this.resultPage.Location = new System.Drawing.Point(4, 22);
-            this.resultPage.Name = "resultPage";
-            this.resultPage.Size = new System.Drawing.Size(768, 511);
-            this.resultPage.TabIndex = 2;
-            this.resultPage.Text = "Результат";
-            this.resultPage.UseVisualStyleBackColor = true;
-            // 
             // quizCounterLabel
             // 
             this.quizCounterLabel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -275,11 +266,21 @@
             this.quizCounterLabel.Text = "Вопрос №1";
             this.quizCounterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // resultPage
+            // 
+            this.resultPage.Location = new System.Drawing.Point(4, 22);
+            this.resultPage.Name = "resultPage";
+            this.resultPage.Size = new System.Drawing.Size(768, 511);
+            this.resultPage.TabIndex = 2;
+            this.resultPage.Text = "Результат";
+            this.resultPage.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(800, 561);
             this.Controls.Add(this.MainTabControl);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";

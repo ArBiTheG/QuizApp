@@ -10,6 +10,7 @@ namespace QuizApp.Model.Entity
     {
         public Guid Guid { get; set; }
         public string Description { get; set; }
+        public bool Checked { get; set; }
         public Answer()
         {
             Guid = Guid.NewGuid();
@@ -17,7 +18,12 @@ namespace QuizApp.Model.Entity
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return new Answer()
+            {
+                Guid = Guid,
+                Description = Description,
+                Checked= Checked
+            };
         }
         public bool IsValidated()
         {

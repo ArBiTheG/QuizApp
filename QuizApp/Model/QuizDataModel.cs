@@ -10,15 +10,16 @@ namespace QuizApp.Model
 {
     public class QuizDataModel
     {
-        Quiz quiz;
+        bool quizReady = false;
+        private string title;
+        private string description;
         Question question;
         int maxQuestions = 0;
-        bool quizReady = false;
 
-        public Quiz Quiz => quiz;
-        public Question Question => question;
         public bool QuizReady => quizReady;
-
+        public string Title { get => title; set => title = value; }
+        public string Description { get => description; set => description = value; }
+        public Question Question { get => question; set => question = value; }
         public int MaxQuestions => maxQuestions;
 
         IAdapter Adapter { get; set; }
@@ -29,18 +30,19 @@ namespace QuizApp.Model
 
         public void LoadData()
         {
-            quiz = Adapter.GetQuiz();
+            Quiz quiz = Adapter.Connect();
             if (quiz != null)
             {
-                maxQuestions = Adapter.GetCountQuestions();
                 quizReady = true;
+                Title = quiz.Title;
+                Description = quiz.Description;
+                maxQuestions = Adapter.GetCountQuestions();
             }
             else
             {
                 quizReady = false;
-                quiz = new Quiz();
-                quiz.Title = "Тестирование не готово";
-                quiz.Description = "Во время загрузки тестирования, что то пошло не так, возможные причины:\n" +
+                Title = "Тестирование не готово";
+                Description = "Во время загрузки тестирования, что то пошло не так, возможные причины:\n" +
                     "- Файл с тестом не найден\n" +
                     "- Некорретный файл с тестом";
             }
@@ -48,7 +50,22 @@ namespace QuizApp.Model
 
         public void LoadQuestion(int number)
         {
-            question = Adapter.GetQuestion(number - 1);
+            Question = Adapter.GetQuestion(number - 1);
+        }
+
+        public void SelectAnswer(Question question, Guid guid)
+        {
+            foreach (Answer answer in question.Answers)
+            {
+                if (answer.Guid == guid)
+                {
+                    answer.Checked = true;
+                }
+                else
+                {
+                    answer.Checked = false;
+                }
+            }
         }
     }
 }

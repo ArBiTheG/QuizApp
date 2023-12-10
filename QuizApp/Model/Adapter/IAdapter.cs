@@ -9,7 +9,7 @@ namespace QuizApp.Model.Adapter
 {
     public interface IAdapter
     {
-        Quiz GetQuiz();
+        Quiz Connect();
         int GetCountQuestions();
 
         Question GetQuestion(int id);

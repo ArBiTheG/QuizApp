@@ -12,5 +12,7 @@ namespace QuizApp.Presenter
     {
         IMainView MainView { get; set; }
         QuizDataModel QuizDataModel { get; set; }
+        int QuizMaxQuestions { get; }
+        int QuizCurrentQuestion { get; }
     }
 }
