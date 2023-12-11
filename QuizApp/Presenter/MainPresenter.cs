@@ -35,15 +35,21 @@ namespace QuizApp.Presenter
 
         private void MainView_SelectAnswer(object sender, Guid e)
         {
-            Answer answer = (QuizDataModel.Question.Answers.Find(obj => obj.Guid == e));
-            answer.Checked = true;
+            foreach (Answer answer in QuizDataModel.Question.Answers)
+            {
+                if (answer.Guid == e)
+                {
+                    answer.Checked = true;
+                    break;
+                }
+            }
         }
 
         void LoadQuestion()
         {
             QuizDataModel.LoadQuestion(quizCurrentQuestion);
 
-            int answerCount = QuizDataModel.Question.Answers.Count;
+            int answerCount = QuizDataModel.Question.Answers.Length;
             IAnswerView[] answerViews = new IAnswerView[answerCount];
             for (int i = 0; i < answerCount; ++i)
             {

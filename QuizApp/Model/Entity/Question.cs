@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,25 @@ namespace QuizApp.Model.Entity
 {
     public class Question : ICloneable
     {
+        [JsonRequired]
         public Guid Guid { get; set; }
+        [JsonRequired]
         public string Description { get; set; }
-        public List<Answer> Answers { get; set; }
+        [JsonRequired]
+        public Answer[] Answers { get; set; }
         public Question()
         {
             Guid = Guid.NewGuid();
-            Answers = new List<Answer>();
         }
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Clone " + ToString() + " /guid: " + Guid);
+            return new Question
+            {
+                Guid = Guid,
+                Description = Description
+            };
         }
         public bool IsValidated()
         {
@@ -28,7 +36,7 @@ namespace QuizApp.Model.Entity
                 if (Answers != null)
                 {
                     int countAnswersValid = 0;
-                    for(int i = 0; i < Answers.Count; i++)
+                    for(int i = 0; i < Answers.Length; i++)
                     {
                         if (Answers[i].IsValidated()) countAnswersValid++;
                     }

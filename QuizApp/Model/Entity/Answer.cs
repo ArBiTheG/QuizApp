@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,11 @@ namespace QuizApp.Model.Entity
 {
     public class Answer : ICloneable
     {
+        [JsonRequired]
         public Guid Guid { get; set; }
+        [JsonRequired]
         public string Description { get; set; }
+        [JsonIgnore]
         public bool Checked { get; set; }
         public Answer()
         {
@@ -18,6 +22,7 @@ namespace QuizApp.Model.Entity
 
         public object Clone()
         {
+            Console.WriteLine("Clone " + ToString() + " /guid: " + Guid);
             return new Answer()
             {
                 Guid = Guid,

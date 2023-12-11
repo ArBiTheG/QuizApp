@@ -55,7 +55,7 @@
     <Compile Include="Model\Entity\Answer.cs" />
     <Compile Include="Model\Entity\Question.cs" />
     <Compile Include="Model\Entity\Quiz.cs" />
-    <Compile Include="Model\Entity\Setting.cs" />
+    <Compile Include="Model\Entity\QuizSetting.cs" />
     <Compile Include="Model\QuizDataModel.cs" />
     <Compile Include="Model\Utils\Cloner.cs" />
     <Compile Include="Model\Utils\Shuffler.cs" />

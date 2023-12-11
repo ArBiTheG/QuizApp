@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Model.Entity
 {
-    public class Setting
+    public class QuizSetting
     {
+        public int LimitQuestions { get; set; } 
     }
 }

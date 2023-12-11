@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using QuizApp.Model.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,15 @@ namespace QuizApp.Model.Entity
 {
     public class Quiz: ICloneable
     {
+        [JsonRequired]
         public Guid Guid { get; set; }
+        [JsonRequired]
         public string Title { get; set; }
+        [JsonRequired]
         public string Description { get; set; }
         public string Author { get; set; }
+        public QuizSetting Setting { get; set; }
+        [JsonRequired]
         public List<Question> Questions { get; set; }
         public Quiz()
         {
@@ -24,6 +30,7 @@ namespace QuizApp.Model.Entity
 
         public object Clone()
         {
+            Console.WriteLine("Clone " + ToString() + " /guid: " + Guid);
             return new Quiz()
             {
                 Guid = Guid,
@@ -54,39 +61,6 @@ namespace QuizApp.Model.Entity
                 return countQuestionValid;
             };
             return 0;
-        }
-
-        public static List<Question> ScatterQuestions(List<Question> questions, int count = 0)
-        {
-            List<Question> result = new List<Question>();
-            if (questions != null)
-            {
-
-                if (questions.Count > 0)
-                {
-                    int maxCount = questions.Count;
-
-                    if (count <= 0 || count > maxCount) count = maxCount;
-
-                    int[] busyIds = new int[maxCount];
-                    //Забиваем массив порядковыми числами 
-                    for (int i = 0; i < busyIds.Length; ++i)
-                    {
-                        busyIds[i] = i;
-                    }
-                    //Выполняем перемешивание
-                    Shuffler.Shuffle(busyIds);
-
-                    //Отспекаем первые count вопросы
-                    for (int i = 0; i < count; ++i)
-                    {
-                        Question q = questions[busyIds[i]];
-                        Shuffler.ShuffleObj(q.Answers);
-                        result.Add(questions[busyIds[i]]); 
-                    }
-                }
-            }
-            return result;
         }
     }
 }
