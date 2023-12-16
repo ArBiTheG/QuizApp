@@ -19,7 +19,7 @@ namespace QuizApp.Model.Adapter
             throw new NotImplementedException();
         }
 
-        public int GetCountQuestions()
+        public int CheckQuiz()
         {
             throw new NotImplementedException();
         }

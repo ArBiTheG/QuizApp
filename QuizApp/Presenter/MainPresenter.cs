@@ -32,41 +32,9 @@ namespace QuizApp.Presenter
         public QuizDataModel QuizDataModel { get; set; }
         public int QuizCurQuestion { get => quizCurQuestion;  }
 
-        void LoadQuestion()
-        {
-            QuizDataModel.LoadQuestion(quizCurQuestion);
-
-            int answerCount = QuizDataModel.Question.Answers.Length;
-            IAnswerView[] answerViews = new IAnswerView[answerCount];
-            for (int i = 0; i < answerCount; ++i)
-            {
-                Answer answer = QuizDataModel.Question.Answers[i];
-                answerViews[i] = new AnswerView()
-                {
-                    Guid = answer.Guid,
-                    Content = answer.Description,
-                    Checked = answer.Checked
-                };
-            }
-            MainView.AddAnswers(answerViews);
-
-            MainView.CurrentQuestion = quizCurQuestion;
-            MainView.QuestionDescription = QuizDataModel.Question.Description;
-        }
-
         private void MainView_SelectAnswer(object sender, Guid e)
         {
-            foreach (Answer answer in QuizDataModel.Question.Answers)
-            {
-                if (answer.Guid == e)
-                {
-                    answer.Checked = true;
-                }
-                else
-                {
-                    answer.Checked = false;
-                }
-            }
+            QuizDataModel.SelectAnswer(e);
         }
 
         private void MainView_BackQuestion(object sender, EventArgs e)
@@ -90,18 +58,20 @@ namespace QuizApp.Presenter
             if (quizCurQuestion >= QuizDataModel.MaxQuestions)
             {
                 MainView_FinishQuiz(sender,e);
-            };
-
-            if (quizCurQuestion < QuizDataModel.MaxQuestions) ++quizCurQuestion;
-            if (quizCurQuestion >= QuizDataModel.MaxQuestions)
-            {
-                MainView.CanNextQuestion = false;
             }
-            if (quizCurQuestion > 1)
+            else
             {
-                MainView.CanPrevQuestion = true;
+                if (quizCurQuestion < QuizDataModel.MaxQuestions) ++quizCurQuestion;
+                if (quizCurQuestion >= QuizDataModel.MaxQuestions)
+                {
+                    MainView.CanNextQuestion = false;
+                }
+                if (quizCurQuestion > 1)
+                {
+                    MainView.CanPrevQuestion = true;
+                }
+                LoadQuestion();
             }
-            LoadQuestion();
         }
 
         private void MainView_PrepareQuiz(object sender, EventArgs e)
@@ -117,7 +87,7 @@ namespace QuizApp.Presenter
 
         private void MainView_StartQuiz(object sender, EventArgs e) 
         { 
-            if (QuizDataModel.QuizReady == true)
+            if (QuizDataModel.QuizReady)
             {
                 LoadQuestion();
                 MainView.ChangePage(Page.Quiz);
@@ -129,10 +99,37 @@ namespace QuizApp.Presenter
         }
         private void MainView_FinishQuiz(object sender, EventArgs e)
         {
-            if (QuizDataModel.QuizReady == true)
+            if (QuizDataModel.QuizReady)
             {
+                LoadResult();
                 MainView.ChangePage(Page.Result);
             }
+        }
+        private void LoadQuestion()
+        {
+            QuizDataModel.LoadQuestion(quizCurQuestion);
+
+            int answerCount = QuizDataModel.Question.Answers.Length;
+            IAnswerView[] answerViews = new IAnswerView[answerCount];
+            for (int i = 0; i < answerCount; ++i)
+            {
+                Answer answer = QuizDataModel.Question.Answers[i];
+                answerViews[i] = new AnswerView()
+                {
+                    Guid = answer.Guid,
+                    Content = answer.Description,
+                    Checked = answer.Checked
+                };
+            }
+            MainView.AddAnswers(answerViews);
+
+            MainView.CurrentQuestion = quizCurQuestion;
+            MainView.QuestionDescription = QuizDataModel.Question.Description;
+        }
+
+        private void LoadResult()
+        {
+            QuizDataModel.LoadResult();
         }
     }
 }

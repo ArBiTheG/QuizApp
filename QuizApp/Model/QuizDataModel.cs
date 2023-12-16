@@ -10,12 +10,12 @@ namespace QuizApp.Model
 {
     public class QuizDataModel
     {
-        bool quizReady;
+        private bool quizReady;
         private string title;
         private string description;
         private string author;
-        Question question;
-        int maxQuestions;
+        private Question question;
+        private int maxQuestions;
 
         public QuizDataModel()
         {
@@ -28,7 +28,7 @@ namespace QuizApp.Model
         public string Description { get => description; set => description = value; }
         public Question Question { get => question; set => question = value; }
         public string Author { get => author; set => author = value; }
-        public int MaxQuestions => maxQuestions;
+        public int MaxQuestions { get => maxQuestions; set => maxQuestions = value; }
 
         public void LoadData()
         {
@@ -38,7 +38,10 @@ namespace QuizApp.Model
                 quizReady = true;
                 Title = quiz.Title;
                 Description = quiz.Description;
-                maxQuestions = Adapter.GetCountQuestions();
+                Author = quiz.Author;
+                MaxQuestions = quiz.Questions.Count;
+                Console.WriteLine("Тестирование готово!");
+                Console.WriteLine("--------------------");
             }
             else
             {
@@ -47,26 +50,65 @@ namespace QuizApp.Model
                 Description = "Во время загрузки тестирования, что то пошло не так, возможные причины:\n" +
                     "- Файл с тестом не найден\n" +
                     "- Некорретный файл с тестом";
+                Console.WriteLine("Тестирование не готово!");
+                Console.WriteLine("-----------------------");
             }
         }
 
         public void LoadQuestion(int number)
         {
-            Question = Adapter.GetQuestion(number - 1);
+            if (QuizReady)
+            {
+                Question = Adapter.GetQuestion(number - 1);
+                Console.WriteLine("Загружен вопрос № " + number + " / Guid:" + Question.Guid);
+            }
+            else
+            {
+                Console.WriteLine("Невозможно загрузить вопрос, поскольку тестирование не готово");
+            }
         }
 
-        public void SelectAnswer(Question question, Guid guid)
+        public void SelectAnswer(Guid guid)
         {
-            foreach (Answer answer in question.Answers)
+            if (QuizReady)
             {
-                if (answer.Guid == guid)
+                if (Question!=null)
                 {
-                    answer.Checked = true;
+                    if (Question.Answers != null)
+                    {
+                        foreach (Answer answer in Question.Answers)
+                        {
+                            if (answer.Guid == guid)
+                            {
+                                answer.Checked = true;
+                                Console.WriteLine("Выбран вариант ответа под Guid:" + answer.Guid);
+                            }
+                            else
+                            {
+                                answer.Checked = false;
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    answer.Checked = false;
-                }
+            }
+            else
+            {
+                Console.WriteLine("Невозможно отправить ответ, поскольку тестирование не готово");
+            } 
+        }
+
+        public void LoadResult()
+        {
+            if (QuizReady)
+            {
+                int count = Adapter.CheckQuiz();
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Тестирование завершено");
+                Console.WriteLine("Правильных вариантов ответа: " + count);
+            }
+            else
+            {
+                Console.WriteLine("Невозможно загрузить результаты, поскольку тестирование не готово");
             }
         }
     }

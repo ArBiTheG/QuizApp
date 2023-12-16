@@ -14,6 +14,8 @@ namespace QuizApp.Model.Entity
         [JsonRequired]
         public string Description { get; set; }
         [JsonRequired]
+        public Guid RightAnswer { get; set; }
+        [JsonRequired]
         public Answer[] Answers { get; set; }
         public Question()
         {
@@ -22,7 +24,7 @@ namespace QuizApp.Model.Entity
 
         public object Clone()
         {
-            Console.WriteLine("Clone " + ToString() + " /guid: " + Guid);
+            Console.WriteLine("Created " + ToString() + " / Guid: " + Guid);
             return new Question
             {
                 Guid = Guid,

@@ -22,7 +22,7 @@ namespace QuizApp.Model.Entity
 
         public object Clone()
         {
-            Console.WriteLine("Clone " + ToString() + " /guid: " + Guid);
+            Console.WriteLine("Created " + ToString() + " /guid: " + Guid);
             return new Answer()
             {
                 Guid = Guid,

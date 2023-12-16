@@ -15,29 +15,35 @@ namespace QuizApp.Model.Adapter
     public class AdapterJSON : IAdapter
     {
         string JSONFileName;
+        string JSONFileTextContent;
         Quiz quiz;
 
+        public AdapterJSON(string jSONFileName)
+        {
+            JSONFileName = jSONFileName;
+            Test(jSONFileName);
+        }
         public Quiz Connect()
         {
             if (File.Exists(JSONFileName))
             {
                 try
                 {
-                    Console.WriteLine("Загрузка файла с тестированием...");
-                    string jsonText = File.ReadAllText(JSONFileName);
+                    Console.WriteLine("---------------------------------");
+                    Console.WriteLine("Загрузка файла тестированием...");
+                    JSONFileTextContent = File.ReadAllText(JSONFileName);
                     Console.WriteLine("Десериализация JSON...");
-
-                    Quiz obj = JsonConvert.DeserializeObject<Quiz>(jsonText);
+                    Quiz tempQuiz = JsonConvert.DeserializeObject<Quiz>(JSONFileTextContent);
                     Console.WriteLine("Проверка корретности файла JSON...");
-                    int countValided = obj.ValidateQuestions();
-                    if (countValided>0)
+                    int countValided = tempQuiz.ValidateQuestions();
+                    if (countValided > 0)
                     {
                         Console.WriteLine("Генерация вопросов...");
-                        quiz = (Quiz)obj.Clone();
-                        quiz.Questions = ScatterQuestions(obj.Questions, obj.Setting.LimitQuestions);
-                        Console.WriteLine("Всего вопросов: " + obj.Questions.Count);
+                        quiz = (Quiz)tempQuiz.Clone();
+                        quiz.Questions = ScatterQuestions(tempQuiz.Questions, tempQuiz.Setting.LimitQuestions);
+                        Console.WriteLine("Всего вопросов: " + tempQuiz.Questions.Count);
                         Console.WriteLine("Корректных вопросов: " + countValided);
-                        Console.WriteLine("Отобрано случайных вопросов: " + quiz.Questions.Count);
+                        Console.WriteLine("Отобрано вопросов: " + quiz.Questions.Count);
                     }
                     else
                     {
@@ -47,6 +53,11 @@ namespace QuizApp.Model.Adapter
                 catch
                 {
                     Console.WriteLine("Произошла ошибка во время загрузки тестирования!");
+                }
+                finally
+                {
+                    Console.WriteLine("Загрузка файла тестирования завершено!");
+                    Console.WriteLine("--------------------------------------");
                 }
             }
             else
@@ -58,13 +69,13 @@ namespace QuizApp.Model.Adapter
 
         public Question GetQuestion(int id)
         {
-            if (quiz!= null)
+            if (quiz != null)
             {
                 if (quiz.Questions != null)
                 {
                     if (quiz.Questions.Count > 0)
                     {
-                        int lastId = quiz.Questions.Count-1;
+                        int lastId = quiz.Questions.Count - 1;
                         if (id < 0) id = 0;
                         if (id > lastId) id = lastId;
 
@@ -74,17 +85,34 @@ namespace QuizApp.Model.Adapter
             }
             return null;
         }
-        public int GetCountQuestions()
+        public int CheckQuiz()
         {
-            return quiz.Questions.Count;
+            int count = 0;
+
+            if (quiz != null)
+            {
+                if (quiz.Questions != null)
+                {
+                    Quiz tempQuiz = JsonConvert.DeserializeObject<Quiz>(JSONFileTextContent);
+                    foreach (Question tempQuestion in tempQuiz.Questions)
+                    {
+                        Question findedQuestion = quiz.Questions.Find((question) => question.Guid == tempQuestion.Guid);
+                        if (findedQuestion != null)
+                        {
+                            Answer findedAnswer = findedQuestion.Answers.First((answer) => answer.Guid == tempQuestion.RightAnswer);
+                            if (findedAnswer != null)
+                            {
+                                if (findedAnswer.Checked)
+                                    count++;
+                            }
+                        }
+                    }
+                }
+            }
+            return count;
         }
 
-        public AdapterJSON(string jSONFileName)
-        {
-            JSONFileName = jSONFileName;
-            Test(jSONFileName);
-        }
-        public static List<Question> ScatterQuestions(List<Question> questions, int count = 4)
+        private static List<Question> ScatterQuestions(List<Question> questions, int count = 4)
         {
             List<Question> result = new List<Question>();
             if (questions != null)
@@ -117,7 +145,7 @@ namespace QuizApp.Model.Adapter
             }
             return result;
         }
-        public static Answer[] ScatterAnswers(Answer[] answers)
+        private static Answer[] ScatterAnswers(Answer[] answers)
         {
             int[] busyIds = new int[answers.Length];
             Answer[] result = new Answer[answers.Length];
@@ -136,8 +164,7 @@ namespace QuizApp.Model.Adapter
             }
             return result;
         }
-
-        public static void Test(string file, int max_questions = 10, int limit_questions = 5, int max_answers = 4)
+        private static void Test(string file, int max_questions = 10, int limit_questions = 5, int max_answers = 4)
         {
             Quiz quiz = new Quiz();
             quiz.Title = "Title";
@@ -161,6 +188,7 @@ namespace QuizApp.Model.Adapter
                     answer.Description = "Answer:" + j;
                     question.Answers[j] = answer;
                 }
+                question.RightAnswer = question.Answers[0].Guid;
                 quiz.Questions.Add(question);
             }
 
@@ -168,5 +196,6 @@ namespace QuizApp.Model.Adapter
             string textJson = JsonConvert.SerializeObject(quiz, Formatting.Indented);
             File.WriteAllText("test.json", textJson);
         }
+
     }
 }
