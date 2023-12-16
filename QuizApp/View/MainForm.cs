@@ -17,15 +17,26 @@ namespace QuizApp.View
         public event EventHandler PrepareQuiz;
         public event EventHandler StartQuiz;
         public event EventHandler FinishQuiz;
-        public event EventHandler BackQuestion;
+        public event EventHandler PrevQuestion;
         public event EventHandler NextQuestion;
         public event EventHandler<Guid> SelectAnswer;
 
+        public MainForm()
+        {
+            InitializeComponent();
+
+            MainTabControl.TabPages.Clear();
+            prevQuestionButton.Visible = false;
+
+            InitializeEvent();
+        }
+
+
         public string QuizGuid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string QuizTitle 
-        { 
+        public string QuizTitle
+        {
             get => throw new NotImplementedException();
-            set => titleQuizLabel.Text = value; 
+            set => titleQuizLabel.Text = value;
         }
         public string QuizDescription
         {
@@ -37,25 +48,33 @@ namespace QuizApp.View
             get => throw new NotImplementedException();
             set
             {
-                nextQuestionButton.Text = "Следующий вопрос";
+                authorQuizLabel.Text = "Автор тестирования: " + value;
             }
         }
+        public int QuizMaxQuestions 
+        { 
+            get => throw new NotImplementedException(); 
+            set => maxQuestionsLabel.Text = "Всего вопросов: " + value; 
+        }
 
-        public bool CanBackQuestion
+        public bool CanPrevQuestion
         {
             get => throw new NotImplementedException();
-            set => backQuestionButton.Visible = value;
+            set => prevQuestionButton.Visible = value;
         }
         public bool CanNextQuestion
         {
             get => throw new NotImplementedException();
-            set {
+            set
+            {
                 if (value)
                 {
+                    nextQuestionButton.ForeColor = Color.Black;
                     nextQuestionButton.Text = "Следующий вопрос";
                 }
                 else
                 {
+                    nextQuestionButton.ForeColor = Color.Maroon;
                     nextQuestionButton.Text = "Завершить тестирование";
                 }
             }
@@ -63,32 +82,24 @@ namespace QuizApp.View
         public int CurrentQuestion
         {
             get => throw new NotImplementedException();
-            set => quizCounterLabel.Text = "Вопрос №" + value; 
+            set => counterQuizLabel.Text = "Вопрос № " + value;
         }
         public string QuestionDescription
         {
             get => throw new NotImplementedException();
             set
             {
-               descrQuestionLabel.Text = value;
+                descrQuestionLabel.Text = value;
             }
         }
 
-        public MainForm()
-        {
-            InitializeComponent();
 
-            MainTabControl.TabPages.Clear();
-            backQuestionButton.Visible = false;
-
-            InitializeEvent();
-        }
         public void InitializeEvent()
         {
             Load += delegate { PrepareQuiz?.Invoke(this, EventArgs.Empty); };
             startQuizButton.Click += delegate { StartQuiz?.Invoke(this, EventArgs.Empty); };
             finishQuizButton.Click += delegate { FinishQuiz?.Invoke(this, EventArgs.Empty); };
-            backQuestionButton.Click += delegate { BackQuestion?.Invoke(this, EventArgs.Empty); };
+            prevQuestionButton.Click += delegate { PrevQuestion?.Invoke(this, EventArgs.Empty); };
             nextQuestionButton.Click += delegate { NextQuestion?.Invoke(this, EventArgs.Empty); };
         }
 

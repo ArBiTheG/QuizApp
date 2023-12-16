@@ -10,23 +10,25 @@ namespace QuizApp.Model
 {
     public class QuizDataModel
     {
-        bool quizReady = false;
+        bool quizReady;
         private string title;
         private string description;
+        private string author;
         Question question;
-        int maxQuestions = 0;
+        int maxQuestions;
 
-        public bool QuizReady => quizReady;
-        public string Title { get => title; set => title = value; }
-        public string Description { get => description; set => description = value; }
-        public Question Question { get => question; set => question = value; }
-        public int MaxQuestions => maxQuestions;
-
-        IAdapter Adapter { get; set; }
         public QuizDataModel()
         {
             Adapter = new AdapterJSON("test.json");
         }
+
+        IAdapter Adapter { get; set; }
+        public bool QuizReady => quizReady;
+        public string Title { get => title; set => title = value; }
+        public string Description { get => description; set => description = value; }
+        public Question Question { get => question; set => question = value; }
+        public string Author { get => author; set => author = value; }
+        public int MaxQuestions => maxQuestions;
 
         public void LoadData()
         {

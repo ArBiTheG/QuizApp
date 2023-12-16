@@ -13,41 +13,28 @@ namespace QuizApp.Presenter
 {
     public class MainPresenter: IMainPresenter
     {
-        private int quizMaxQuestions = 2;
-        private int quizCurrentQuestion = 1;
-        public IMainView MainView { get; set; }
-        public QuizDataModel QuizDataModel { get; set; }
-        public int QuizMaxQuestions { get => quizMaxQuestions; }
-        public int QuizCurrentQuestion { get => quizCurrentQuestion; }
+        private int quizCurQuestion;
 
         public MainPresenter(IMainView mainView) 
         {
             MainView = mainView;
             QuizDataModel = new QuizDataModel();
+            quizCurQuestion = 1;
 
             MainView.PrepareQuiz += MainView_PrepareQuiz;
             MainView.StartQuiz += MainView_StartQuiz;
             MainView.FinishQuiz += MainView_FinishQuiz;
             MainView.NextQuestion += MainView_NextQuestion;
-            MainView.BackQuestion += MainView_BackQuestion;
+            MainView.PrevQuestion += MainView_BackQuestion;
             MainView.SelectAnswer += MainView_SelectAnswer;
         }
-
-        private void MainView_SelectAnswer(object sender, Guid e)
-        {
-            foreach (Answer answer in QuizDataModel.Question.Answers)
-            {
-                if (answer.Guid == e)
-                {
-                    answer.Checked = true;
-                    break;
-                }
-            }
-        }
+        public IMainView MainView { get; set; }
+        public QuizDataModel QuizDataModel { get; set; }
+        public int QuizCurQuestion { get => quizCurQuestion;  }
 
         void LoadQuestion()
         {
-            QuizDataModel.LoadQuestion(quizCurrentQuestion);
+            QuizDataModel.LoadQuestion(quizCurQuestion);
 
             int answerCount = QuizDataModel.Question.Answers.Length;
             IAnswerView[] answerViews = new IAnswerView[answerCount];
@@ -63,21 +50,35 @@ namespace QuizApp.Presenter
             }
             MainView.AddAnswers(answerViews);
 
-            MainView.CurrentQuestion = quizCurrentQuestion;
+            MainView.CurrentQuestion = quizCurQuestion;
             MainView.QuestionDescription = QuizDataModel.Question.Description;
         }
 
+        private void MainView_SelectAnswer(object sender, Guid e)
+        {
+            foreach (Answer answer in QuizDataModel.Question.Answers)
+            {
+                if (answer.Guid == e)
+                {
+                    answer.Checked = true;
+                }
+                else
+                {
+                    answer.Checked = false;
+                }
+            }
+        }
 
         private void MainView_BackQuestion(object sender, EventArgs e)
         {
-            if (quizCurrentQuestion <= 1) return;
+            if (quizCurQuestion <= 1) return;
 
-            if (quizCurrentQuestion > 1) --quizCurrentQuestion;
-            if (quizCurrentQuestion <= 1)
+            if (quizCurQuestion > 1) --quizCurQuestion;
+            if (quizCurQuestion <= 1)
             {
-                MainView.CanBackQuestion = false;
+                MainView.CanPrevQuestion = false;
             }
-            if (quizCurrentQuestion < quizMaxQuestions)
+            if (quizCurQuestion < QuizDataModel.MaxQuestions)
             {
                 MainView.CanNextQuestion = true;
             }
@@ -86,19 +87,19 @@ namespace QuizApp.Presenter
 
         private void MainView_NextQuestion(object sender, EventArgs e)
         {
-            if (quizCurrentQuestion >= quizMaxQuestions)
+            if (quizCurQuestion >= QuizDataModel.MaxQuestions)
             {
                 MainView_FinishQuiz(sender,e);
             };
 
-            if (quizCurrentQuestion < quizMaxQuestions) ++quizCurrentQuestion;
-            if (quizCurrentQuestion >= quizMaxQuestions)
+            if (quizCurQuestion < QuizDataModel.MaxQuestions) ++quizCurQuestion;
+            if (quizCurQuestion >= QuizDataModel.MaxQuestions)
             {
                 MainView.CanNextQuestion = false;
             }
-            if (quizCurrentQuestion > 1)
+            if (quizCurQuestion > 1)
             {
-                MainView.CanBackQuestion = true;
+                MainView.CanPrevQuestion = true;
             }
             LoadQuestion();
         }
@@ -106,12 +107,12 @@ namespace QuizApp.Presenter
         private void MainView_PrepareQuiz(object sender, EventArgs e)
         {
             QuizDataModel.LoadData();
-            quizMaxQuestions = QuizDataModel.MaxQuestions;
 
             MainView.QuizTitle = QuizDataModel.Title;
             MainView.QuizDescription = QuizDataModel.Description;
+            MainView.QuizAuthor = QuizDataModel.Author;
+            MainView.QuizMaxQuestions = QuizDataModel.MaxQuestions;
             MainView.ChangePage(Page.Prepare);
-
         }
 
         private void MainView_StartQuiz(object sender, EventArgs e) 

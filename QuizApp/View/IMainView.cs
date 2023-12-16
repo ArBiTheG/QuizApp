@@ -20,11 +20,11 @@ namespace QuizApp.View
         event EventHandler PrepareQuiz;
         event EventHandler StartQuiz;
         event EventHandler FinishQuiz;
-        event EventHandler BackQuestion;
+        event EventHandler PrevQuestion;
         event EventHandler NextQuestion;
         event EventHandler<Guid> SelectAnswer;
 
-        bool CanBackQuestion { get; set; }
+        bool CanPrevQuestion { get; set; }
         bool CanNextQuestion { get; set; }
         int CurrentQuestion { get; set; }
 
@@ -32,6 +32,8 @@ namespace QuizApp.View
         string QuizTitle { get; set; }
         string QuizDescription { get; set; }
         string QuizAuthor { get; set; }
+        int QuizMaxQuestions { get; set; }
+
         string QuestionDescription { get; set; }
 
         void AddAnswers(IAnswerView[] answerView);
