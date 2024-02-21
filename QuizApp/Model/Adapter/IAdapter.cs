@@ -11,6 +11,6 @@ namespace QuizApp.Model.Adapter
     {
         Quiz Connect();
         Question GetQuestion(int id);
-        int CheckQuiz();
+        Result CheckQuiz();
     }
 }

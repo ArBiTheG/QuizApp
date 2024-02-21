@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using QuizApp.Model.Entity;
-using QuizApp.Model.Utils;
+using QuizApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -85,7 +85,7 @@ namespace QuizApp.Model.Adapter
             }
             return null;
         }
-        public int CheckQuiz()
+        public Result CheckQuiz()
         {
             int count = 0;
 
@@ -109,7 +109,28 @@ namespace QuizApp.Model.Adapter
                     }
                 }
             }
-            return count;
+
+            // Потом оптимизировать
+            Result result = new Result();
+            result.Guid = Guid.NewGuid();
+            Score score = new Score();
+            int minThreshold = -1;
+            for (int i = 0; i < quiz.Scores.Count; i++)
+            {
+                if (count >= quiz.Scores[i].Threshold &&
+                    quiz.Scores[i].Threshold > minThreshold)
+                {
+                    minThreshold = quiz.Scores[i].Threshold;
+                    score = quiz.Scores[i];
+                }
+            }
+            result.Title = score.Title;
+            result.Description = score.Description;
+            result.Score = count;
+            result.Message = "Здесь будет сообщение к пользователю";
+            result.QuizFinished = DateTime.Now;
+
+            return result;
         }
 
         private static List<Question> ScatterQuestions(List<Question> questions, int count = 4)
@@ -175,6 +196,10 @@ namespace QuizApp.Model.Adapter
             {
                 LimitQuestions = limit_questions,
             };
+            quiz.Scores.Add(new Score() { Title= "5", Description = "Отлично", Threshold = 4 });
+            quiz.Scores.Add(new Score() { Title = "4", Description = "Хорошо", Threshold = 3 });
+            quiz.Scores.Add(new Score() { Title = "3", Description = "Удовлетворительно", Threshold = 1 });
+            quiz.Scores.Add(new Score() { Title = "2", Description = "Неудовлетворительно" });
 
             for (int i = 0; i < max_questions; i++)
             {

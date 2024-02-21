@@ -97,19 +97,26 @@ namespace QuizApp.Model
             } 
         }
 
-        public void LoadResult()
+        public Result LoadResult()
         {
+            Result result = null;
             if (QuizReady)
             {
-                int count = Adapter.CheckQuiz();
+                result = Adapter.CheckQuiz();
                 Console.WriteLine("----------------------");
                 Console.WriteLine("Тестирование завершено");
-                Console.WriteLine("Правильных вариантов ответа: " + count);
+                Console.WriteLine(result.Title);
+                Console.WriteLine(result.Description);
+                Console.WriteLine(result.Message);
+                Console.WriteLine("Очков" + result.Score);
+                Console.WriteLine(result.QuizStarted);
+                Console.WriteLine(result.QuizFinished);
             }
             else
             {
                 Console.WriteLine("Невозможно загрузить результаты, поскольку тестирование не готово");
             }
+            return result;
         }
     }
 }
