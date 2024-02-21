@@ -5,21 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizApp.Model.Adapter
+namespace QuizApp.Model.Loader
 {
-    public class AdapterRemote : IAdapter
+    public class QuizLoaderNetwork : IQuizLoader
     {
-        public Quiz Connect()
+        public Quiz LoadQuiz()
         {
             throw new NotImplementedException();
         }
 
-        public Question GetQuestion(int id)
+        public Question LoadQuestion(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Result CheckQuiz()
+        public Result LoadResult()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SendAnswer(Guid guidQuestion, Guid guidAnswer)
         {
             throw new NotImplementedException();
         }

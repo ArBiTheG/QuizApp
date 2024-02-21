@@ -1,4 +1,4 @@
-﻿using QuizApp.Model.Adapter;
+﻿using QuizApp.Model.Loader;
 using QuizApp.Model.Entity;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Model
 {
-    public class QuizDataModel
+    public class QuizData: IQuizData
     {
         private bool quizReady;
         private string title;
@@ -17,12 +17,12 @@ namespace QuizApp.Model
         private Question question;
         private int maxQuestions;
 
-        public QuizDataModel()
+        public QuizData()
         {
-            Adapter = new AdapterJSON("test.json");
+            Loader = new QuizLoaderJson("test.json");
         }
 
-        IAdapter Adapter { get; set; }
+        IQuizLoader Loader { get; set; }
         public bool QuizReady => quizReady;
         public string Title { get => title; set => title = value; }
         public string Description { get => description; set => description = value; }
@@ -30,9 +30,9 @@ namespace QuizApp.Model
         public string Author { get => author; set => author = value; }
         public int MaxQuestions { get => maxQuestions; set => maxQuestions = value; }
 
-        public void LoadData()
+        public void LoadQuiz()
         {
-            Quiz quiz = Adapter.Connect();
+            Quiz quiz = Loader.LoadQuiz();
             if (quiz != null)
             {
                 quizReady = true;
@@ -59,7 +59,7 @@ namespace QuizApp.Model
         {
             if (QuizReady)
             {
-                Question = Adapter.GetQuestion(number - 1);
+                Question = Loader.LoadQuestion(number - 1);
                 Console.WriteLine("Загружен вопрос № " + number + " / Guid:" + Question.Guid);
             }
             else
@@ -102,7 +102,7 @@ namespace QuizApp.Model
             Result result = null;
             if (QuizReady)
             {
-                result = Adapter.CheckQuiz();
+                result = Loader.LoadResult();
                 Console.WriteLine("----------------------");
                 Console.WriteLine("Тестирование завершено");
                 Console.WriteLine(result.Title);

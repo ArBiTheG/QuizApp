@@ -49,9 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Adapter\AdapterJSON.cs" />
-    <Compile Include="Model\Adapter\AdapterRemote.cs" />
-    <Compile Include="Model\Adapter\IAdapter.cs" />
+    <Compile Include="Model\Loader\QuizLoaderJson.cs" />
+    <Compile Include="Model\Loader\QuizLoaderNetwork.cs" />
+    <Compile Include="Model\Loader\IQuizLoader.cs" />
     <Compile Include="Model\Entity\Result.cs" />
     <Compile Include="Model\Entity\Score.cs" />
     <Compile Include="Model\IQuizData.cs" />
@@ -59,7 +59,7 @@
     <Compile Include="Model\Entity\Question.cs" />
     <Compile Include="Model\Entity\Quiz.cs" />
     <Compile Include="Model\Entity\QuizSetting.cs" />
-    <Compile Include="Model\QuizDataModel.cs" />
+    <Compile Include="Model\QuizData.cs" />
     <Compile Include="Utils\Cloner.cs" />
     <Compile Include="Utils\Shuffler.cs" />
     <Compile Include="Presenter\IMainPresenter.cs" />

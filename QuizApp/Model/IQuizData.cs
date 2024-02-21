@@ -9,6 +9,12 @@ namespace QuizApp.Model
 {
     public interface IQuizData
     {
+        int MaxQuestions { get; set; }
+        bool QuizReady { get; }
+        string Title { get; set; }
+        string Description { get; set; }
+        Question Question { get; set; }
+        string Author { get; set; }
         void LoadQuiz();
         void LoadQuestion(int id);
         void SelectAnswer(Guid guid);

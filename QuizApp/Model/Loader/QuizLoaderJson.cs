@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
-namespace QuizApp.Model.Adapter
+namespace QuizApp.Model.Loader
 {
-    public class AdapterJSON : IAdapter
+    public class QuizLoaderJson : IQuizLoader
     {
         string JSONFileName;
         string JSONFileTextContent;
         Quiz quiz;
 
-        public AdapterJSON(string jSONFileName)
+        public QuizLoaderJson(string jSONFileName)
         {
             JSONFileName = jSONFileName;
             Test(jSONFileName);
         }
-        public Quiz Connect()
+        public Quiz LoadQuiz()
         {
             if (File.Exists(JSONFileName))
             {
@@ -67,7 +67,7 @@ namespace QuizApp.Model.Adapter
             return quiz;
         }
 
-        public Question GetQuestion(int id)
+        public Question LoadQuestion(int id)
         {
             if (quiz != null)
             {
@@ -85,7 +85,7 @@ namespace QuizApp.Model.Adapter
             }
             return null;
         }
-        public Result CheckQuiz()
+        public Result LoadResult()
         {
             int count = 0;
 
@@ -222,5 +222,9 @@ namespace QuizApp.Model.Adapter
             File.WriteAllText("test.json", textJson);
         }
 
+        public bool SendAnswer(Guid guidQuestion, Guid guidAnswer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

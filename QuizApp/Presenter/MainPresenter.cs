@@ -18,7 +18,7 @@ namespace QuizApp.Presenter
         public MainPresenter(IMainView mainView) 
         {
             MainView = mainView;
-            QuizDataModel = new QuizDataModel();
+            QuizData = new QuizData();
             quizCurQuestion = 1;
 
             MainView.PrepareQuiz += MainView_PrepareQuiz;
@@ -29,12 +29,12 @@ namespace QuizApp.Presenter
             MainView.SelectAnswer += MainView_SelectAnswer;
         }
         public IMainView MainView { get; set; }
-        public QuizDataModel QuizDataModel { get; set; }
+        public IQuizData QuizData { get; set; }
         public int QuizCurQuestion { get => quizCurQuestion;  }
 
         private void MainView_SelectAnswer(object sender, Guid e)
         {
-            QuizDataModel.SelectAnswer(e);
+            QuizData.SelectAnswer(e);
         }
 
         private void MainView_BackQuestion(object sender, EventArgs e)
@@ -46,7 +46,7 @@ namespace QuizApp.Presenter
             {
                 MainView.CanPrevQuestion = false;
             }
-            if (quizCurQuestion < QuizDataModel.MaxQuestions)
+            if (quizCurQuestion < QuizData.MaxQuestions)
             {
                 MainView.CanNextQuestion = true;
             }
@@ -55,14 +55,14 @@ namespace QuizApp.Presenter
 
         private void MainView_NextQuestion(object sender, EventArgs e)
         {
-            if (quizCurQuestion >= QuizDataModel.MaxQuestions)
+            if (quizCurQuestion >= QuizData.MaxQuestions)
             {
                 MainView_FinishQuiz(sender,e);
             }
             else
             {
-                if (quizCurQuestion < QuizDataModel.MaxQuestions) ++quizCurQuestion;
-                if (quizCurQuestion >= QuizDataModel.MaxQuestions)
+                if (quizCurQuestion < QuizData.MaxQuestions) ++quizCurQuestion;
+                if (quizCurQuestion >= QuizData.MaxQuestions)
                 {
                     MainView.CanNextQuestion = false;
                 }
@@ -76,18 +76,18 @@ namespace QuizApp.Presenter
 
         private void MainView_PrepareQuiz(object sender, EventArgs e)
         {
-            QuizDataModel.LoadData();
+            QuizData.LoadQuiz();
 
-            MainView.QuizTitle = QuizDataModel.Title;
-            MainView.QuizDescription = QuizDataModel.Description;
-            MainView.QuizAuthor = QuizDataModel.Author;
-            MainView.QuizMaxQuestions = QuizDataModel.MaxQuestions;
+            MainView.QuizTitle = QuizData.Title;
+            MainView.QuizDescription = QuizData.Description;
+            MainView.QuizAuthor = QuizData.Author;
+            MainView.QuizMaxQuestions = QuizData.MaxQuestions;
             MainView.ChangePage(Page.Prepare);
         }
 
         private void MainView_StartQuiz(object sender, EventArgs e) 
         { 
-            if (QuizDataModel.QuizReady)
+            if (QuizData.QuizReady)
             {
                 LoadQuestion();
                 MainView.ChangePage(Page.Quiz);
@@ -99,7 +99,7 @@ namespace QuizApp.Presenter
         }
         private void MainView_FinishQuiz(object sender, EventArgs e)
         {
-            if (QuizDataModel.QuizReady)
+            if (QuizData.QuizReady)
             {
                 LoadResult();
                 MainView.ChangePage(Page.Result);
@@ -107,13 +107,13 @@ namespace QuizApp.Presenter
         }
         private void LoadQuestion()
         {
-            QuizDataModel.LoadQuestion(quizCurQuestion);
+            QuizData.LoadQuestion(quizCurQuestion);
 
-            int answerCount = QuizDataModel.Question.Answers.Length;
+            int answerCount = QuizData.Question.Answers.Length;
             IAnswerView[] answerViews = new IAnswerView[answerCount];
             for (int i = 0; i < answerCount; ++i)
             {
-                Answer answer = QuizDataModel.Question.Answers[i];
+                Answer answer = QuizData.Question.Answers[i];
                 answerViews[i] = new AnswerView()
                 {
                     Guid = answer.Guid,
@@ -124,12 +124,12 @@ namespace QuizApp.Presenter
             MainView.AddAnswers(answerViews);
 
             MainView.CurrentQuestion = quizCurQuestion;
-            MainView.QuestionDescription = QuizDataModel.Question.Description;
+            MainView.QuestionDescription = QuizData.Question.Description;
         }
 
         private void LoadResult()
         {
-            QuizDataModel.LoadResult();
+            QuizData.LoadResult();
         }
     }
 }
