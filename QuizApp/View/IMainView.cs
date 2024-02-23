@@ -35,6 +35,7 @@ namespace QuizApp.View
         int QuizMaxQuestions { get; set; }
 
         string QuestionDescription { get; set; }
+        string AppStatus { get; set; }
 
         void AddAnswers(IAnswerView[] answerView);
     }

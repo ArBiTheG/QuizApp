@@ -13,5 +13,6 @@ namespace QuizApp.Model.Loader
         Question LoadQuestion(int id);
         bool SendAnswer(Guid guidQuestion, Guid guidAnswer);
         Result LoadResult();
+        bool StartQuiz();
     }
 }

@@ -17,6 +17,7 @@ namespace QuizApp.Model
         private Question question;
         private int maxQuestions;
 
+
         public QuizData()
         {
             Loader = new QuizLoaderJson("test.json");
@@ -72,24 +73,7 @@ namespace QuizApp.Model
         {
             if (QuizReady)
             {
-                if (Question!=null)
-                {
-                    if (Question.Answers != null)
-                    {
-                        foreach (Answer answer in Question.Answers)
-                        {
-                            if (answer.Guid == guid)
-                            {
-                                answer.Checked = true;
-                                Console.WriteLine("Выбран вариант ответа под Guid:" + answer.Guid);
-                            }
-                            else
-                            {
-                                answer.Checked = false;
-                            }
-                        }
-                    }
-                }
+                Loader.SendAnswer(Question.Guid, guid);
             }
             else
             {
@@ -117,6 +101,11 @@ namespace QuizApp.Model
                 Console.WriteLine("Невозможно загрузить результаты, поскольку тестирование не готово");
             }
             return result;
+        }
+
+        public void StartQuiz()
+        {
+            Loader.StartQuiz();
         }
     }
 }

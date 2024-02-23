@@ -87,12 +87,13 @@ namespace QuizApp.View
         public string QuestionDescription
         {
             get => throw new NotImplementedException();
-            set
-            {
-                descrQuestionLabel.Text = value;
-            }
+            set => descrQuestionLabel.Text = value;
         }
 
+        public string AppStatus {
+            get => toolStripStatusLabel.Text;
+            set => toolStripStatusLabel.Text = value;
+        }
 
         public void InitializeEvent()
         {
@@ -138,6 +139,14 @@ namespace QuizApp.View
                 answerPanel.Controls.Add(radioButton);
             }
             answerPanel.ResumeLayout();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (AboutBox aboutBox = new AboutBox())
+            {
+                aboutBox.ShowDialog();
+            }
         }
     }
 }

@@ -30,8 +30,9 @@
         {
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.preparePage = new System.Windows.Forms.TabPage();
-            this.descrQuizLabel = new System.Windows.Forms.Label();
+            this.descrQuizPanel = new System.Windows.Forms.Panel();
             this.maxQuestionsLabel = new System.Windows.Forms.Label();
+            this.descrQuizLabel = new System.Windows.Forms.Label();
             this.authorQuizLabel = new System.Windows.Forms.Label();
             this.titleQuizLabel = new System.Windows.Forms.Label();
             this.handlePrepareTable = new System.Windows.Forms.TableLayoutPanel();
@@ -48,12 +49,18 @@
             this.finishQuizButton = new System.Windows.Forms.Button();
             this.counterQuizLabel = new System.Windows.Forms.Label();
             this.resultPage = new System.Windows.Forms.TabPage();
-            this.descrQuizPanel = new System.Windows.Forms.Panel();
-            this.titleResultLabel = new System.Windows.Forms.Label();
             this.descrResultPanel = new System.Windows.Forms.Panel();
             this.descrResultLabel = new System.Windows.Forms.Label();
+            this.titleResultLabel = new System.Windows.Forms.Label();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainTabControl.SuspendLayout();
             this.preparePage.SuspendLayout();
+            this.descrQuizPanel.SuspendLayout();
             this.handlePrepareTable.SuspendLayout();
             this.quizPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.quizSplitContainer)).BeginInit();
@@ -63,8 +70,9 @@
             this.handleQuizTable.SuspendLayout();
             this.infoQuizTable.SuspendLayout();
             this.resultPage.SuspendLayout();
-            this.descrQuizPanel.SuspendLayout();
             this.descrResultPanel.SuspendLayout();
+            this.statusStrip.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTabControl
@@ -73,10 +81,10 @@
             this.MainTabControl.Controls.Add(this.preparePage);
             this.MainTabControl.Controls.Add(this.quizPage);
             this.MainTabControl.Controls.Add(this.resultPage);
-            this.MainTabControl.Location = new System.Drawing.Point(12, 12);
+            this.MainTabControl.Location = new System.Drawing.Point(12, 27);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
-            this.MainTabControl.Size = new System.Drawing.Size(776, 537);
+            this.MainTabControl.Size = new System.Drawing.Size(776, 509);
             this.MainTabControl.TabIndex = 0;
             // 
             // preparePage
@@ -92,14 +100,17 @@
             this.preparePage.Text = "Вступление";
             this.preparePage.UseVisualStyleBackColor = true;
             // 
-            // descrQuizLabel
+            // descrQuizPanel
             // 
-            this.descrQuizLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.descrQuizLabel.Location = new System.Drawing.Point(8, 8);
-            this.descrQuizLabel.Name = "descrQuizLabel";
-            this.descrQuizLabel.Size = new System.Drawing.Size(746, 370);
-            this.descrQuizLabel.TabIndex = 2;
-            this.descrQuizLabel.Text = "Описание тестирования";
+            this.descrQuizPanel.Controls.Add(this.maxQuestionsLabel);
+            this.descrQuizPanel.Controls.Add(this.descrQuizLabel);
+            this.descrQuizPanel.Controls.Add(this.authorQuizLabel);
+            this.descrQuizPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.descrQuizPanel.Location = new System.Drawing.Point(3, 51);
+            this.descrQuizPanel.Name = "descrQuizPanel";
+            this.descrQuizPanel.Padding = new System.Windows.Forms.Padding(8);
+            this.descrQuizPanel.Size = new System.Drawing.Size(762, 404);
+            this.descrQuizPanel.TabIndex = 5;
             // 
             // maxQuestionsLabel
             // 
@@ -109,6 +120,15 @@
             this.maxQuestionsLabel.Size = new System.Drawing.Size(746, 18);
             this.maxQuestionsLabel.TabIndex = 3;
             this.maxQuestionsLabel.Text = "Всего вопросов: 0";
+            // 
+            // descrQuizLabel
+            // 
+            this.descrQuizLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.descrQuizLabel.Location = new System.Drawing.Point(8, 8);
+            this.descrQuizLabel.Name = "descrQuizLabel";
+            this.descrQuizLabel.Size = new System.Drawing.Size(746, 370);
+            this.descrQuizLabel.TabIndex = 2;
+            this.descrQuizLabel.Text = "Описание тестирования";
             // 
             // authorQuizLabel
             // 
@@ -160,10 +180,10 @@
             this.quizPage.Controls.Add(this.quizSplitContainer);
             this.quizPage.Controls.Add(this.handleQuizTable);
             this.quizPage.Controls.Add(this.infoQuizTable);
-            this.quizPage.Location = new System.Drawing.Point(4, 27);
+            this.quizPage.Location = new System.Drawing.Point(4, 22);
             this.quizPage.Name = "quizPage";
             this.quizPage.Padding = new System.Windows.Forms.Padding(3);
-            this.quizPage.Size = new System.Drawing.Size(768, 506);
+            this.quizPage.Size = new System.Drawing.Size(768, 511);
             this.quizPage.TabIndex = 1;
             this.quizPage.Text = "Тестирование";
             this.quizPage.UseVisualStyleBackColor = true;
@@ -189,8 +209,8 @@
             this.quizSplitContainer.Panel2.Controls.Add(this.answerLabel);
             this.quizSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(8);
             this.quizSplitContainer.Panel2MinSize = 128;
-            this.quizSplitContainer.Size = new System.Drawing.Size(762, 428);
-            this.quizSplitContainer.SplitterDistance = 236;
+            this.quizSplitContainer.Size = new System.Drawing.Size(762, 433);
+            this.quizSplitContainer.SplitterDistance = 238;
             this.quizSplitContainer.TabIndex = 2;
             // 
             // descrQuestionLabel
@@ -198,7 +218,7 @@
             this.descrQuestionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.descrQuestionLabel.Location = new System.Drawing.Point(8, 8);
             this.descrQuestionLabel.Name = "descrQuestionLabel";
-            this.descrQuestionLabel.Size = new System.Drawing.Size(744, 218);
+            this.descrQuestionLabel.Size = new System.Drawing.Size(744, 220);
             this.descrQuestionLabel.TabIndex = 1;
             this.descrQuestionLabel.Text = "Описание вопроса";
             // 
@@ -209,7 +229,7 @@
             this.answerPanel.Location = new System.Drawing.Point(8, 26);
             this.answerPanel.Margin = new System.Windows.Forms.Padding(4);
             this.answerPanel.Name = "answerPanel";
-            this.answerPanel.Size = new System.Drawing.Size(744, 152);
+            this.answerPanel.Size = new System.Drawing.Size(744, 155);
             this.answerPanel.TabIndex = 1;
             // 
             // answerLabel
@@ -232,7 +252,7 @@
             this.handleQuizTable.Controls.Add(this.nextQuestionButton, 2, 0);
             this.handleQuizTable.Controls.Add(this.prevQuestionButton, 1, 0);
             this.handleQuizTable.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.handleQuizTable.Location = new System.Drawing.Point(3, 467);
+            this.handleQuizTable.Location = new System.Drawing.Point(3, 472);
             this.handleQuizTable.Name = "handleQuizTable";
             this.handleQuizTable.RowCount = 1;
             this.handleQuizTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -305,22 +325,29 @@
             this.resultPage.Location = new System.Drawing.Point(4, 27);
             this.resultPage.Name = "resultPage";
             this.resultPage.Padding = new System.Windows.Forms.Padding(3);
-            this.resultPage.Size = new System.Drawing.Size(768, 506);
+            this.resultPage.Size = new System.Drawing.Size(768, 478);
             this.resultPage.TabIndex = 2;
             this.resultPage.Text = "Результат";
             this.resultPage.UseVisualStyleBackColor = true;
             // 
-            // descrQuizPanel
+            // descrResultPanel
             // 
-            this.descrQuizPanel.Controls.Add(this.maxQuestionsLabel);
-            this.descrQuizPanel.Controls.Add(this.descrQuizLabel);
-            this.descrQuizPanel.Controls.Add(this.authorQuizLabel);
-            this.descrQuizPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.descrQuizPanel.Location = new System.Drawing.Point(3, 51);
-            this.descrQuizPanel.Name = "descrQuizPanel";
-            this.descrQuizPanel.Padding = new System.Windows.Forms.Padding(8);
-            this.descrQuizPanel.Size = new System.Drawing.Size(762, 404);
-            this.descrQuizPanel.TabIndex = 5;
+            this.descrResultPanel.Controls.Add(this.descrResultLabel);
+            this.descrResultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.descrResultPanel.Location = new System.Drawing.Point(3, 51);
+            this.descrResultPanel.Name = "descrResultPanel";
+            this.descrResultPanel.Padding = new System.Windows.Forms.Padding(8);
+            this.descrResultPanel.Size = new System.Drawing.Size(762, 424);
+            this.descrResultPanel.TabIndex = 3;
+            // 
+            // descrResultLabel
+            // 
+            this.descrResultLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.descrResultLabel.Location = new System.Drawing.Point(8, 8);
+            this.descrResultLabel.Name = "descrResultLabel";
+            this.descrResultLabel.Size = new System.Drawing.Size(746, 408);
+            this.descrResultLabel.TabIndex = 0;
+            this.descrResultLabel.Text = "Описание результата тестирования";
             // 
             // titleResultLabel
             // 
@@ -333,37 +360,68 @@
             this.titleResultLabel.Text = "Результаты тестирования";
             this.titleResultLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // descrResultPanel
+            // statusStrip
             // 
-            this.descrResultPanel.Controls.Add(this.descrResultLabel);
-            this.descrResultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.descrResultPanel.Location = new System.Drawing.Point(3, 51);
-            this.descrResultPanel.Name = "descrResultPanel";
-            this.descrResultPanel.Padding = new System.Windows.Forms.Padding(8);
-            this.descrResultPanel.Size = new System.Drawing.Size(762, 452);
-            this.descrResultPanel.TabIndex = 3;
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip.TabIndex = 1;
             // 
-            // descrResultLabel
+            // toolStripStatusLabel
             // 
-            this.descrResultLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.descrResultLabel.Location = new System.Drawing.Point(8, 8);
-            this.descrResultLabel.Name = "descrResultLabel";
-            this.descrResultLabel.Size = new System.Drawing.Size(746, 436);
-            this.descrResultLabel.TabIndex = 0;
-            this.descrResultLabel.Text = "Описание результата тестирования";
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(45, 17);
+            this.toolStripStatusLabel.Text = "Готово";
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip.TabIndex = 2;
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.aboutToolStripMenuItem.Text = "О программе";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.fileToolStripMenuItem.Text = "Файл";
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Text = "Выход";
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(800, 561);
             this.Controls.Add(this.MainTabControl);
+            this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.Text = "Тестирование";
             this.MainTabControl.ResumeLayout(false);
             this.preparePage.ResumeLayout(false);
+            this.descrQuizPanel.ResumeLayout(false);
             this.handlePrepareTable.ResumeLayout(false);
             this.quizPage.ResumeLayout(false);
             this.quizSplitContainer.Panel1.ResumeLayout(false);
@@ -374,9 +432,13 @@
             this.handleQuizTable.ResumeLayout(false);
             this.infoQuizTable.ResumeLayout(false);
             this.resultPage.ResumeLayout(false);
-            this.descrQuizPanel.ResumeLayout(false);
             this.descrResultPanel.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -406,5 +468,11 @@
         private System.Windows.Forms.Panel descrResultPanel;
         private System.Windows.Forms.Label descrResultLabel;
         private System.Windows.Forms.Label titleResultLabel;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
     }
 }

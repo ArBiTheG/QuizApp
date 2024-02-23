@@ -5,6 +5,7 @@ using QuizApp.View.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -89,6 +90,7 @@ namespace QuizApp.Presenter
         { 
             if (QuizData.QuizReady)
             {
+                QuizData.StartQuiz();
                 LoadQuestion();
                 MainView.ChangePage(Page.Quiz);
             }

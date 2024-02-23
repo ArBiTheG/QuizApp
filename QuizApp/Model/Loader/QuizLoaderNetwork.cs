@@ -28,5 +28,10 @@ namespace QuizApp.Model.Loader
         {
             throw new NotImplementedException();
         }
+
+        public bool StartQuiz()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

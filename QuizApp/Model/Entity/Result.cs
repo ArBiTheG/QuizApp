@@ -13,6 +13,8 @@ namespace QuizApp.Model.Entity
         public string Description { get; set; }
         public string Message { get; set; }
         public double Score { get; set; }
+        public int RightQuestion { get; set; }
+        public int MaxQuestions { get; set; }
         public DateTime QuizStarted { get; set; }
         public DateTime QuizFinished { get; set; }
     }

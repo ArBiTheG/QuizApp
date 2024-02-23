@@ -17,6 +17,7 @@ namespace QuizApp.Model.Loader
         string JSONFileName;
         string JSONFileTextContent;
         Quiz quiz;
+        DateTime quizStarted;
 
         public QuizLoaderJson(string jSONFileName)
         {
@@ -87,8 +88,9 @@ namespace QuizApp.Model.Loader
         }
         public Result LoadResult()
         {
-            int count = 0;
-
+            // Считаем баллы
+            int rightCount = 0;
+            int scoreCount = 0;
             if (quiz != null)
             {
                 if (quiz.Questions != null)
@@ -103,7 +105,10 @@ namespace QuizApp.Model.Loader
                             if (findedAnswer != null)
                             {
                                 if (findedAnswer.Checked)
-                                    count++;
+                                {
+                                    rightCount++;
+                                    scoreCount++;
+                                }
                             }
                         }
                     }
@@ -111,26 +116,55 @@ namespace QuizApp.Model.Loader
             }
 
             // Потом оптимизировать
-            Result result = new Result();
-            result.Guid = Guid.NewGuid();
-            Score score = new Score();
+            // Узнаём оценку
             int minThreshold = -1;
-            for (int i = 0; i < quiz.Scores.Count; i++)
+            Score score = new Score();
+            foreach (Score s in quiz.Scores)
             {
-                if (count >= quiz.Scores[i].Threshold &&
-                    quiz.Scores[i].Threshold > minThreshold)
+                if (scoreCount >= s.Threshold &&
+                    s.Threshold > minThreshold)
                 {
-                    minThreshold = quiz.Scores[i].Threshold;
-                    score = quiz.Scores[i];
+                    minThreshold = s.Threshold;
+                    score = s;
                 }
             }
+
+            // Сформированный отчёт
+            Result result = new Result();
+            result.Guid = Guid.NewGuid();
             result.Title = score.Title;
             result.Description = score.Description;
-            result.Score = count;
+            result.Score = scoreCount;
+            result.RightQuestion = rightCount;
+            result.MaxQuestions = quiz.Questions.Count;
             result.Message = "Здесь будет сообщение к пользователю";
+            result.QuizStarted = quizStarted;
             result.QuizFinished = DateTime.Now;
 
             return result;
+        }
+
+        public bool SendAnswer(Guid guidQuestion, Guid guidAnswer)
+        {
+            Question question = quiz.Questions.First(q => q.Guid == guidQuestion);
+            foreach (Answer a in question.Answers)
+            {
+                if (a.Guid == guidAnswer)
+                {
+                    a.Checked = true;
+                }
+                else
+                {
+                    a.Checked = false;
+                }
+            }
+            return true;
+        }
+
+        public bool StartQuiz()
+        {
+            quizStarted = DateTime.Now;
+            return true;
         }
 
         private static List<Question> ScatterQuestions(List<Question> questions, int count = 4)
@@ -222,9 +256,5 @@ namespace QuizApp.Model.Loader
             File.WriteAllText("test.json", textJson);
         }
 
-        public bool SendAnswer(Guid guidQuestion, Guid guidAnswer)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -19,5 +19,6 @@ namespace QuizApp.Model
         void LoadQuestion(int id);
         void SelectAnswer(Guid guid);
         Result LoadResult();
+        void StartQuiz();
     }
 }
