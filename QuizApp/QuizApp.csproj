@@ -53,7 +53,7 @@
     <Compile Include="Model\Loader\QuizLoaderNetwork.cs" />
     <Compile Include="Model\Loader\IQuizLoader.cs" />
     <Compile Include="Model\Entity\Result.cs" />
-    <Compile Include="Model\Entity\Score.cs" />
+    <Compile Include="Model\Entity\Grade.cs" />
     <Compile Include="Model\IQuizData.cs" />
     <Compile Include="Model\Entity\Answer.cs" />
     <Compile Include="Model\Entity\Question.cs" />

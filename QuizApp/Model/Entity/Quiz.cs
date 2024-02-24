@@ -20,14 +20,14 @@ namespace QuizApp.Model.Entity
         public string Description { get; set; }
         public string Author { get; set; }
         public QuizSetting Setting { get; set; }
-        public List<Score> Scores { get; set; }
+        public List<Grade> Grades { get; set; }
         [JsonRequired]
         public List<Question> Questions { get; set; }
         public Quiz()
         {
             Guid = Guid.NewGuid();
             Questions = new List<Question>();
-            Scores = new List<Score>();
+            Grades = new List<Grade>();
         }
 
         public object Clone()
@@ -39,7 +39,7 @@ namespace QuizApp.Model.Entity
                 Title = Title,
                 Description = Description,
                 Author = Author,
-                Scores = Scores,
+                Grades = Grades,
             };
 
         }

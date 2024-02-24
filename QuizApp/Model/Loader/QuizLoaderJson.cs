@@ -118,22 +118,22 @@ namespace QuizApp.Model.Loader
             // Потом оптимизировать
             // Узнаём оценку
             int minThreshold = -1;
-            Score score = new Score();
-            foreach (Score s in quiz.Scores)
+            Grade grade = new Grade();
+            foreach (Grade s in quiz.Grades)
             {
                 if (scoreCount >= s.Threshold &&
                     s.Threshold > minThreshold)
                 {
                     minThreshold = s.Threshold;
-                    score = s;
+                    grade = s;
                 }
             }
 
             // Сформированный отчёт
             Result result = new Result();
             result.Guid = Guid.NewGuid();
-            result.Title = score.Title;
-            result.Description = score.Description;
+            result.Title = grade.Title;
+            result.Description = grade.Description;
             result.Score = scoreCount;
             result.RightQuestion = rightCount;
             result.MaxQuestions = quiz.Questions.Count;
@@ -230,10 +230,10 @@ namespace QuizApp.Model.Loader
             {
                 LimitQuestions = limit_questions,
             };
-            quiz.Scores.Add(new Score() { Title= "5", Description = "Отлично", Threshold = 4 });
-            quiz.Scores.Add(new Score() { Title = "4", Description = "Хорошо", Threshold = 3 });
-            quiz.Scores.Add(new Score() { Title = "3", Description = "Удовлетворительно", Threshold = 1 });
-            quiz.Scores.Add(new Score() { Title = "2", Description = "Неудовлетворительно" });
+            quiz.Grades.Add(new Grade() { Title= "5", Description = "Отлично", Threshold = 4 });
+            quiz.Grades.Add(new Grade() { Title = "4", Description = "Хорошо", Threshold = 3 });
+            quiz.Grades.Add(new Grade() { Title = "3", Description = "Удовлетворительно", Threshold = 1 });
+            quiz.Grades.Add(new Grade() { Title = "2", Description = "Неудовлетворительно" });
 
             for (int i = 0; i < max_questions; i++)
             {

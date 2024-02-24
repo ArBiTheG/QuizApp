@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Model.Entity
 {
-    public class Score
+    public class Grade
     {
         [JsonRequired]
         public Guid Guid { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int Threshold { get; set; } = 0;
-        public Score()
+        public Grade()
         {
             Guid = Guid.NewGuid();
         }
