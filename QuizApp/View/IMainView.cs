@@ -16,27 +16,7 @@ namespace QuizApp.View
     }
     public interface IMainView
     {
-        void ChangePage(Page pageFlags);
-        event EventHandler PrepareQuiz;
-        event EventHandler StartQuiz;
-        event EventHandler FinishQuiz;
-        event EventHandler PrevQuestion;
-        event EventHandler NextQuestion;
-        event EventHandler<Guid> SelectAnswer;
-
-        bool CanPrevQuestion { get; set; }
-        bool CanNextQuestion { get; set; }
-        int CurrentQuestion { get; set; }
-
-        string QuizGuid { get; set; }
-        string QuizTitle { get; set; }
-        string QuizDescription { get; set; }
-        string QuizAuthor { get; set; }
-        int QuizMaxQuestions { get; set; }
-
-        string QuestionDescription { get; set; }
+        event EventHandler AppLoad;
         string AppStatus { get; set; }
-
-        void AddAnswers(IAnswerView[] answerView);
     }
 }

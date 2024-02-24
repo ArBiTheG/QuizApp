@@ -16,6 +16,8 @@ namespace QuizApp.Model.Entity
         [JsonRequired]
         public Guid RightAnswer { get; set; }
         [JsonRequired]
+        public double Multiplier { get; set; } = 1.0;
+        [JsonRequired]
         public Answer[] Answers { get; set; }
         public Question()
         {

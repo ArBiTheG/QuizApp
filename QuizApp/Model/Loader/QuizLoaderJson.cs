@@ -90,7 +90,10 @@ namespace QuizApp.Model.Loader
         {
             // Считаем баллы
             int rightCount = 0;
-            int scoreCount = 0;
+            int maxQuestionsCount = 0;
+
+            double scoreCount = 0;
+            double maxScoreCount = 0;
             if (quiz != null)
             {
                 if (quiz.Questions != null)
@@ -107,9 +110,11 @@ namespace QuizApp.Model.Loader
                                 if (findedAnswer.Checked)
                                 {
                                     rightCount++;
-                                    scoreCount++;
+                                    scoreCount += tempQuestion.Multiplier;
                                 }
                             }
+                            maxScoreCount += tempQuestion.Multiplier;
+                            maxQuestionsCount++;
                         }
                     }
                 }
@@ -117,7 +122,7 @@ namespace QuizApp.Model.Loader
 
             // Потом оптимизировать
             // Узнаём оценку
-            int minThreshold = -1;
+            double minThreshold = -1;
             Grade grade = new Grade();
             foreach (Grade s in quiz.Grades)
             {
@@ -135,11 +140,14 @@ namespace QuizApp.Model.Loader
             result.Title = grade.Title;
             result.Description = grade.Description;
             result.Score = scoreCount;
+            result.MaxScore = maxScoreCount;
             result.RightQuestion = rightCount;
-            result.MaxQuestions = quiz.Questions.Count;
+            result.MaxQuestions = maxQuestionsCount;
             result.Message = "Здесь будет сообщение к пользователю";
             result.QuizStarted = quizStarted;
             result.QuizFinished = DateTime.Now;
+            result.QuizTimePass = (result.QuizFinished - result.QuizStarted).Seconds;
+
 
             return result;
         }
@@ -229,6 +237,7 @@ namespace QuizApp.Model.Loader
             quiz.Setting = new QuizSetting()
             {
                 LimitQuestions = limit_questions,
+                Timer = 0,
             };
             quiz.Grades.Add(new Grade() { Title= "5", Description = "Отлично", Threshold = 4 });
             quiz.Grades.Add(new Grade() { Title = "4", Description = "Хорошо", Threshold = 3 });
@@ -248,6 +257,7 @@ namespace QuizApp.Model.Loader
                     question.Answers[j] = answer;
                 }
                 question.RightAnswer = question.Answers[0].Guid;
+                question.Multiplier = 1.1;
                 quiz.Questions.Add(question);
             }
 

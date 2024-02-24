@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Presenter
 {
-    public interface IMainPresenter
+    public interface IResultPresenter
     {
-        IMainView View { get; set; }
+        IResultView View { get; set; }
         IQuizData QuizData { get; set; }
-        //int QuizCurQuestion { get; }
     }
 }

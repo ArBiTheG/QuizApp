@@ -13,7 +13,7 @@ namespace QuizApp.Model.Entity
         public Guid Guid { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int Threshold { get; set; } = 0;
+        public double Threshold { get; set; } = 0;
         public Grade()
         {
             Guid = Guid.NewGuid();

@@ -56,12 +56,12 @@ namespace QuizApp.Model
             }
         }
 
-        public void LoadQuestion(int number)
+        public void LoadQuestion(int id)
         {
             if (QuizReady)
             {
-                Question = Loader.LoadQuestion(number - 1);
-                Console.WriteLine("Загружен вопрос № " + number + " / Guid:" + Question.Guid);
+                Question = Loader.LoadQuestion(id);
+                Console.WriteLine("Загружен вопрос № " + id + " / Guid:" + Question.Guid);
             }
             else
             {
@@ -95,6 +95,7 @@ namespace QuizApp.Model
                 Console.WriteLine("Очков" + result.Score);
                 Console.WriteLine(result.QuizStarted);
                 Console.WriteLine(result.QuizFinished);
+                Console.WriteLine(result.QuizTimePass);
             }
             else
             {

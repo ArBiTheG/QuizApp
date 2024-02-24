@@ -60,6 +60,12 @@
     <Compile Include="Model\Entity\Quiz.cs" />
     <Compile Include="Model\Entity\QuizSetting.cs" />
     <Compile Include="Model\QuizData.cs" />
+    <Compile Include="Presenter\IPreparePresenter.cs" />
+    <Compile Include="Presenter\IQuestionPresenter.cs" />
+    <Compile Include="Presenter\IResultPresenter.cs" />
+    <Compile Include="Presenter\PreparePresenter.cs" />
+    <Compile Include="Presenter\QuestionPresenter.cs" />
+    <Compile Include="Presenter\ResultPresenter.cs" />
     <Compile Include="Utils\Cloner.cs" />
     <Compile Include="Utils\Shuffler.cs" />
     <Compile Include="Presenter\IMainPresenter.cs" />
@@ -75,11 +81,32 @@
     <Compile Include="View\Entity\AnswerView.cs" />
     <Compile Include="View\Entity\IAnswerView.cs" />
     <Compile Include="View\IMainView.cs" />
+    <Compile Include="View\IPrepareView.cs" />
+    <Compile Include="View\IQuestionView.cs" />
+    <Compile Include="View\IResultView.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\PrepareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PrepareForm.Designer.cs">
+      <DependentUpon>PrepareForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\QuestionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\QuestionForm.Designer.cs">
+      <DependentUpon>QuestionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ResultForm.Designer.cs">
+      <DependentUpon>ResultForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -95,6 +122,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PrepareForm.resx">
+      <DependentUpon>PrepareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\QuestionForm.resx">
+      <DependentUpon>QuestionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ResultForm.resx">
+      <DependentUpon>ResultForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
