@@ -20,5 +20,7 @@ namespace QuizApp.Model
         void SelectAnswer(Guid guid);
         Result LoadResult();
         void StartQuiz();
+        void StopQuiz();
+        int GetTimer();
     }
 }

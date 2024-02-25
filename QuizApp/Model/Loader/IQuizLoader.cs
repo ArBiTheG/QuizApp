@@ -14,5 +14,8 @@ namespace QuizApp.Model.Loader
         bool SendAnswer(Guid guidQuestion, Guid guidAnswer);
         Result LoadResult();
         bool StartQuiz();
+        bool StopQuiz();
+
+        int GetTimer();
     }
 }

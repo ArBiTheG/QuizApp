@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Debug.cs" />
+    <Compile Include="Model\Loader\QuizLoaderClient.cs" />
     <Compile Include="Model\Loader\QuizLoaderJson.cs" />
     <Compile Include="Model\Loader\QuizLoaderNetwork.cs" />
     <Compile Include="Model\Loader\IQuizLoader.cs" />

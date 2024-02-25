@@ -33,5 +33,15 @@ namespace QuizApp.Model.Loader
         {
             throw new NotImplementedException();
         }
+
+        public int GetTimer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool StopQuiz()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

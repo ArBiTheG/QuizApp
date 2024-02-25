@@ -108,5 +108,14 @@ namespace QuizApp.Model
         {
             Loader.StartQuiz();
         }
+        public void StopQuiz()
+        {
+            Loader.StopQuiz();
+        }
+
+        public int GetTimer()
+        {
+            return Loader.GetTimer();
+        }
     }
 }

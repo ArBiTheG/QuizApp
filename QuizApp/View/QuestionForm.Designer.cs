@@ -152,7 +152,7 @@
             this.timerLabel.Name = "timerLabel";
             this.timerLabel.Size = new System.Drawing.Size(247, 40);
             this.timerLabel.TabIndex = 3;
-            this.timerLabel.Text = "Осталось: 00:00:00";
+            this.timerLabel.Text = "Прошло: 00:00:00";
             this.timerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // handlePanel

@@ -5,13 +5,16 @@ using QuizApp.View.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace QuizApp.Presenter
 {
-    public class QuestionPresenter: IQuestionPresenter
+    public class QuestionPresenter : IQuestionPresenter
     {
         public IQuestionView View { get; set; }
         public IQuizData QuizData { get; set; }
@@ -41,7 +44,7 @@ namespace QuizApp.Presenter
         {
             int last_id = QuizData.MaxQuestions - 1;
             if (IdQuestion <= 0) return;
-            
+
             if (IdQuestion > 0) --IdQuestion;
             if (IdQuestion <= 0)
             {
@@ -82,6 +85,8 @@ namespace QuizApp.Presenter
             {
                 QuizData.StartQuiz();
                 LoadQuestion();
+                ChangeTimer(0);
+                StartThreadListenTimer();
             }
             else
             {
@@ -91,6 +96,9 @@ namespace QuizApp.Presenter
 
         private void View_FinishQuiz(object sender, EventArgs e)
         {
+            QuizData.StopQuiz();
+            StopThreadListenTimer();
+
             View.Close();
             IResultView view = ResultForm.GetInstance((MainForm)View.ParentView);
             new ResultPresenter(view, QuizData);
@@ -99,7 +107,7 @@ namespace QuizApp.Presenter
         private void LoadQuestion()
         {
             QuizData.LoadQuestion(IdQuestion);
-        
+
             int answerCount = QuizData.Question.Answers.Length;
             IAnswerView[] answerViews = new IAnswerView[answerCount];
             for (int i = 0; i < answerCount; ++i)
@@ -116,6 +124,44 @@ namespace QuizApp.Presenter
 
             View.CurrentQuestion = IdQuestion;
             View.Description = QuizData.Question.Description;
+        }
+
+
+        private Thread thread;
+        private void StartThreadListenTimer()
+        {
+            SynchronizationContext sync = SynchronizationContext.Current;
+            thread = new Thread(CheckTimer);
+            thread.Name = "Listen Server Timer";
+            thread.IsBackground = true;
+            thread.Start(sync);
+        }
+        private void StopThreadListenTimer()
+        {
+            thread.Abort();
+        }
+        private void CheckTimer(object state)
+        {
+            SynchronizationContext sync = state as SynchronizationContext;
+            while (true)
+            {
+                int old_timer = 0;
+                int new_timer = QuizData.GetTimer();
+                if (old_timer != new_timer)
+                {
+                    sync.Post((object st) => ChangeTimer((int)st), new_timer);
+                }
+                Thread.Sleep(100);
+            }
+        }
+        private void ChangeTimer(int time,bool reverse = false)
+        {
+            string text;
+            if (!reverse)
+                text = "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
+            else
+                text = "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
+            View.Timer = text;
         }
     }
 }

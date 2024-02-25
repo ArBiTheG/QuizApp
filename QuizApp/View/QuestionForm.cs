@@ -46,6 +46,10 @@ namespace QuizApp.View
             get => throw new NotImplementedException();
             set => descriptionTextBox.Text = value;
         }
+        public string Timer { 
+            get => throw new NotImplementedException();
+            set => timerLabel.Text = value;
+        }
 
         private static QuestionForm instance;
 
