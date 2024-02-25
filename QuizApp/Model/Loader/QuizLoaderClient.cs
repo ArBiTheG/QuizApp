@@ -19,46 +19,10 @@ namespace QuizApp.Model.Loader
         protected DateTime quizStarted;
         protected DateTime quizFinished;
 
-        protected static List<Question> ScatterQuestions(List<Question> questions, int count = 4)
+        protected static Question[] ScatterQuestions(Question[] questions, int limit_count = 4)
         {
-            List<Question> result = new List<Question>();
-            if (questions != null)
-            {
-
-                if (questions.Count > 0)
-                {
-                    int maxCount = questions.Count;
-
-                    if (count <= 0 || count > maxCount) count = maxCount;
-
-                    int[] busyIds = new int[maxCount];
-                    //Забиваем массив порядковыми числами 
-                    for (int id = 0; id < busyIds.Length; ++id)
-                    {
-                        busyIds[id] = id;
-                    }
-                    //Выполняем перемешивание
-                    Shuffler.Shuffle(busyIds);
-
-                    //Отспекаем первые count вопросы
-                    for (int id = 0; id < count; ++id)
-                    {
-                        Question oldQuestion = questions[busyIds[id]];
-                        Question newQuestion = (Question)oldQuestion.Clone();
-                        newQuestion.Answers = ScatterAnswers(oldQuestion.Answers);
-                        result.Add(newQuestion);
-                    }
-                }
-            }
-            return result;
-        }
-
-        protected static Answer[] ScatterAnswers(Answer[] answers)
-        {
-            int[] busyIds = new int[answers.Length];
-            Answer[] result = new Answer[answers.Length];
-
-            //Забиваем массив порядковыми числами 
+            int all_count = questions.Length;
+            int[] busyIds = new int[all_count];
             for (int id = 0; id < busyIds.Length; ++id)
             {
                 busyIds[id] = id;
@@ -66,6 +30,33 @@ namespace QuizApp.Model.Loader
             //Выполняем перемешивание
             Shuffler.Shuffle(busyIds);
 
+            //Создание границ между максимальным количеством вопросов и установленным лимитом вопросов
+            if (limit_count <= 0 || limit_count > all_count) limit_count = all_count;
+
+            //Отспекаем первые  вопросы
+            Question[] result = new Question[limit_count];
+            for (int id = 0; id < limit_count; ++id)
+            {
+                Question oldQuestion = questions[busyIds[id]];
+                Question newQuestion = (Question)oldQuestion.Clone();
+                newQuestion.Answers = ScatterAnswers(oldQuestion.Answers);
+                result[id] = newQuestion;
+            }
+            return result;
+        }
+
+        protected static Answer[] ScatterAnswers(Answer[] answers)
+        {
+            int all_count = answers.Length;
+            int[] busyIds = new int[all_count];
+            for (int id = 0; id < busyIds.Length; ++id)
+            {
+                busyIds[id] = id;
+            }
+            //Выполняем перемешивание
+            Shuffler.Shuffle(busyIds);
+
+            Answer[] result = new Answer[all_count];
             for (int id = 0; id < busyIds.Length; ++id)
             {
                 result[id] = (Answer)answers[busyIds[id]].Clone();
@@ -75,7 +66,7 @@ namespace QuizApp.Model.Loader
 
         public Question LoadQuestion(int id)
         {
-            int lastId = quiz.Questions.Count - 1;
+            int lastId = quiz.Questions.Length - 1;
             if (id > lastId) id = lastId;
             if (id < 0) id = 0;
 

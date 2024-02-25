@@ -40,7 +40,7 @@ namespace QuizApp.Model
                 Title = quiz.Title;
                 Description = quiz.Description;
                 Author = quiz.Author;
-                MaxQuestions = quiz.Questions.Count;
+                MaxQuestions = quiz.Questions.Length;
                 Console.WriteLine("Тестирование готово!");
                 Console.WriteLine("--------------------");
             }

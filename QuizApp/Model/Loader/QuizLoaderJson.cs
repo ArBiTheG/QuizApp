@@ -40,9 +40,9 @@ namespace QuizApp.Model.Loader
                         Console.WriteLine("Генерация вопросов...");
                         quiz = (Quiz)tempQuiz.Clone();
                         quiz.Questions = ScatterQuestions(tempQuiz.Questions, tempQuiz.Setting.LimitQuestions);
-                        Console.WriteLine("Всего вопросов: " + tempQuiz.Questions.Count);
+                        Console.WriteLine("Всего вопросов: " + tempQuiz.Questions.Length);
                         Console.WriteLine("Корректных вопросов: " + countValided);
-                        Console.WriteLine("Отобрано вопросов: " + quiz.Questions.Count);
+                        Console.WriteLine("Отобрано вопросов: " + quiz.Questions.Length);
                     }
                     else
                     {
@@ -81,7 +81,7 @@ namespace QuizApp.Model.Loader
                     Quiz tempQuiz = JsonConvert.DeserializeObject<Quiz>(JSONFileTextContent);
                     foreach (Question tempQuestion in tempQuiz.Questions)
                     {
-                        Question findedQuestion = quiz.Questions.Find((question) => question.Guid == tempQuestion.Guid);
+                        Question findedQuestion = Array.Find(quiz.Questions,(question) => question.Guid == tempQuestion.Guid);
                         if (findedQuestion != null)
                         {
                             Answer findedAnswer = findedQuestion.Answers.First((answer) => answer.Guid == tempQuestion.RightAnswer);

@@ -414,6 +414,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.formPanel);
+            this.DoubleBuffered = true;
             this.Name = "ResultForm";
             this.Text = "Подведение итогов";
             this.formPanel.ResumeLayout(false);

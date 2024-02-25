@@ -20,14 +20,12 @@ namespace QuizApp.Model.Entity
         public string Description { get; set; }
         public string Author { get; set; }
         public QuizSetting Setting { get; set; }
-        public List<Grade> Grades { get; set; }
+        public Grade[] Grades { get; set; }
         [JsonRequired]
-        public List<Question> Questions { get; set; }
+        public Question[] Questions { get; set; }
         public Quiz()
         {
             Guid = Guid.NewGuid();
-            Questions = new List<Question>();
-            Grades = new List<Grade>();
         }
 
         public object Clone()
@@ -47,21 +45,19 @@ namespace QuizApp.Model.Entity
         {
             if (Questions == null) return 0;
 
+            List<Question> temp = new List<Question>();
+
             if (!string.IsNullOrEmpty(Title))
             {
-                int countQuestionValid = 0;
-                for (int i = 0; i < Questions.Count; i++)
+                for (int i = 0; i < Questions.Length; i++)
                 {
                     if (Questions[i].IsValidated())
                     {
-                        countQuestionValid++;
-                    }
-                    else
-                    {
-                        Questions.RemoveAt(i);
+                        temp.Add(Questions[i]);
                     }
                 }
-                return countQuestionValid;
+                Questions = temp.ToArray();
+                return Questions.Length;
             };
             return 0;
         }

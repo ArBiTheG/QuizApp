@@ -196,6 +196,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.formPanel);
+            this.DoubleBuffered = true;
             this.Name = "QuestionForm";
             this.Text = "Тестирование";
             this.formPanel.ResumeLayout(false);

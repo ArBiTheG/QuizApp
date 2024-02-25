@@ -23,11 +23,13 @@ namespace QuizApp.Model
                 LimitQuestions = limit_questions,
                 Timer = 0,
             };
-            quiz.Grades.Add(new Grade() { Title = "5", Description = "Отлично", Threshold = 4 });
-            quiz.Grades.Add(new Grade() { Title = "4", Description = "Хорошо", Threshold = 3 });
-            quiz.Grades.Add(new Grade() { Title = "3", Description = "Удовлетворительно", Threshold = 1 });
-            quiz.Grades.Add(new Grade() { Title = "2", Description = "Неудовлетворительно" });
+            quiz.Grades = new Grade[4];
+            quiz.Grades[0] = new Grade() { Title = "5", Description = "Отлично", Threshold = 4 };
+            quiz.Grades[1] = new Grade() { Title = "4", Description = "Хорошо", Threshold = 3 };
+            quiz.Grades[2] = new Grade() { Title = "3", Description = "Удовлетворительно", Threshold = 1 };
+            quiz.Grades[3] = new Grade() { Title = "2", Description = "Неудовлетворительно" };
 
+            quiz.Questions = new Question[max_questions];
             for (int i = 0; i < max_questions; i++)
             {
                 Question question = new Question();
@@ -42,7 +44,7 @@ namespace QuizApp.Model
                 }
                 question.RightAnswer = question.Answers[0].Guid;
                 question.Multiplier = 1.1;
-                quiz.Questions.Add(question);
+                quiz.Questions[i] = question;
             }
 
             if (File.Exists(file)) File.Delete(file);
