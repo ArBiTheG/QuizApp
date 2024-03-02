@@ -14,27 +14,32 @@ namespace QuizApp.View
 {
     public partial class MainForm : Form, IMainView
     {
+        public IView ParentView
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
         public IPrepareView PrepareView { get; set; }
-        public string AppStatus { get => toolStripStatusLabel.Text; set => toolStripStatusLabel.Text = value; }
+        public string AppStatus {
+            get => toolStripStatusLabel.Text;
+            set => toolStripStatusLabel.Text = value;
+        }
+
+        public event EventHandler AppLoad;
+        public event EventHandler AppExit;
+        public event EventHandler AppAbout;
 
         public MainForm()
         {
             InitializeComponent();
             InitializeEvents();
         }
-        public event EventHandler AppLoad;
 
         private void InitializeEvents()
         {
             Load += delegate { AppLoad?.Invoke(this, EventArgs.Empty); };
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (AboutBox aboutBox = new AboutBox())
-            {
-                aboutBox.ShowDialog();
-            }
+            quitToolStripMenuItem.Click += delegate { AppExit?.Invoke(this, EventArgs.Empty); };
+            aboutToolStripMenuItem.Click += delegate { AppAbout?.Invoke(this, EventArgs.Empty); };
         }
     }
 }

@@ -9,8 +9,8 @@ namespace QuizApp.Model.Entity
     public class Result
     {
         public Guid Guid { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string Grade { get; set; }
+        public string GradeDescription { get; set; }
         public string Message { get; set; }
         public double Score { get; set; }
         public double MaxScore { get; set; }

@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace QuizApp.View
 {
-    public interface IPrepareView
+    public interface IPrepareView: IView
     {
-        IMainView ParentView { get; set; }
-        void Show();
-        void Close();
         event EventHandler PrepareQuiz;
         event EventHandler StartQuiz;
         string Guid { get; set; }
@@ -18,5 +15,6 @@ namespace QuizApp.View
         string Description { get; set; }
         string Author { get; set; }
         string MaxQuestions { get; set; }
+        string Timer { get; set; }
     }
 }

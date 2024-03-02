@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace QuizApp.View
 {
-    public interface IResultView
+    public interface IResultView: IView
     {
-        IMainView ParentView { get; set; }
-        void Show();
-        void Close();
-
         event EventHandler LoadResult;
+        event EventHandler AppExit;
         string Guid { get; set; }
         string Title { get; set; }
         string Description { get; set; }

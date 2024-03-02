@@ -23,6 +23,13 @@ namespace QuizApp.Model.Entity
         {
             Guid = Guid.NewGuid();
         }
+        public Question(string description, Answer[] answers, int right_id)
+        {
+            Guid = Guid.NewGuid();
+            Description = description;
+            Answers = answers;
+            RightAnswer = answers[right_id].Guid;
+        }
 
         public object Clone()
         {

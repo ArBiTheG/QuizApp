@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace QuizApp.View
 {
-    public interface IQuestionView
+    public interface IQuestionView: IView
     {
-        IMainView ParentView { get; set; }
-        void Show();
-        void Close();
         event EventHandler LoadQuiz;
         event EventHandler FinishQuiz;
         event EventHandler PrevQuestion;

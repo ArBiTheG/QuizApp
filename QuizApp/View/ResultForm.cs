@@ -12,7 +12,7 @@ namespace QuizApp.View
 {
     public partial class ResultForm : Form, IResultView
     {
-        public IMainView ParentView { get; set; }
+        public IView ParentView { get; set; }
         public string Guid
         {
             get => throw new NotImplementedException();
@@ -87,6 +87,7 @@ namespace QuizApp.View
         private static ResultForm instance;
 
         public event EventHandler LoadResult;
+        public event EventHandler AppExit;
 
         public ResultForm()
         {
@@ -97,6 +98,7 @@ namespace QuizApp.View
         private void InitializeEvents()
         {
             Load += delegate { LoadResult?.Invoke(this, EventArgs.Empty); };
+            exitButton.Click += delegate { AppExit?.Invoke(this, EventArgs.Empty); };
         }
 
         public static ResultForm GetInstance(MainForm parentContainer)

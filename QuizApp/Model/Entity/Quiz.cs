@@ -20,12 +20,19 @@ namespace QuizApp.Model.Entity
         public string Description { get; set; }
         public string Author { get; set; }
         public QuizSetting Setting { get; set; }
+        [JsonRequired]
         public Grade[] Grades { get; set; }
         [JsonRequired]
         public Question[] Questions { get; set; }
         public Quiz()
         {
             Guid = Guid.NewGuid();
+        }
+        public Quiz(string title, string description)
+        {
+            Guid = Guid.NewGuid();
+            Title = title;
+            Description = description;
         }
 
         public object Clone()

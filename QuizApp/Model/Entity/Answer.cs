@@ -19,7 +19,11 @@ namespace QuizApp.Model.Entity
         {
             Guid = Guid.NewGuid();
         }
-
+        public Answer(string description)
+        {
+            Guid = Guid.NewGuid();
+            Description = description;
+        }
         public object Clone()
         {
             Console.WriteLine("Created " + ToString() + " /guid: " + Guid);

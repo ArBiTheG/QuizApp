@@ -86,6 +86,7 @@
     <Compile Include="View\IPrepareView.cs" />
     <Compile Include="View\IQuestionView.cs" />
     <Compile Include="View\IResultView.cs" />
+    <Compile Include="View\IView.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

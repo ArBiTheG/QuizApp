@@ -190,6 +190,7 @@
             this.prevButton.TabIndex = 1;
             this.prevButton.Text = "Предыдущий вопрос";
             this.prevButton.UseVisualStyleBackColor = true;
+            this.prevButton.Visible = false;
             // 
             // QuestionForm
             // 

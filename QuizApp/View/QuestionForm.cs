@@ -13,7 +13,7 @@ namespace QuizApp.View
 {
     public partial class QuestionForm : Form, IQuestionView
     {
-        public IMainView ParentView { get; set; }
+        public IView ParentView { get; set; }
         public bool CanPrevQuestion 
         {
             get => throw new NotImplementedException();
@@ -39,7 +39,7 @@ namespace QuizApp.View
         public int CurrentQuestion 
         { 
             get => throw new NotImplementedException();
-            set => numberLabel.Text = "Вопрос №" + (value+1);
+            set => numberLabel.Text = "Вопрос №" + value;
         }
         public string Description 
         {

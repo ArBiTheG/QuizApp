@@ -12,6 +12,5 @@ namespace QuizApp.Presenter
     {
         IMainView View { get; set; }
         IQuizData QuizData { get; set; }
-        //int QuizCurQuestion { get; }
     }
 }

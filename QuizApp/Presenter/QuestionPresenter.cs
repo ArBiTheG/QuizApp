@@ -18,13 +18,11 @@ namespace QuizApp.Presenter
     {
         public IQuestionView View { get; set; }
         public IQuizData QuizData { get; set; }
-        public int IdQuestion { get; set; }
 
         public QuestionPresenter(IQuestionView view, IQuizData quizData)
         {
             View = view;
             QuizData = quizData;
-            IdQuestion = 0;
 
             View.LoadQuiz += View_LoadQuiz;
             View.NextQuestion += View_NextQuestion;
@@ -42,60 +40,62 @@ namespace QuizApp.Presenter
 
         private void View_PrevQuestion(object sender, EventArgs e)
         {
-            int last_id = QuizData.MaxQuestions - 1;
-            if (IdQuestion <= 0) return;
+            (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
 
-            if (IdQuestion > 0) --IdQuestion;
-            if (IdQuestion <= 0)
+            QuizData.LoadPrevQuestion();
+
+            int id = QuizData.CurrentQuestionId;
+            int last_id = QuizData.MaxQuestions - 1;
+            if (id <= 0)
             {
                 View.CanPrevQuestion = false;
             }
-            if (IdQuestion < last_id)
+            if (id < last_id)
             {
                 View.CanNextQuestion = true;
             }
-            LoadQuestion();
+            RefreshQuestion();
         }
 
         private void View_NextQuestion(object sender, EventArgs e)
         {
+            (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
+
+            int id = QuizData.CurrentQuestionId;
             int last_id = QuizData.MaxQuestions - 1;
-            if (IdQuestion >= last_id)
+            if (id >= last_id)
             {
                 View_FinishQuiz(sender, e);
             }
             else
             {
-                if (IdQuestion < last_id) ++IdQuestion;
-                if (IdQuestion >= last_id)
+                QuizData.LoadNextQuestion();
+                id = QuizData.CurrentQuestionId;
+
+                if (id >= last_id)
                 {
                     View.CanNextQuestion = false;
                 }
-                if (IdQuestion > 0)
+                if (id > 0)
                 {
                     View.CanPrevQuestion = true;
                 }
-                LoadQuestion();
+                RefreshQuestion();
             }
         }
 
         private void View_LoadQuiz(object sender, EventArgs e)
         {
-            if (QuizData.QuizReady)
-            {
-                QuizData.StartQuiz();
-                LoadQuestion();
-                ChangeTimer(0);
-                StartThreadListenTimer();
-            }
-            else
-            {
-                MessageBox.Show("Невозможно начать тестирование поскольку файл с тестом не найден", "Не удалось загрузить тестирование", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            QuizData.StartQuiz();
+            RefreshQuestion();
+            ChangeTimer(0);
+            StartThreadListenTimer();
         }
 
         private void View_FinishQuiz(object sender, EventArgs e)
         {
+            (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
+
             QuizData.StopQuiz();
             StopThreadListenTimer();
 
@@ -104,9 +104,10 @@ namespace QuizApp.Presenter
             new ResultPresenter(view, QuizData);
         }
 
-        private void LoadQuestion()
+        private void RefreshQuestion()
         {
-            QuizData.LoadQuestion(IdQuestion);
+            View.CurrentQuestion = QuizData.CurrentQuestionId + 1;
+            View.Description = QuizData.Question.Description;
 
             int answerCount = QuizData.Question.Answers.Length;
             IAnswerView[] answerViews = new IAnswerView[answerCount];
@@ -122,8 +123,10 @@ namespace QuizApp.Presenter
             }
             View.AddAnswers(answerViews);
 
-            View.CurrentQuestion = IdQuestion;
-            View.Description = QuizData.Question.Description;
+            (View.ParentView as IMainView).AppStatus = string.Format("Всего вопросов: {0} | Текущий вопрос: {1}{2}",
+                QuizData.MaxQuestions,
+                QuizData.CurrentQuestionId + 1,
+                (QuizData.MaxQuestions == QuizData.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
         }
 
 

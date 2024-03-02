@@ -13,12 +13,36 @@ namespace QuizApp.View
 {
     public partial class PrepareForm : Form, IPrepareView
     {
-        public IMainView ParentView { get; set; }
-        public string Guid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Title { get => titleLabel.Text; set => titleLabel.Text = value; }
-        public string Description { get => descriptionTextBox.Text; set => descriptionTextBox.Text = value; }
-        public string Author { get => authorLabel.Text; set => authorLabel.Text = value; }
-        public string MaxQuestions { get => countLabel.Text; set => countLabel.Text = value; }
+        public IView ParentView { get; set; }
+        public string Guid {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+        public string Title 
+        { 
+            get => throw new NotImplementedException(); 
+            set => titleLabel.Text = value; 
+        }
+        public string Description 
+        { 
+            get => throw new NotImplementedException(); 
+            set => descriptionTextBox.Text = value; 
+        }
+        public string Author 
+        { 
+            get => throw new NotImplementedException(); 
+            set => authorLabel.Text = "Автор: " + value; 
+        }
+        public string MaxQuestions 
+        { 
+            get => throw new NotImplementedException(); 
+            set => countLabel.Text = "Всего вопросов: " + value;
+        }
+        public string Timer
+        {
+            get => throw new NotImplementedException();
+            set => timerLabel.Text = "Ограничение по времени: " + value;
+        }
 
         private static PrepareForm instance;
 

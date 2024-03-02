@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 
 namespace QuizApp.View
 {
-    public enum Page
-    {
-        None,
-        Prepare,
-        Quiz,
-        Result,
-    }
-    public interface IMainView
+    public interface IMainView: IView
     {
         event EventHandler AppLoad;
+        event EventHandler AppExit;
+        event EventHandler AppAbout;
         string AppStatus { get; set; }
     }
 }
