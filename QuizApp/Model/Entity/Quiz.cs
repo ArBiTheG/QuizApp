@@ -37,36 +37,20 @@ namespace QuizApp.Model.Entity
 
         public object Clone()
         {
-            Console.WriteLine("Created " + ToString() + " /guid: " + Guid);
+#if DEBUG
+            Console.WriteLine("Clone: " + ToString() + " / Guid: " + Guid);
+#endif
             return new Quiz()
             {
                 Guid = Guid,
                 Title = Title,
                 Description = Description,
                 Author = Author,
+                Setting = Setting,
                 Grades = Grades,
+                Questions = Questions,
             };
 
-        }
-        public int ValidateQuestions()
-        {
-            if (Questions == null) return 0;
-
-            List<Question> temp = new List<Question>();
-
-            if (!string.IsNullOrEmpty(Title))
-            {
-                for (int i = 0; i < Questions.Length; i++)
-                {
-                    if (Questions[i].IsValidated())
-                    {
-                        temp.Add(Questions[i]);
-                    }
-                }
-                Questions = temp.ToArray();
-                return Questions.Length;
-            };
-            return 0;
         }
     }
 }

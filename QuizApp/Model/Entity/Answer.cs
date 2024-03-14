@@ -26,7 +26,9 @@ namespace QuizApp.Model.Entity
         }
         public object Clone()
         {
-            Console.WriteLine("Created " + ToString() + " /guid: " + Guid);
+#if DEBUG
+            Console.WriteLine("Clone: " + ToString() + " / Guid: " + Guid);
+#endif
             return new Answer()
             {
                 Guid = Guid,

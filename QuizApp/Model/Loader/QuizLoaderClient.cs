@@ -19,7 +19,7 @@ namespace QuizApp.Model.Loader
         protected DateTime quizStarted;
         protected DateTime quizFinished;
 
-        protected static Question[] ScatterQuestions(Question[] questions, int limit_count = 4)
+        protected static Question[] SelectionQuestions(Question[] questions, int limit_count = 4)
         {
             int all_count = questions.Length;
             int[] busyIds = new int[all_count];
@@ -39,13 +39,13 @@ namespace QuizApp.Model.Loader
             {
                 Question oldQuestion = questions[busyIds[id]];
                 Question newQuestion = (Question)oldQuestion.Clone();
-                newQuestion.Answers = ScatterAnswers(oldQuestion.Answers);
+                newQuestion.Answers = SelectionAnswers(oldQuestion.Answers);
                 result[id] = newQuestion;
             }
             return result;
         }
 
-        protected static Answer[] ScatterAnswers(Answer[] answers)
+        protected static Answer[] SelectionAnswers(Answer[] answers)
         {
             int all_count = answers.Length;
             int[] busyIds = new int[all_count];
@@ -180,7 +180,6 @@ namespace QuizApp.Model.Loader
             int lastId = quiz.Questions.Length - 1;
             if (id > lastId) id = lastId;
             if (id < 0) id = 0;
-
             return quiz.Questions[id];
         }
 

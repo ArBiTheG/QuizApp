@@ -33,11 +33,16 @@ namespace QuizApp.Model.Entity
 
         public object Clone()
         {
-            Console.WriteLine("Created " + ToString() + " / Guid: " + Guid);
+#if DEBUG
+            Console.WriteLine("Clone: " + ToString() + " / Guid: " + Guid);
+#endif
             return new Question
             {
                 Guid = Guid,
-                Description = Description
+                Description = Description,
+                RightAnswer = RightAnswer,
+                Multiplier = Multiplier,
+                Answers = Answers
             };
         }
         public bool IsValidated()
