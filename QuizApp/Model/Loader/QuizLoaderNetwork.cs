@@ -34,7 +34,7 @@ namespace QuizApp.Model.Loader
             throw new NotImplementedException();
         }
 
-        public int GetTimer()
+        public int GetTimerCounter()
         {
             throw new NotImplementedException();
         }

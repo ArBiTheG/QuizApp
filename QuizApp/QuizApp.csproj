@@ -62,6 +62,7 @@
     <Compile Include="Model\Entity\Quiz.cs" />
     <Compile Include="Model\Entity\QuizSetting.cs" />
     <Compile Include="Model\QuizData.cs" />
+    <Compile Include="Model\QuizTimer.cs" />
     <Compile Include="Presenter\IPreparePresenter.cs" />
     <Compile Include="Presenter\IQuestionPresenter.cs" />
     <Compile Include="Presenter\IResultPresenter.cs" />

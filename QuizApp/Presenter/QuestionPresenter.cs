@@ -54,7 +54,7 @@ namespace QuizApp.Presenter
             {
                 View.CanNextQuestion = true;
             }
-            RefreshQuestion();
+            RefreshQuestionContent();
         }
 
         private void View_NextQuestion(object sender, EventArgs e)
@@ -80,16 +80,16 @@ namespace QuizApp.Presenter
                 {
                     View.CanPrevQuestion = true;
                 }
-                RefreshQuestion();
+                RefreshQuestionContent();
             }
         }
 
         private void View_LoadQuiz(object sender, EventArgs e)
         {
             QuizData.StartQuiz();
-            RefreshQuestion();
+            RefreshQuestionContent();
             ChangeTimer(0);
-            StartThreadListenTimer();
+            StartTimerListen();
         }
 
         private void View_FinishQuiz(object sender, EventArgs e)
@@ -97,14 +97,17 @@ namespace QuizApp.Presenter
             (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
 
             QuizData.StopQuiz();
-            StopThreadListenTimer();
+            _isTimerListenStarted = false;
 
             View.Close();
             IResultView view = ResultForm.GetInstance((MainForm)View.ParentView);
             new ResultPresenter(view, QuizData);
         }
 
-        private void RefreshQuestion()
+        /// <summary>
+        /// Обновить содержимое вопроса
+        /// </summary>
+        private void RefreshQuestionContent()
         {
             View.CurrentQuestion = QuizData.CurrentQuestionId + 1;
             View.Description = QuizData.Question.Description;
@@ -129,34 +132,6 @@ namespace QuizApp.Presenter
                 (QuizData.MaxQuestions == QuizData.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
         }
 
-
-        private Thread thread;
-        private void StartThreadListenTimer()
-        {
-            SynchronizationContext sync = SynchronizationContext.Current;
-            thread = new Thread(CheckTimer);
-            thread.Name = "Listen Server Timer";
-            thread.IsBackground = true;
-            thread.Start(sync);
-        }
-        private void StopThreadListenTimer()
-        {
-            thread.Abort();
-        }
-        private void CheckTimer(object state)
-        {
-            SynchronizationContext sync = state as SynchronizationContext;
-            while (true)
-            {
-                int old_timer = 0;
-                int new_timer = QuizData.GetTimer();
-                if (old_timer != new_timer)
-                {
-                    sync.Post((object st) => ChangeTimer((int)st), new_timer);
-                }
-                Thread.Sleep(100);
-            }
-        }
         private void ChangeTimer(int time,bool reverse = false)
         {
             string text;
@@ -166,5 +141,31 @@ namespace QuizApp.Presenter
                 text = "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
             View.Timer = text;
         }
+
+        #region Прослушивание таймера из Model
+        private bool _isTimerListenStarted = false;
+        private async void StartTimerListen()
+        {
+            _isTimerListenStarted = true;
+#if DEBUG
+            Console.WriteLine("Запуск прослушивания таймера тестирования...");
+#endif
+            int old_timer = -1;
+            int new_timer = 0;
+            while (_isTimerListenStarted)
+            {
+                new_timer = QuizData.GetTimer();
+                if (new_timer > old_timer)
+                {
+                    old_timer = new_timer;
+                    ChangeTimer(new_timer);
+                }
+                await Task.Delay(100);
+            }
+#if DEBUG
+            Console.WriteLine("Прослушивания таймера тестирования остановлено!");
+#endif
+        }
+        #endregion
     }
 }

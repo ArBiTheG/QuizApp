@@ -13,9 +13,7 @@ namespace QuizApp.Model.Loader
 {
     public abstract class QuizLoaderClient: IQuizLoader
     {
-        // Всё для таймера
-        private Timer timer;
-        private int timer_count = 0;
+        private QuizTimer _timer = new QuizTimer();
 
         protected Quiz quiz;
         protected DateTime quizStarted;
@@ -206,44 +204,19 @@ namespace QuizApp.Model.Loader
         public bool StartQuiz()
         {
             quizStarted = DateTime.Now;
-            StartTimer();
+            _timer.StartTimer();
             return true;
         }
         public bool StopQuiz()
         {
             quizFinished = DateTime.Now;
-            StopTimer();
+            _timer.StopTimer();
             return true;
         }
 
-        public int GetTimer()
+        public int GetTimerCounter()
         {
-            return timer_count;
-        }
-
-        private void StartTimer()
-        {
-            if (timer == null)
-            {
-                timer = new Timer();
-                timer.AutoReset = true;
-                timer.Interval = 1000;
-                timer.Elapsed += (s, e) =>
-                {
-                    timer_count++;
-                    Console.WriteLine("TimerTest: " + timer_count);
-                };
-                timer.Start();
-            }
-        }
-
-        private void StopTimer()
-        {
-            if (timer != null)
-            {
-                timer.Stop();
-                timer = null;
-            }
+            return _timer.GetTimerCounter();
         }
     }
 }

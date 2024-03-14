@@ -15,7 +15,6 @@ namespace QuizApp.Model.Loader
         Result LoadResult();
         bool StartQuiz();
         bool StopQuiz();
-
-        int GetTimer();
+        int GetTimerCounter();
     }
 }

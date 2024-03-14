@@ -82,7 +82,7 @@ namespace QuizApp.Model
 
         public int GetTimer()
         {
-            return Loader.GetTimer();
+            return Loader.GetTimerCounter();
         }
     }
 }
