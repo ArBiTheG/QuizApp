@@ -14,7 +14,6 @@ namespace QuizApp.Model
         {
             Data = new QuizDataJson("test.json");
         }
-
         IQuizData Data { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

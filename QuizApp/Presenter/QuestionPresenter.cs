@@ -54,7 +54,7 @@ namespace QuizApp.Presenter
             {
                 View.CanNextQuestion = true;
             }
-            RefreshQuestionContent();
+            RefreshQuestionViewContent();
         }
 
         private void View_NextQuestion(object sender, EventArgs e)
@@ -65,7 +65,7 @@ namespace QuizApp.Presenter
             int last_id = QuizModel.MaxQuestions - 1;
             if (id >= last_id)
             {
-                View_FinishQuiz(sender, e);
+                DoFinishQuiz();
             }
             else
             {
@@ -80,19 +80,25 @@ namespace QuizApp.Presenter
                 {
                     View.CanPrevQuestion = true;
                 }
-                RefreshQuestionContent();
+                RefreshQuestionViewContent();
             }
         }
 
         private void View_LoadQuiz(object sender, EventArgs e)
         {
             QuizModel.StartQuiz();
-            RefreshQuestionContent();
-            ChangeTimer(0);
             StartTimerListen();
+
+            RefreshQuestionViewContent();
+            View.SetDisplayTimer(0);
         }
 
         private void View_FinishQuiz(object sender, EventArgs e)
+        {
+            DoFinishQuiz();
+        }
+
+        private void DoFinishQuiz()
         {
             (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
 
@@ -107,7 +113,7 @@ namespace QuizApp.Presenter
         /// <summary>
         /// Обновить содержимое вопроса
         /// </summary>
-        private void RefreshQuestionContent()
+        private void RefreshQuestionViewContent()
         {
             View.CurrentQuestion = QuizModel.CurrentQuestionId + 1;
             View.Description = QuizModel.Question.Description;
@@ -132,16 +138,6 @@ namespace QuizApp.Presenter
                 (QuizModel.MaxQuestions == QuizModel.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
         }
 
-        private void ChangeTimer(int time,bool reverse = false)
-        {
-            string text;
-            if (!reverse)
-                text = "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
-            else
-                text = "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
-            View.Timer = text;
-        }
-
         #region Прослушивание таймера из Model
         private bool _isTimerListenStarted = false;
         private async void StartTimerListen()
@@ -155,10 +151,10 @@ namespace QuizApp.Presenter
             while (_isTimerListenStarted)
             {
                 new_timer = QuizModel.GetTimer();
-                if (new_timer > old_timer)
+                if (new_timer != old_timer)
                 {
                     old_timer = new_timer;
-                    ChangeTimer(new_timer);
+                    View.SetDisplayTimer(new_timer);
                 }
                 await Task.Delay(100);
             }

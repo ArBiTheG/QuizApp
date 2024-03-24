@@ -42,8 +42,8 @@ namespace QuizApp.Presenter
             View.Score = result.Score.ToString("f1");
             View.MaxQuestions = result.MaxQuestions.ToString();
             View.RightQuestions = result.RightQuestion.ToString();
-            View.TimeStarted = result.QuizStarted.ToString("HH\\:mm\\:ss");
-            View.TimeFinihed = result.QuizFinished.ToString("HH\\:mm\\:ss");
+            View.TimeStarted = result.QuizStarted.ToString("HH\\:mm\\:ss\\,f");
+            View.TimeFinihed = result.QuizFinished.ToString("HH\\:mm\\:ss\\,f");
             TimeSpan timeSpan = TimeSpan.FromSeconds(result.QuizTimePass);
             View.TimePassed = string.Format("{0} час. {1} мин. {2} сек.", timeSpan.Hours, timeSpan.Minutes, timeSpan.TotalSeconds);
 

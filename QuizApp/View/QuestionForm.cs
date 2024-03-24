@@ -1,4 +1,5 @@
-﻿using QuizApp.View.Entity;
+﻿using Newtonsoft.Json.Linq;
+using QuizApp.View.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace QuizApp.View
 {
@@ -45,10 +47,6 @@ namespace QuizApp.View
         {
             get => throw new NotImplementedException();
             set => descriptionTextBox.Text = value;
-        }
-        public string Timer { 
-            get => throw new NotImplementedException();
-            set => timerLabel.Text = value;
         }
 
         private static QuestionForm instance;
@@ -106,6 +104,13 @@ namespace QuizApp.View
                 answersPanel.Controls.Add(radioButton);
             }
             answersPanel.ResumeLayout();
+        }
+
+        public void SetDisplayTimer(int time, bool reverse = false)
+        {
+            timerLabel.Text = (!reverse) ?
+                "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
+                "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
         }
     }
 }

@@ -13,11 +13,8 @@ namespace QuizApp.Model.Data
 {
     public abstract class QuizDataClient: IQuizData
     {
-        private QuizTimer _timer = new QuizTimer();
-
+        protected QuizTimer timer = new QuizTimer();
         protected Quiz quiz;
-        protected DateTime quizStarted;
-        protected DateTime quizFinished;
 
         protected static Question[] SelectionQuestions(Question[] questions, int limit_count = 4)
         {
@@ -175,8 +172,8 @@ namespace QuizApp.Model.Data
             result.RightQuestion = rightCount;
             result.MaxQuestions = maxQuestionsCount;
             result.Message = "Тестирование завершено";
-            result.QuizStarted = quizStarted;
-            result.QuizFinished = quizFinished;
+            result.QuizStarted = timer.Started;
+            result.QuizFinished = timer.Started;
             result.QuizTimePass = (result.QuizFinished - result.QuizStarted).Seconds;
             
             
@@ -225,8 +222,7 @@ namespace QuizApp.Model.Data
         /// <returns></returns>
         public bool StartQuiz()
         {
-            _timer.StartTimer();
-            quizStarted = DateTime.Now;
+            timer.StartTimer();
             return true;
         }
         /// <summary>
@@ -235,8 +231,7 @@ namespace QuizApp.Model.Data
         /// <returns></returns>
         public bool StopQuiz()
         {
-            quizFinished = DateTime.Now;
-            _timer.StopTimer();
+            timer.StopTimer();
             return true;
         }
 
@@ -246,7 +241,7 @@ namespace QuizApp.Model.Data
         /// <returns>Возвращает пройденное время в секундах</returns>
         public int GetTimerCounter()
         {
-            return _timer.GetTimerCounter();
+            return timer.Counter;
         }
     }
 }

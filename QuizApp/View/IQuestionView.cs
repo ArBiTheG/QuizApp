@@ -18,9 +18,10 @@ namespace QuizApp.View
         bool CanPrevQuestion { get; set; }
         bool CanNextQuestion { get; set; }
         int CurrentQuestion { get; set; }
-        string Timer { get; set; }
 
         string Description { get; set; }
         void AddAnswers(IAnswerView[] answerView);
+
+        void SetDisplayTimer(int time, bool reverse = false);
     }
 }
