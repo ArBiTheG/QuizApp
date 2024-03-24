@@ -1,17 +1,17 @@
 ﻿using Newtonsoft.Json;
-using QuizApp.Model.Entity;
+using QuizApp.Model.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace QuizApp.Model.Loader
+namespace QuizApp.Model.Data
 {
-    public class QuizLoaderJson: QuizLoaderClient, IQuizLoader
+    public class QuizDataJson: QuizDataClient, IQuizData
     {
         private string _JSONFileName;
         private string _JSONFileTextContent;
 
-        public QuizLoaderJson(string jSONFileName)
+        public QuizDataJson(string jSONFileName)
         {
             _JSONFileName = jSONFileName;
             Debug.CreateQuizJSON(jSONFileName);

@@ -1,4 +1,4 @@
-﻿using QuizApp.Model.Entity;
+﻿using QuizApp.Model.Data.Entity;
 using QuizApp.Utils;
 using QuizApp.View.Entity;
 using System;
@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace QuizApp.Model.Loader
+namespace QuizApp.Model.Data
 {
-    public abstract class QuizLoaderClient: IQuizLoader
+    public abstract class QuizDataClient: IQuizData
     {
         private QuizTimer _timer = new QuizTimer();
 
@@ -202,8 +202,8 @@ namespace QuizApp.Model.Loader
 
         public bool StartQuiz()
         {
-            quizStarted = DateTime.Now;
             _timer.StartTimer();
+            quizStarted = DateTime.Now;
             return true;
         }
         public bool StopQuiz()

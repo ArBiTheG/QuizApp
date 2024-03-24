@@ -11,6 +11,6 @@ namespace QuizApp.Presenter
     public interface IPreparePresenter
     {
         IPrepareView View { get; set; }
-        IQuizData QuizData { get; set; }
+        IQuizModel QuizData { get; set; }
     }
 }

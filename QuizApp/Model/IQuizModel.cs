@@ -1,4 +1,5 @@
-﻿using QuizApp.Model.Entity;
+﻿using QuizApp.Model.Data;
+using QuizApp.Model.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Model
 {
-    public interface IQuizData
+    public interface IQuizModel
     {
         string Title { get; set; }
         string Description { get; set; }

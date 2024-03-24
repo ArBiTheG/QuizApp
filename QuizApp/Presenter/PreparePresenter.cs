@@ -11,9 +11,9 @@ namespace QuizApp.Presenter
     public class PreparePresenter: IPreparePresenter
     {
         public IPrepareView View { get; set; }
-        public IQuizData QuizData { get; set; }
+        public IQuizModel QuizData { get; set; }
 
-        public PreparePresenter(IPrepareView view, IQuizData quizData)
+        public PreparePresenter(IPrepareView view, IQuizModel quizData)
         {
             View = view;
             QuizData = quizData;

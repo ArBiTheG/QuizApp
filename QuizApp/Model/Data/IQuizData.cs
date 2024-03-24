@@ -1,13 +1,13 @@
-﻿using QuizApp.Model.Entity;
+﻿using QuizApp.Model.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizApp.Model.Loader
+namespace QuizApp.Model.Data
 {
-    public interface IQuizLoader
+    public interface IQuizData
     {
         Quiz LoadQuiz();
         Question LoadQuestion(int id);

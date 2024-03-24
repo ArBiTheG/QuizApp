@@ -1,5 +1,5 @@
-﻿using QuizApp.Model.Loader;
-using QuizApp.Model.Entity;
+﻿using QuizApp.Model.Data;
+using QuizApp.Model.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Model
 {
-    public class QuizData: IQuizData
+    public class QuizModel: IQuizModel
     {
-        public QuizData()
+        public QuizModel()
         {
-            Loader = new QuizLoaderJson("test.json");
+            Data = new QuizDataJson("test.json");
         }
 
-        IQuizLoader Loader { get; set; }
+        IQuizData Data { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public Question Question { get; set; }
@@ -25,7 +25,7 @@ namespace QuizApp.Model
 
         public void LoadQuiz()
         {
-            Quiz quiz = Loader.LoadQuiz();
+            Quiz quiz = Data.LoadQuiz();
             Title = quiz.Title;
             Description = quiz.Description;
             Author = quiz.Author;
@@ -35,7 +35,7 @@ namespace QuizApp.Model
         public void LoadQuestion(int id)
         {
             CurrentQuestionId = id;
-            Question = Loader.LoadQuestion(id);
+            Question = Data.LoadQuestion(id);
         }
         public void LoadNextQuestion()
         {
@@ -62,27 +62,27 @@ namespace QuizApp.Model
 
         public void SelectAnswer(Guid guid)
         {
-            Loader.SendAnswer(Question.Guid, guid);
+            Data.SendAnswer(Question.Guid, guid);
         }
 
         public Result LoadResult()
         {
-            return Loader.LoadResult(); ;
+            return Data.LoadResult(); ;
         }
 
         public void StartQuiz()
         {
-            Loader.StartQuiz();
+            Data.StartQuiz();
             LoadFirstQuestion();
         }
         public void StopQuiz()
         {
-            Loader.StopQuiz();
+            Data.StopQuiz();
         }
 
         public int GetTimer()
         {
-            return Loader.GetTimerCounter();
+            return Data.GetTimerCounter();
         }
     }
 }

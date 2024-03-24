@@ -49,20 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Debug.cs" />
-    <Compile Include="Model\Loader\QuizLoaderClient.cs" />
-    <Compile Include="Model\Loader\QuizLoaderJson.cs" />
-    <Compile Include="Model\Loader\QuizLoaderNetwork.cs" />
-    <Compile Include="Model\Loader\IQuizLoader.cs" />
-    <Compile Include="Model\Entity\Result.cs" />
-    <Compile Include="Model\Entity\Grade.cs" />
-    <Compile Include="Model\IQuizData.cs" />
-    <Compile Include="Model\Entity\Answer.cs" />
-    <Compile Include="Model\Entity\Question.cs" />
-    <Compile Include="Model\Entity\Quiz.cs" />
-    <Compile Include="Model\Entity\QuizSetting.cs" />
-    <Compile Include="Model\QuizData.cs" />
-    <Compile Include="Model\QuizTimer.cs" />
+    <Compile Include="Model\Data\Debug.cs" />
+    <Compile Include="Model\Data\QuizDataClient.cs" />
+    <Compile Include="Model\Data\QuizDataJson.cs" />
+    <Compile Include="Model\Data\QuizDataNetwork.cs" />
+    <Compile Include="Model\Data\IQuizData.cs" />
+    <Compile Include="Model\Data\Entity\Result.cs" />
+    <Compile Include="Model\Data\Entity\Grade.cs" />
+    <Compile Include="Model\IQuizModel.cs" />
+    <Compile Include="Model\Data\Entity\Answer.cs" />
+    <Compile Include="Model\Data\Entity\Question.cs" />
+    <Compile Include="Model\Data\Entity\Quiz.cs" />
+    <Compile Include="Model\Data\Entity\QuizSetting.cs" />
+    <Compile Include="Model\QuizModel.cs" />
+    <Compile Include="Model\Data\QuizTimer.cs" />
     <Compile Include="Presenter\IPreparePresenter.cs" />
     <Compile Include="Presenter\IQuestionPresenter.cs" />
     <Compile Include="Presenter\IResultPresenter.cs" />

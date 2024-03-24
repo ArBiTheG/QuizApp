@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using QuizApp.Model.Entity;
+using QuizApp.Model.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizApp.Model
+namespace QuizApp.Model.Data
 {
     public static class Debug
     {

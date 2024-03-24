@@ -1,5 +1,5 @@
 ﻿using QuizApp.Model;
-using QuizApp.Model.Entity;
+using QuizApp.Model.Data.Entity;
 using QuizApp.View;
 using QuizApp.View.Entity;
 using System;
@@ -15,12 +15,12 @@ namespace QuizApp.Presenter
     public class MainPresenter: IMainPresenter
     {
         public IMainView View { get; set; }
-        public IQuizData QuizData { get; set; }
+        public IQuizModel QuizData { get; set; }
 
         public MainPresenter(IMainView mainView) 
         {
             View = mainView;
-            QuizData = new QuizData();
+            QuizData = new QuizModel();
             View.AppLoad += View_AppLoad;
             View.AppExit += View_AppExit;
             View.AppAbout += View_AppAbout;

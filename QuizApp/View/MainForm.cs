@@ -1,4 +1,4 @@
-﻿using QuizApp.Model.Entity;
+﻿using QuizApp.Model.Data.Entity;
 using QuizApp.View.Entity;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizApp.Model.Entity
+namespace QuizApp.Model.Data.Entity
 {
     public class Question : ICloneable
     {

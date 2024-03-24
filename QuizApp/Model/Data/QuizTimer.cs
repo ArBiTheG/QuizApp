@@ -5,15 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace QuizApp.Model
+namespace QuizApp.Model.Data
 {
     public class QuizTimer
     {
         private Timer _timer;
-        private int _timer_counter = 0;
+        private int _timerCounter = 0;
         public QuizTimer() 
-        { 
-        
+        {
         }
         /// <summary>
         /// Запустить таймер
@@ -35,9 +34,9 @@ namespace QuizApp.Model
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _timer_counter++;
+            _timerCounter++;
 #if DEBUG
-            Console.WriteLine("Счётчик таймера тестирования: " + _timer_counter);
+            Console.WriteLine("Счётчик таймера тестирования: " + _timerCounter);
 #endif
         }
 
@@ -62,7 +61,7 @@ namespace QuizApp.Model
         /// <returns>Пройдено\осталось времени в секундах</returns>
         public int GetTimerCounter()
         {
-            return _timer_counter;
+            return _timerCounter;
         }
     }
 }

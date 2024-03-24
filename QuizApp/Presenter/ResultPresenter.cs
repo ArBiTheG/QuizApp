@@ -1,5 +1,5 @@
 ﻿using QuizApp.Model;
-using QuizApp.Model.Entity;
+using QuizApp.Model.Data.Entity;
 using QuizApp.View;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace QuizApp.Presenter
     public class ResultPresenter: IResultPresenter
     {
         public IResultView View { get; set; }
-        public IQuizData QuizData { get; set; }
+        public IQuizModel QuizData { get; set; }
 
-        public ResultPresenter(IResultView view, IQuizData quizData)
+        public ResultPresenter(IResultView view, IQuizModel quizData)
         {
             View = view;
             QuizData = quizData;

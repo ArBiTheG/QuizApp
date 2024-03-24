@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace QuizApp.Model.Entity
+namespace QuizApp.Model.Data.Entity
 {
     public class Quiz: ICloneable
     {
