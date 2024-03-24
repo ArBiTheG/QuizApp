@@ -65,6 +65,10 @@ namespace QuizApp.Model.Data
         }
 
 
+        /// <summary>
+        /// Загрузить викторину
+        /// </summary>
+        /// <returns>Возвращает экземпляр викторины</returns>
         public virtual Quiz LoadQuiz()
         {
             quiz = new Quiz();
@@ -124,6 +128,10 @@ namespace QuizApp.Model.Data
             };
             return quiz;
         }
+        /// <summary>
+        /// Загрузить отчёт о тестировании
+        /// </summary>
+        /// <returns>Возвращает экземпляр отчёта</returns>
         public virtual Result LoadResult()
         {
             int rightCount = 0;
@@ -175,6 +183,11 @@ namespace QuizApp.Model.Data
             return result;
         }
 
+        /// <summary>
+        /// Загрузить вопрос
+        /// </summary>
+        /// <param name="id">Номер вопроса</param>
+        /// <returns>Возвращает экземпляр вопроса</returns>
         public virtual Question LoadQuestion(int id)
         {
             int lastId = quiz.Questions.Length - 1;
@@ -183,6 +196,12 @@ namespace QuizApp.Model.Data
             return quiz.Questions[id];
         }
 
+        /// <summary>
+        /// Отправить ответ на вопрос
+        /// </summary>
+        /// <param name="guidQuestion">GUID вопроса</param>
+        /// <param name="guidAnswer">GUID выбранного ответа</param>
+        /// <returns></returns>
         public virtual bool SendAnswer(Guid guidQuestion, Guid guidAnswer)
         {
             Question question = quiz.Questions.First(q => q.Guid == guidQuestion);
@@ -200,12 +219,20 @@ namespace QuizApp.Model.Data
             return true;
         }
 
+        /// <summary>
+        /// Запустить викторину
+        /// </summary>
+        /// <returns></returns>
         public bool StartQuiz()
         {
             _timer.StartTimer();
             quizStarted = DateTime.Now;
             return true;
         }
+        /// <summary>
+        /// Остановить викторину
+        /// </summary>
+        /// <returns></returns>
         public bool StopQuiz()
         {
             quizFinished = DateTime.Now;
@@ -213,6 +240,10 @@ namespace QuizApp.Model.Data
             return true;
         }
 
+        /// <summary>
+        /// Получить счётчик таймера
+        /// </summary>
+        /// <returns>Возвращает пройденное время в секундах</returns>
         public int GetTimerCounter()
         {
             return _timer.GetTimerCounter();

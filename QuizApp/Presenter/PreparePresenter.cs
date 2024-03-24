@@ -11,12 +11,12 @@ namespace QuizApp.Presenter
     public class PreparePresenter: IPreparePresenter
     {
         public IPrepareView View { get; set; }
-        public IQuizModel QuizData { get; set; }
+        public IQuizModel QuizModel { get; set; }
 
         public PreparePresenter(IPrepareView view, IQuizModel quizData)
         {
             View = view;
-            QuizData = quizData;
+            QuizModel = quizData;
 
             View.PrepareQuiz += View_PrepareQuiz;
             View.StartQuiz += View_StartQuiz;
@@ -27,12 +27,12 @@ namespace QuizApp.Presenter
         private void View_PrepareQuiz(object sender, EventArgs e)
         {
 
-            QuizData.LoadQuiz();
-            View.Title = QuizData.Title;
-            View.Description = QuizData.Description;
-            View.Author = QuizData.Author;
-            View.MaxQuestions = QuizData.MaxQuestions.ToString();
-            int timer = QuizData.GetTimer();
+            QuizModel.LoadQuiz();
+            View.Title = QuizModel.Title;
+            View.Description = QuizModel.Description;
+            View.Author = QuizModel.Author;
+            View.MaxQuestions = QuizModel.MaxQuestions.ToString();
+            int timer = QuizModel.GetTimer();
             if (timer <= 0)
             {
                 View.Timer = "Нет";
@@ -51,7 +51,7 @@ namespace QuizApp.Presenter
 
             View.Close();
             IQuestionView view = QuestionForm.GetInstance((MainForm)View.ParentView);
-            new QuestionPresenter(view, QuizData);
+            new QuestionPresenter(view, QuizModel);
         }
     }
 }

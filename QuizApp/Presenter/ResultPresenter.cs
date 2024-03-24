@@ -13,12 +13,12 @@ namespace QuizApp.Presenter
     public class ResultPresenter: IResultPresenter
     {
         public IResultView View { get; set; }
-        public IQuizModel QuizData { get; set; }
+        public IQuizModel QuizModel { get; set; }
 
         public ResultPresenter(IResultView view, IQuizModel quizData)
         {
             View = view;
-            QuizData = quizData;
+            QuizModel = quizData;
             View.LoadResult += View_LoadResult;
             View.AppExit += View_Exit;
             View.Show();
@@ -31,10 +31,10 @@ namespace QuizApp.Presenter
 
         private void View_LoadResult(object sender, EventArgs e)
         {
-            Result result = QuizData.LoadResult();
-            View.Title = QuizData.Title;
-            View.Description = QuizData.Description;
-            View.Author = QuizData.Author;
+            Result result = QuizModel.LoadResult();
+            View.Title = QuizModel.Title;
+            View.Description = QuizModel.Description;
+            View.Author = QuizModel.Author;
             View.Message = result.Message;
             View.Grade = result.Grade;
             View.GradeDescr = result.GradeDescription;

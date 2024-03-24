@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Model\Data\Debug.cs" />
     <Compile Include="Model\Data\QuizDataClient.cs" />
+    <Compile Include="Model\Data\QuizInvalidException.cs" />
     <Compile Include="Model\Data\QuizDataJson.cs" />
     <Compile Include="Model\Data\QuizDataNetwork.cs" />
     <Compile Include="Model\Data\IQuizData.cs" />

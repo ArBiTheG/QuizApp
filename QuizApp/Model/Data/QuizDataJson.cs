@@ -16,6 +16,12 @@ namespace QuizApp.Model.Data
             _JSONFileName = jSONFileName;
             Debug.CreateQuizJSON(jSONFileName);
         }
+        /// <summary>
+        /// Загрузить викторину
+        /// </summary>
+        /// <returns>Возвращает экземпляр викторины</returns>
+        /// <exception cref="QuizInvalidException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
         public new Quiz LoadQuiz()
         {
             if (File.Exists(_JSONFileName))
@@ -51,12 +57,12 @@ namespace QuizApp.Model.Data
                 }
                 else
                 {
-                    throw new Exception("Некорректный файл с тестированием");
+                    throw new QuizInvalidException("Некорректный файл с тестированием");
                 }
             }
             else
             {
-                throw new Exception("Файл с тестированием не найден");
+                throw new FileNotFoundException("Файл с тестированием не найден");
             }
             return quiz;
         }

@@ -17,12 +17,12 @@ namespace QuizApp.Presenter
     public class QuestionPresenter : IQuestionPresenter
     {
         public IQuestionView View { get; set; }
-        public IQuizModel QuizData { get; set; }
+        public IQuizModel QuizModel { get; set; }
 
-        public QuestionPresenter(IQuestionView view, IQuizModel quizData)
+        public QuestionPresenter(IQuestionView view, IQuizModel quizModel)
         {
             View = view;
-            QuizData = quizData;
+            QuizModel = quizModel;
 
             View.LoadQuiz += View_LoadQuiz;
             View.NextQuestion += View_NextQuestion;
@@ -35,17 +35,17 @@ namespace QuizApp.Presenter
 
         private void View_SelectAnswer(object sender, Guid e)
         {
-            QuizData.SelectAnswer(e);
+            QuizModel.SelectAnswer(e);
         }
 
         private void View_PrevQuestion(object sender, EventArgs e)
         {
             (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
 
-            QuizData.LoadPrevQuestion();
+            QuizModel.LoadPrevQuestion();
 
-            int id = QuizData.CurrentQuestionId;
-            int last_id = QuizData.MaxQuestions - 1;
+            int id = QuizModel.CurrentQuestionId;
+            int last_id = QuizModel.MaxQuestions - 1;
             if (id <= 0)
             {
                 View.CanPrevQuestion = false;
@@ -61,16 +61,16 @@ namespace QuizApp.Presenter
         {
             (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
 
-            int id = QuizData.CurrentQuestionId;
-            int last_id = QuizData.MaxQuestions - 1;
+            int id = QuizModel.CurrentQuestionId;
+            int last_id = QuizModel.MaxQuestions - 1;
             if (id >= last_id)
             {
                 View_FinishQuiz(sender, e);
             }
             else
             {
-                QuizData.LoadNextQuestion();
-                id = QuizData.CurrentQuestionId;
+                QuizModel.LoadNextQuestion();
+                id = QuizModel.CurrentQuestionId;
 
                 if (id >= last_id)
                 {
@@ -86,7 +86,7 @@ namespace QuizApp.Presenter
 
         private void View_LoadQuiz(object sender, EventArgs e)
         {
-            QuizData.StartQuiz();
+            QuizModel.StartQuiz();
             RefreshQuestionContent();
             ChangeTimer(0);
             StartTimerListen();
@@ -96,12 +96,12 @@ namespace QuizApp.Presenter
         {
             (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
 
-            QuizData.StopQuiz();
+            QuizModel.StopQuiz();
             _isTimerListenStarted = false;
 
             View.Close();
             IResultView view = ResultForm.GetInstance((MainForm)View.ParentView);
-            new ResultPresenter(view, QuizData);
+            new ResultPresenter(view, QuizModel);
         }
 
         /// <summary>
@@ -109,14 +109,14 @@ namespace QuizApp.Presenter
         /// </summary>
         private void RefreshQuestionContent()
         {
-            View.CurrentQuestion = QuizData.CurrentQuestionId + 1;
-            View.Description = QuizData.Question.Description;
+            View.CurrentQuestion = QuizModel.CurrentQuestionId + 1;
+            View.Description = QuizModel.Question.Description;
 
-            int answerCount = QuizData.Question.Answers.Length;
+            int answerCount = QuizModel.Question.Answers.Length;
             IAnswerView[] answerViews = new IAnswerView[answerCount];
             for (int i = 0; i < answerCount; ++i)
             {
-                Answer answer = QuizData.Question.Answers[i];
+                Answer answer = QuizModel.Question.Answers[i];
                 answerViews[i] = new AnswerView()
                 {
                     Guid = answer.Guid,
@@ -127,9 +127,9 @@ namespace QuizApp.Presenter
             View.AddAnswers(answerViews);
 
             (View.ParentView as IMainView).AppStatus = string.Format("Всего вопросов: {0} | Текущий вопрос: {1}{2}",
-                QuizData.MaxQuestions,
-                QuizData.CurrentQuestionId + 1,
-                (QuizData.MaxQuestions == QuizData.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
+                QuizModel.MaxQuestions,
+                QuizModel.CurrentQuestionId + 1,
+                (QuizModel.MaxQuestions == QuizModel.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
         }
 
         private void ChangeTimer(int time,bool reverse = false)
@@ -154,7 +154,7 @@ namespace QuizApp.Presenter
             int new_timer = 0;
             while (_isTimerListenStarted)
             {
-                new_timer = QuizData.GetTimer();
+                new_timer = QuizModel.GetTimer();
                 if (new_timer > old_timer)
                 {
                     old_timer = new_timer;

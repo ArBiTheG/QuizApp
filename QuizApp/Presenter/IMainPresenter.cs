@@ -11,6 +11,6 @@ namespace QuizApp.Presenter
     public interface IMainPresenter
     {
         IMainView View { get; set; }
-        IQuizModel QuizData { get; set; }
+        IQuizModel QuizModel { get; set; }
     }
 }
