@@ -1,70 +1,135 @@
 ﻿using Newtonsoft.Json;
 using QuizApp.Model.Data.Entity;
+using QuizApp.Model.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace QuizApp.Model.Data
 {
-    public class QuizDataJson: QuizDataClient, IQuizData
+    public class QuizDataJson : IQuizData
     {
-        private string _JSONFileName;
-        private string _JSONFileTextContent;
+        Quiz _quiz;
+        QuizTimer _timer;
 
-        public QuizDataJson(string jSONFileName)
+        public Quiz Quiz => _quiz;
+
+        public int TimerCounter => _timer.Counter;
+
+        public QuizDataJson(string fileName)
         {
-            _JSONFileName = jSONFileName;
-            Debug.CreateQuizJSON(jSONFileName);
-        }
-        /// <summary>
-        /// Загрузить викторину
-        /// </summary>
-        /// <returns>Возвращает экземпляр викторины</returns>
-        /// <exception cref="QuizInvalidException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        public new Quiz LoadQuiz()
-        {
-            if (File.Exists(_JSONFileName))
+            string fileContent = File.ReadAllText(fileName);
+
+            Quiz temp_quiz = JsonConvert.DeserializeObject<Quiz>(fileContent);
+
+            List<Question> temp_questions = new List<Question>();
+            foreach (Question tempQuestion in temp_quiz.Questions)
             {
-                _JSONFileTextContent = File.ReadAllText(_JSONFileName);
-                
-                Quiz tempQuiz = JsonConvert.DeserializeObject<Quiz>(_JSONFileTextContent);
-
-                bool validatedHeaderQuiz = true;
-                if (tempQuiz.Title.Length==0)
+                if (tempQuestion.IsValidated())
                 {
-                    validatedHeaderQuiz = false;
+                    temp_questions.Add(tempQuestion);
                 }
+            }
 
-                List<Question> validatedQuestionList = new List<Question>();
-                foreach (Question tempQuestion in tempQuiz.Questions)
+            if (temp_questions.Count <= 0) throw new QuizInvalidException("Отсутствуют корректные вопросы");
+
+            Quiz quiz = (Quiz)temp_quiz.Clone();
+            quiz.Questions = QuizUtils.ShuffleAndCutQuestions(temp_questions.ToArray(), quiz.Setting.LimitQuestions);
+            foreach (var question in quiz.Questions)
+            {
+                question.Answers = QuizUtils.ShuffleAnswers(question.Answers);
+            }
+
+#if DEBUG
+            Console.WriteLine("Всего вопросов: " + temp_quiz.Questions.Length);
+            Console.WriteLine("Корректных вопросов: " + temp_questions.Count);
+            Console.WriteLine("Отобрано вопросов: " + quiz.Questions.Length);
+#endif
+
+            _timer = new QuizTimer();
+
+            _quiz = quiz;
+        }
+
+        public Result GetResult()
+        {
+            int rightCount = 0;
+            int maxQuestionsCount = 0;
+
+            double scoreCount = 0;
+            double maxScoreCount = 0;
+            foreach (Question question in _quiz.Questions)
+            {
+                Answer answer = question.Answers.First((a) => a.Guid == question.RightAnswer);
+                if (answer != null)
                 {
-                    if (tempQuestion.IsValidated())
+                    if (answer.Checked)
                     {
-                        validatedQuestionList.Add(tempQuestion);
+                        rightCount++;
+                        scoreCount += question.Multiplier;
                     }
                 }
+                maxScoreCount += question.Multiplier;
+                maxQuestionsCount++;
+            }
 
-                if (validatedHeaderQuiz && validatedQuestionList.Count > 0)
+            double minThreshold = -1;
+            Grade grade = new Grade();
+            foreach (Grade s in _quiz.Grades)
+            {
+                if (scoreCount >= s.Threshold &&
+                    s.Threshold > minThreshold)
                 {
-                    quiz = (Quiz)tempQuiz.Clone();
-                    quiz.Questions = SelectionQuestions(validatedQuestionList.ToArray(), quiz.Setting.LimitQuestions);
-#if DEBUG
-                    Console.WriteLine("Всего вопросов: " + tempQuiz.Questions.Length);
-                    Console.WriteLine("Корректных вопросов: " + validatedQuestionList.Count);
-                    Console.WriteLine("Отобрано вопросов: " + quiz.Questions.Length);
-#endif
+                    minThreshold = s.Threshold;
+                    grade = s;
+                }
+            }
+
+            Result result = new Result();
+            result.Guid = Guid.NewGuid();
+            result.Grade = grade.Title;
+            result.GradeDescription = grade.Description;
+            result.Score = scoreCount;
+            result.MaxScore = maxScoreCount;
+            result.RightQuestion = rightCount;
+            result.MaxQuestions = maxQuestionsCount;
+            result.Message = "Тестирование завершено";
+            result.QuizStarted = _timer.Started;
+            result.QuizFinished = _timer.Finished;
+            result.QuizTimePass = (result.QuizFinished - result.QuizStarted).Seconds;
+
+
+            return result;
+        }
+
+        public void StartQuiz()
+        {
+            _timer.Start();
+        }
+
+        public void StopQuiz()
+        {
+            _timer.Stop();
+        }
+
+        public void DoReply(Guid guid_question, params string[] answers)
+        {
+            Guid answer = Guid.Parse(answers[0]);
+            Question question = _quiz.Questions.First(q => q.Guid == guid_question);
+            foreach (Answer a in question.Answers)
+            {
+                if (a.Guid == answer)
+                {
+                    a.Checked = true;
                 }
                 else
                 {
-                    throw new QuizInvalidException("Некорректный файл с тестированием");
+                    a.Checked = false;
                 }
             }
-            else
-            {
-                throw new FileNotFoundException("Файл с тестированием не найден");
-            }
-            return quiz;
         }
     }
 }

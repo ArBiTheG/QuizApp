@@ -26,13 +26,11 @@ namespace QuizApp.Presenter
 
         private void View_PrepareQuiz(object sender, EventArgs e)
         {
-
-            QuizModel.LoadQuiz();
             View.Title = QuizModel.Title;
             View.Description = QuizModel.Description;
             View.Author = QuizModel.Author;
             View.MaxQuestions = QuizModel.MaxQuestions.ToString();
-            int timer = QuizModel.GetTimer();
+            int timer = QuizModel.TimerCounter;
             if (timer <= 0)
             {
                 View.Timer = "Нет";

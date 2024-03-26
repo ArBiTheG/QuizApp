@@ -10,22 +10,22 @@ namespace QuizApp.Model
 {
     public interface IQuizModel
     {
-        string Title { get; set; }
-        string Description { get; set; }
-        Question Question { get; set; }
-        string Author { get; set; }
-        int MaxQuestions { get; set; }
-        int CurrentQuestionId { get; set; }
-        void LoadQuiz();
+        string Title { get; }
+        string Description { get; }
+        Question Question { get; }
+        string Author { get; }
+        int MaxQuestions { get; }
+        int CurrentQuestionId { get; }
+        int TimerCounter { get; }
+
         void LoadQuestion(int id);
         void LoadNextQuestion();
         void LoadPrevQuestion();
         void LoadFirstQuestion();
         void LoadLastQuestion();
-        void SelectAnswer(Guid guid);
-        Result LoadResult();
+        void DoReply(string answer);
+        Result GetResult();
         void StartQuiz();
         void StopQuiz();
-        int GetTimer();
     }
 }

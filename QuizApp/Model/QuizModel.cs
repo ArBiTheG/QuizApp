@@ -10,37 +10,31 @@ namespace QuizApp.Model
 {
     public class QuizModel: IQuizModel
     {
+        IQuizData _data;
+        Question _question;
+        int _currentQuestionId = -1;
+
         public QuizModel()
         {
-            Data = new QuizDataJson("test.json");
+            _data = new QuizDataJson("test.json");
         }
-        IQuizData Data { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public Question Question { get; set; }
-        public string Author { get; set; }
-        public int MaxQuestions { get; set; }
-        public int CurrentQuestionId { get; set; }
+        public string Title { get => _data.Quiz.Title; }
+        public string Description { get => _data.Quiz.Description; }
+        public string Author { get => _data.Quiz.Author; }
+        public int MaxQuestions { get => _data.Quiz.Questions.Length; }
+        public int TimerCounter => _data.TimerCounter;
 
-        /// <summary>
-        /// Загрузить викторину
-        /// </summary>
-        public void LoadQuiz()
-        {
-            Quiz quiz = Data.LoadQuiz();
-            Title = quiz.Title;
-            Description = quiz.Description;
-            Author = quiz.Author;
-            MaxQuestions = quiz.Questions.Length;
-        }
+        public Question Question { get => _question; }
+        public int CurrentQuestionId { get => _currentQuestionId; }
+
 
         /// <summary>
         /// Загрузить вопрос
         /// </summary>
         public void LoadQuestion(int id)
         {
-            CurrentQuestionId = id;
-            Question = Data.LoadQuestion(id);
+            _currentQuestionId = id;
+            _question = _data.Quiz.Questions[id];
         }
         /// <summary>
         /// Загрузить следующий вопрос
@@ -80,17 +74,17 @@ namespace QuizApp.Model
         /// <summary>
         /// Выбрать ответ на вопрос вопрос
         /// </summary>
-        public void SelectAnswer(Guid guid)
+        public void DoReply(string answer)
         {
-            Data.SendAnswer(Question.Guid, guid);
+            _data.DoReply(Question.Guid, answer);
         }
 
         /// <summary>
         /// Загрузить результат
         /// </summary>
-        public Result LoadResult()
+        public Result GetResult()
         {
-            return Data.LoadResult(); ;
+            return _data.GetResult();
         }
 
         /// <summary>
@@ -98,7 +92,7 @@ namespace QuizApp.Model
         /// </summary>
         public void StartQuiz()
         {
-            Data.StartQuiz();
+            _data.StartQuiz();
             LoadFirstQuestion();
         }
         /// <summary>
@@ -106,15 +100,7 @@ namespace QuizApp.Model
         /// </summary>
         public void StopQuiz()
         {
-            Data.StopQuiz();
-        }
-
-        /// <summary>
-        /// Получить счётчик таймера
-        /// </summary>
-        public int GetTimer()
-        {
-            return Data.GetTimerCounter();
+            _data.StopQuiz();
         }
     }
 }

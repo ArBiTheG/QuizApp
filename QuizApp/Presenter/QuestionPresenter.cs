@@ -35,7 +35,7 @@ namespace QuizApp.Presenter
 
         private void View_SelectAnswer(object sender, Guid e)
         {
-            QuizModel.SelectAnswer(e);
+            QuizModel.DoReply(e.ToString());
         }
 
         private void View_PrevQuestion(object sender, EventArgs e)
@@ -150,7 +150,7 @@ namespace QuizApp.Presenter
             int new_timer = 0;
             while (_isTimerListenStarted)
             {
-                new_timer = QuizModel.GetTimer();
+                new_timer = QuizModel.TimerCounter;
                 if (new_timer != old_timer)
                 {
                     old_timer = new_timer;

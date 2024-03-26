@@ -31,7 +31,7 @@ namespace QuizApp.Presenter
 
         private void View_LoadResult(object sender, EventArgs e)
         {
-            Result result = QuizModel.LoadResult();
+            Result result = QuizModel.GetResult();
             View.Title = QuizModel.Title;
             View.Description = QuizModel.Description;
             View.Author = QuizModel.Author;

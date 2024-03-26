@@ -9,12 +9,12 @@ namespace QuizApp.Model.Data
 {
     public interface IQuizData
     {
-        Quiz LoadQuiz();
-        Question LoadQuestion(int id);
-        bool SendAnswer(Guid guidQuestion, Guid guidAnswer);
-        Result LoadResult();
-        bool StartQuiz();
-        bool StopQuiz();
-        int GetTimerCounter();
+        Quiz Quiz { get; }
+        int TimerCounter { get; }
+
+        Result GetResult();
+        void StartQuiz();
+        void StopQuiz();
+        void DoReply(Guid guid_question, params string[] guid_answers);
     }
 }

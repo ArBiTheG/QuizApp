@@ -9,36 +9,35 @@ namespace QuizApp.Model.Data
 {
     public class QuizTimer
     {
-        private Timer _timer;
-        private DateTime _timerStarted;
-        private DateTime _timerFinished;
-        private int _timerCounter = 0;
+        Timer _timer;
+        DateTime _timerStarted;
+        DateTime _timerFinished;
+        int _timerCounter = 0;
+        bool _isActive = false;
 
         public DateTime Started { get => _timerStarted; }
         public DateTime Finished { get => _timerFinished; }
         public int Counter { get => _timerCounter; }
+        public bool IsActive { get => _isActive; }
         public QuizTimer() 
         {
+            _timer = new Timer();
+            _timer.AutoReset = true;
+            _timer.Interval = 1000;
+            _timer.Elapsed += TimerElapsed;
         }
         /// <summary>
         /// Запустить таймер
         /// </summary>
-        public void StartTimer()
+        public void Start()
         {
-            if (_timer == null)
-            {
-                _timer = new Timer();
-                _timer.AutoReset = true;
-                _timer.Interval = 1000;
-                _timer.Elapsed += TimerElapsed;
-                _timer.Start();
-
-                _timerStarted = DateTime.Now;
-                _timerFinished = DateTime.Now;
+            _timer.Start();
+            _timerStarted = DateTime.Now;
+            _timerFinished = DateTime.Now;
+            _isActive = true;
 #if DEBUG
-                Console.WriteLine("Запущен таймер тестирования...");
+            Console.WriteLine("Запущен таймер тестирования...");
 #endif
-            }
         }
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
@@ -52,15 +51,11 @@ namespace QuizApp.Model.Data
         /// <summary>
         /// Остановить таймер
         /// </summary>
-        public void StopTimer()
+        public void Stop()
         {
-            if (_timer != null)
-            {
-                _timer.Stop();
-                _timer = null;
-
-                _timerFinished = DateTime.Now;
-            }
+            _timer.Stop();
+            _timerFinished = DateTime.Now;
+            _isActive = false;
 #if DEBUG
             Console.WriteLine("Таймер тестирования остановлен!");
 #endif
