@@ -1,51 +1,50 @@
 ﻿using QuizApp.Model;
+using QuizApp.Model.Data;
 using QuizApp.Model.Data.Entity;
 using QuizApp.View;
 using QuizApp.View.Entity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 
 namespace QuizApp.Presenter
 {
     public class QuestionPresenter : IQuestionPresenter
     {
         public IQuestionView View { get; set; }
-        public IQuizModel QuizModel { get; set; }
+        public IQuizModel Model { get; set; }
 
         public QuestionPresenter(IQuestionView view, IQuizModel quizModel)
         {
             View = view;
-            QuizModel = quizModel;
+            Model = quizModel;
 
             View.LoadQuiz += View_LoadQuiz;
             View.NextQuestion += View_NextQuestion;
             View.PrevQuestion += View_PrevQuestion;
             View.FinishQuiz += View_FinishQuiz;
             View.SelectAnswer += View_SelectAnswer;
+            Model.QuizTimerElapsed += Model_QuizTimerElapsed;
 
             View.Show();
         }
 
+        private void Model_QuizTimerElapsed(object sender, QuizTimerElapsedEventArgs e)
+        {
+            View.SetDisplayTimer(e.Counter);
+        }
+
         private void View_SelectAnswer(object sender, Guid e)
         {
-            QuizModel.DoReply(e.ToString());
+            Model.SendReply(e.ToString());
         }
 
         private void View_PrevQuestion(object sender, EventArgs e)
         {
             (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
 
-            QuizModel.LoadPrevQuestion();
+            Model.LoadPrevQuestion();
 
-            int id = QuizModel.CurrentQuestionId;
-            int last_id = QuizModel.MaxQuestions - 1;
+            int id = Model.CurrentQuestionId;
+            int last_id = Model.MaxQuestions - 1;
             if (id <= 0)
             {
                 View.CanPrevQuestion = false;
@@ -61,16 +60,16 @@ namespace QuizApp.Presenter
         {
             (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
 
-            int id = QuizModel.CurrentQuestionId;
-            int last_id = QuizModel.MaxQuestions - 1;
+            int id = Model.CurrentQuestionId;
+            int last_id = Model.MaxQuestions - 1;
             if (id >= last_id)
             {
                 DoFinishQuiz();
             }
             else
             {
-                QuizModel.LoadNextQuestion();
-                id = QuizModel.CurrentQuestionId;
+                Model.LoadNextQuestion();
+                id = Model.CurrentQuestionId;
 
                 if (id >= last_id)
                 {
@@ -86,8 +85,7 @@ namespace QuizApp.Presenter
 
         private void View_LoadQuiz(object sender, EventArgs e)
         {
-            QuizModel.StartQuiz();
-            StartTimerListen();
+            Model.StartQuiz();
 
             RefreshQuestionViewContent();
             View.SetDisplayTimer(0);
@@ -102,12 +100,11 @@ namespace QuizApp.Presenter
         {
             (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
 
-            QuizModel.StopQuiz();
-            _isTimerListenStarted = false;
+            Model.StopQuiz();
 
             View.Close();
             IResultView view = ResultForm.GetInstance((MainForm)View.ParentView);
-            new ResultPresenter(view, QuizModel);
+            new ResultPresenter(view, Model);
         }
 
         /// <summary>
@@ -115,14 +112,14 @@ namespace QuizApp.Presenter
         /// </summary>
         private void RefreshQuestionViewContent()
         {
-            View.CurrentQuestion = QuizModel.CurrentQuestionId + 1;
-            View.Description = QuizModel.Question.Description;
+            View.CurrentQuestion = Model.CurrentQuestionId + 1;
+            View.Description = Model.Question.Description;
 
-            int answerCount = QuizModel.Question.Answers.Length;
+            int answerCount = Model.Question.Answers.Length;
             IAnswerView[] answerViews = new IAnswerView[answerCount];
             for (int i = 0; i < answerCount; ++i)
             {
-                Answer answer = QuizModel.Question.Answers[i];
+                Answer answer = Model.Question.Answers[i];
                 answerViews[i] = new AnswerView()
                 {
                     Guid = answer.Guid,
@@ -133,35 +130,10 @@ namespace QuizApp.Presenter
             View.AddAnswers(answerViews);
 
             (View.ParentView as IMainView).AppStatus = string.Format("Всего вопросов: {0} | Текущий вопрос: {1}{2}",
-                QuizModel.MaxQuestions,
-                QuizModel.CurrentQuestionId + 1,
-                (QuizModel.MaxQuestions == QuizModel.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
+                Model.MaxQuestions,
+                Model.CurrentQuestionId + 1,
+                (Model.MaxQuestions == Model.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
         }
 
-        #region Прослушивание таймера из Model
-        private bool _isTimerListenStarted = false;
-        private async void StartTimerListen()
-        {
-            _isTimerListenStarted = true;
-#if DEBUG
-            Console.WriteLine("Запуск прослушивания таймера тестирования...");
-#endif
-            int old_timer = -1;
-            int new_timer = 0;
-            while (_isTimerListenStarted)
-            {
-                new_timer = QuizModel.TimerCounter;
-                if (new_timer != old_timer)
-                {
-                    old_timer = new_timer;
-                    View.SetDisplayTimer(new_timer);
-                }
-                await Task.Delay(100);
-            }
-#if DEBUG
-            Console.WriteLine("Прослушивания таймера тестирования остановлено!");
-#endif
-        }
-        #endregion
     }
 }

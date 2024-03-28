@@ -10,7 +10,10 @@ namespace QuizApp.Model.Data
     public interface IQuizData
     {
         Quiz Quiz { get; }
-        int TimerCounter { get; }
+
+        event EventHandler QuizTimerStarted;
+        event EventHandler QuizTimerFinished;
+        event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
 
         Result GetResult();
         void StartQuiz();

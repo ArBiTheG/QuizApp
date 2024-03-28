@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizApp.Model.Data
+namespace QuizApp.Model.Utils
 {
     public static class Debug
     {
@@ -21,7 +21,7 @@ namespace QuizApp.Model.Data
             quiz.Setting = new QuizSetting()
             {
                 LimitQuestions = limit_questions,
-                Timer = 0,
+                LimitTimer = 0,
             };
             quiz.Grades = new Grade[4];
             quiz.Grades[0] = new Grade() { Title = "5", Description = "Отлично", Threshold = 4 };

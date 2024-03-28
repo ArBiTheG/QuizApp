@@ -16,14 +16,18 @@ namespace QuizApp.Model
         string Author { get; }
         int MaxQuestions { get; }
         int CurrentQuestionId { get; }
-        int TimerCounter { get; }
+        int TimerLimit { get; }
+
+        event EventHandler QuizTimerStarted;
+        event EventHandler QuizTimerFinished;
+        event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
 
         void LoadQuestion(int id);
         void LoadNextQuestion();
         void LoadPrevQuestion();
         void LoadFirstQuestion();
         void LoadLastQuestion();
-        void DoReply(string answer);
+        void SendReply(params string[] answer);
         Result GetResult();
         void StartQuiz();
         void StopQuiz();

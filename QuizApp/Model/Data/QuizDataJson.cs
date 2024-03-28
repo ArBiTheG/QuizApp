@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace QuizApp.Model.Data
 {
@@ -15,9 +16,11 @@ namespace QuizApp.Model.Data
         Quiz _quiz;
         QuizTimer _timer;
 
-        public Quiz Quiz => _quiz;
+        public event EventHandler QuizTimerStarted;
+        public event EventHandler QuizTimerFinished;
+        public event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
 
-        public int TimerCounter => _timer.Counter;
+        public Quiz Quiz => _quiz;
 
         public QuizDataJson(string fileName)
         {
@@ -50,6 +53,10 @@ namespace QuizApp.Model.Data
 #endif
 
             _timer = new QuizTimer();
+
+            _timer.ElapseStarted += delegate (object s, EventArgs e) { QuizTimerStarted?.Invoke(this, e); };
+            _timer.ElapseFinished += delegate (object s, EventArgs e) { QuizTimerFinished?.Invoke(this, e); };
+            _timer.Elapsed += delegate (object s, QuizTimerElapsedEventArgs e) { QuizTimerElapsed?.Invoke(this, e); };
 
             _quiz = quiz;
         }

@@ -7,24 +7,33 @@ using System.Timers;
 
 namespace QuizApp.Model.Data
 {
-    public class QuizTimer
+    public class QuizTimer: IQuizTimer
     {
         Timer _timer;
+        QuizTimerElapsedEventArgs _elapsedEventArgs;
         DateTime _timerStarted;
         DateTime _timerFinished;
         int _timerCounter = 0;
         bool _isActive = false;
+        bool _isReverse = false;
 
         public DateTime Started { get => _timerStarted; }
         public DateTime Finished { get => _timerFinished; }
         public int Counter { get => _timerCounter; }
         public bool IsActive { get => _isActive; }
+        public bool IsReverse { get => _isReverse; }
+
+        public event EventHandler ElapseStarted;
+        public event EventHandler ElapseFinished;
+        public event EventHandler<QuizTimerElapsedEventArgs> Elapsed;
         public QuizTimer() 
         {
             _timer = new Timer();
             _timer.AutoReset = true;
             _timer.Interval = 1000;
             _timer.Elapsed += TimerElapsed;
+
+            _elapsedEventArgs = new QuizTimerElapsedEventArgs(this);
         }
         /// <summary>
         /// Запустить таймер
@@ -35,6 +44,7 @@ namespace QuizApp.Model.Data
             _timerStarted = DateTime.Now;
             _timerFinished = DateTime.Now;
             _isActive = true;
+            ElapseStarted?.Invoke(this, EventArgs.Empty);
 #if DEBUG
             Console.WriteLine("Запущен таймер тестирования...");
 #endif
@@ -43,6 +53,7 @@ namespace QuizApp.Model.Data
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             _timerCounter++;
+            Elapsed?.Invoke(this, _elapsedEventArgs);
 #if DEBUG
             Console.WriteLine("Счётчик таймера тестирования: " + _timerCounter);
 #endif
@@ -56,6 +67,7 @@ namespace QuizApp.Model.Data
             _timer.Stop();
             _timerFinished = DateTime.Now;
             _isActive = false;
+            ElapseFinished?.Invoke(this, EventArgs.Empty);
 #if DEBUG
             Console.WriteLine("Таймер тестирования остановлен!");
 #endif

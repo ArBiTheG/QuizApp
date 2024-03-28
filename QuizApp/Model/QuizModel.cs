@@ -14,19 +14,27 @@ namespace QuizApp.Model
         Question _question;
         int _currentQuestionId = -1;
 
-        public QuizModel()
-        {
-            _data = new QuizDataJson("test.json");
-        }
         public string Title { get => _data.Quiz.Title; }
         public string Description { get => _data.Quiz.Description; }
         public string Author { get => _data.Quiz.Author; }
         public int MaxQuestions { get => _data.Quiz.Questions.Length; }
-        public int TimerCounter => _data.TimerCounter;
+        public int TimerLimit => _data.Quiz.Setting.LimitTimer;
 
         public Question Question { get => _question; }
         public int CurrentQuestionId { get => _currentQuestionId; }
 
+        public event EventHandler QuizTimerStarted;
+        public event EventHandler QuizTimerFinished;
+        public event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
+
+        public QuizModel()
+        {
+            _data = new QuizDataJson("test.json");
+            
+            _data.QuizTimerStarted += delegate (object s, EventArgs e) { QuizTimerStarted?.Invoke(this, e); };
+            _data.QuizTimerFinished += delegate (object s, EventArgs e) { QuizTimerFinished?.Invoke(this, e); };
+            _data.QuizTimerElapsed += delegate (object s, QuizTimerElapsedEventArgs e) { QuizTimerElapsed?.Invoke(this, e); };
+        }
 
         /// <summary>
         /// Загрузить вопрос
@@ -74,7 +82,7 @@ namespace QuizApp.Model
         /// <summary>
         /// Выбрать ответ на вопрос вопрос
         /// </summary>
-        public void DoReply(string answer)
+        public void SendReply(params string[] answer)
         {
             _data.DoReply(Question.Guid, answer);
         }

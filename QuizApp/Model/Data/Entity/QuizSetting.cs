@@ -9,6 +9,6 @@ namespace QuizApp.Model.Data.Entity
     public class QuizSetting
     {
         public int LimitQuestions { get; set; } = 0;
-        public int Timer { get; set; } = 0;
+        public int LimitTimer { get; set; } = 0;
     }
 }

@@ -11,6 +11,6 @@ namespace QuizApp.Presenter
     public interface IResultPresenter
     {
         IResultView View { get; set; }
-        IQuizModel QuizModel { get; set; }
+        IQuizModel Model { get; set; }
     }
 }
