@@ -145,6 +145,7 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.formPanel);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "PrepareForm";
             this.Text = "Подготовка к тестированию";
             this.formPanel.ResumeLayout(false);

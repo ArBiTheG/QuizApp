@@ -51,6 +51,17 @@ namespace QuizApp.View
             InitializeComponent();
             InitializeEvents();
         }
+        // Решение проблемы с морганием MDI Формы
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+
+            }
+        }
 
         public event EventHandler PrepareQuiz;
         public event EventHandler StartQuiz;
@@ -68,7 +79,6 @@ namespace QuizApp.View
                 instance = new PrepareForm();
                 instance.ParentView = parentContainer;
                 instance.MdiParent = parentContainer;
-                instance.FormBorderStyle = FormBorderStyle.None;
                 instance.Dock = DockStyle.Fill;
             }
             else

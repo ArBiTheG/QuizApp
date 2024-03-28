@@ -56,6 +56,17 @@ namespace QuizApp.View
             InitializeComponent();
             InitializeEvents();
         }
+        // Решение проблемы с морганием MDI Формы
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+
+            }
+        }
 
         public event EventHandler LoadQuiz;
         public event EventHandler FinishQuiz;
@@ -78,7 +89,6 @@ namespace QuizApp.View
                 instance = new QuestionForm();
                 instance.ParentView = parentContainer;
                 instance.MdiParent = parentContainer;
-                instance.FormBorderStyle = FormBorderStyle.None;
                 instance.Dock = DockStyle.Fill;
             }
             else
@@ -108,9 +118,21 @@ namespace QuizApp.View
 
         public void SetDisplayTimer(int time, bool reverse = false)
         {
-            timerLabel.Text = (!reverse) ?
-                "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
-                "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    timerLabel.Text = (!reverse) ?
+                        "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
+                        "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
+                });
+            }
+            else
+            {
+                timerLabel.Text = (!reverse) ?
+                    "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
+                    "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
+            }
         }
     }
 }

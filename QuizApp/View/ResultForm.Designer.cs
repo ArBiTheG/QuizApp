@@ -415,6 +415,7 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.formPanel);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ResultForm";
             this.Text = "Подведение итогов";
             this.formPanel.ResumeLayout(false);
