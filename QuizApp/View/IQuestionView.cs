@@ -23,5 +23,8 @@ namespace QuizApp.View
         void AddAnswers(IAnswerView[] answerView);
 
         void SetDisplayTimer(int time, bool reverse = false);
+
+        bool InvokeRequired { get; }
+        object Invoke(Delegate method);
     }
 }

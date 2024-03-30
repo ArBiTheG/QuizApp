@@ -4,6 +4,7 @@ using QuizApp.Model.Data.Entity;
 using QuizApp.View;
 using QuizApp.View.Entity;
 using System;
+using System.Windows.Forms;
 
 namespace QuizApp.Presenter
 {
@@ -23,13 +24,10 @@ namespace QuizApp.Presenter
             View.FinishQuiz += View_FinishQuiz;
             View.SelectAnswer += View_SelectAnswer;
             Model.QuizTimerElapsed += Model_QuizTimerElapsed;
+            Model.QuizStarted += Model_QuizStarted; ;
+            Model.QuizFinished += Model_QuizFinished;
 
             View.Show();
-        }
-
-        private void Model_QuizTimerElapsed(object sender, QuizTimerElapsedEventArgs e)
-        {
-            View.SetDisplayTimer(e.Counter);
         }
 
         private void View_SelectAnswer(object sender, Guid e)
@@ -64,7 +62,8 @@ namespace QuizApp.Presenter
             int last_id = Model.MaxQuestions - 1;
             if (id >= last_id)
             {
-                DoFinishQuiz();
+                (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
+                Model.StopQuiz();
             }
             else
             {
@@ -86,25 +85,52 @@ namespace QuizApp.Presenter
         private void View_LoadQuiz(object sender, EventArgs e)
         {
             Model.StartQuiz();
-
-            RefreshQuestionViewContent();
-            View.SetDisplayTimer(0);
         }
 
         private void View_FinishQuiz(object sender, EventArgs e)
         {
-            DoFinishQuiz();
+            (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
+            Model.StopQuiz();
         }
 
-        private void DoFinishQuiz()
+
+        private void Model_QuizStarted(object sender, QuizTimerEventArgs e)
         {
-            (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
-
-            Model.StopQuiz();
-
-            View.Close();
-            IResultView view = ResultForm.GetInstance((MainForm)View.ParentView);
-            new ResultPresenter(view, Model);
+            Model.LoadFirstQuestion();
+            View.SetDisplayTimer(e.Counter, e.Reverse);
+            RefreshQuestionViewContent();
+        }
+        private void Model_QuizFinished(object sender, EventArgs e)
+        {
+            if (View.InvokeRequired)
+            {
+                View.Invoke((MethodInvoker)delegate
+                {
+                    View.Close();
+                    IResultView view = ResultForm.GetInstance((MainForm)View.ParentView);
+                    new ResultPresenter(view, Model);
+                });
+            }
+            else
+            {
+                View.Close();
+                IResultView view = ResultForm.GetInstance((MainForm)View.ParentView);
+                new ResultPresenter(view, Model);
+            }
+        }
+        private void Model_QuizTimerElapsed(object sender, QuizTimerEventArgs e)
+        {
+            if (View.InvokeRequired)
+            {
+                View.Invoke((MethodInvoker)delegate
+                {
+                    View.SetDisplayTimer(e.Counter, e.Reverse);
+                });
+            }
+            else
+            {
+                View.SetDisplayTimer(e.Counter, e.Reverse);
+            }
         }
 
         /// <summary>

@@ -23,17 +23,17 @@ namespace QuizApp.Model
         public Question Question { get => _question; }
         public int CurrentQuestionId { get => _currentQuestionId; }
 
-        public event EventHandler QuizTimerStarted;
-        public event EventHandler QuizTimerFinished;
-        public event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
+        public event EventHandler<QuizTimerEventArgs> QuizStarted;
+        public event EventHandler QuizFinished;
+        public event EventHandler<QuizTimerEventArgs> QuizTimerElapsed;
 
         public QuizModel()
         {
             _data = new QuizDataJson("test.json");
             
-            _data.QuizTimerStarted += delegate (object s, EventArgs e) { QuizTimerStarted?.Invoke(this, e); };
-            _data.QuizTimerFinished += delegate (object s, EventArgs e) { QuizTimerFinished?.Invoke(this, e); };
-            _data.QuizTimerElapsed += delegate (object s, QuizTimerElapsedEventArgs e) { QuizTimerElapsed?.Invoke(this, e); };
+            _data.QuizTimerStarted += delegate (object s, QuizTimerEventArgs e) { QuizStarted?.Invoke(this, e); };
+            _data.QuizTimerFinished += delegate (object s, EventArgs e) { QuizFinished?.Invoke(this, e); };
+            _data.QuizTimerElapsed += delegate (object s, QuizTimerEventArgs e) { QuizTimerElapsed?.Invoke(this, e); };
         }
 
         /// <summary>
@@ -101,7 +101,6 @@ namespace QuizApp.Model
         public void StartQuiz()
         {
             _data.StartQuiz();
-            LoadFirstQuestion();
         }
         /// <summary>
         /// Остановить тестирование

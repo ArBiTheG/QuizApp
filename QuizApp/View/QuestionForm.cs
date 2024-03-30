@@ -118,21 +118,9 @@ namespace QuizApp.View
 
         public void SetDisplayTimer(int time, bool reverse = false)
         {
-            if (InvokeRequired)
-            {
-                Invoke((MethodInvoker)delegate
-                {
-                    timerLabel.Text = (!reverse) ?
-                        "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
-                        "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
-                });
-            }
-            else
-            {
-                timerLabel.Text = (!reverse) ?
-                    "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
-                    "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
-            }
+            timerLabel.Text = (!reverse) ?
+                "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
+                "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
         }
     }
 }

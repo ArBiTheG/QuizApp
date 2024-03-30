@@ -10,7 +10,7 @@ namespace QuizApp.Model.Data
     public class QuizTimer: IQuizTimer
     {
         Timer _timer;
-        QuizTimerElapsedEventArgs _elapsedEventArgs;
+        QuizTimerEventArgs _elapsedEventArgs;
         DateTime _timerStarted;
         DateTime _timerFinished;
         int _timerCounter = 0;
@@ -23,17 +23,23 @@ namespace QuizApp.Model.Data
         public bool IsActive { get => _isActive; }
         public bool IsReverse { get => _isReverse; }
 
-        public event EventHandler ElapseStarted;
+        public event EventHandler<QuizTimerEventArgs> ElapseStarted;
         public event EventHandler ElapseFinished;
-        public event EventHandler<QuizTimerElapsedEventArgs> Elapsed;
-        public QuizTimer() 
+        public event EventHandler<QuizTimerEventArgs> Elapsed;
+        public QuizTimer(int left_time = 0) 
         {
             _timer = new Timer();
             _timer.AutoReset = true;
             _timer.Interval = 1000;
             _timer.Elapsed += TimerElapsed;
 
-            _elapsedEventArgs = new QuizTimerElapsedEventArgs(this);
+            _elapsedEventArgs = new QuizTimerEventArgs(this);
+
+            _timerCounter = left_time;
+            if (left_time>0)
+            {
+                _isReverse = true;
+            }
         }
         /// <summary>
         /// Запустить таймер
@@ -44,7 +50,7 @@ namespace QuizApp.Model.Data
             _timerStarted = DateTime.Now;
             _timerFinished = DateTime.Now;
             _isActive = true;
-            ElapseStarted?.Invoke(this, EventArgs.Empty);
+            ElapseStarted?.Invoke(this, _elapsedEventArgs);
 #if DEBUG
             Console.WriteLine("Запущен таймер тестирования...");
 #endif
@@ -52,11 +58,27 @@ namespace QuizApp.Model.Data
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _timerCounter++;
-            Elapsed?.Invoke(this, _elapsedEventArgs);
 #if DEBUG
             Console.WriteLine("Счётчик таймера тестирования: " + _timerCounter);
 #endif
+            if (!_isReverse)
+            {
+                _timerCounter++;
+            }
+            else
+            {
+                if (_timerCounter > 1)
+                {
+                    _timerCounter--;
+                }
+                else
+                {
+                    Stop();
+                    return;
+                }
+
+            }
+            Elapsed?.Invoke(this, _elapsedEventArgs);
         }
 
         /// <summary>

@@ -11,9 +11,9 @@ namespace QuizApp.Model.Data
     {
         Quiz Quiz { get; }
 
-        event EventHandler QuizTimerStarted;
+        event EventHandler<QuizTimerEventArgs> QuizTimerStarted;
         event EventHandler QuizTimerFinished;
-        event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
+        event EventHandler<QuizTimerEventArgs> QuizTimerElapsed;
 
         Result GetResult();
         void StartQuiz();

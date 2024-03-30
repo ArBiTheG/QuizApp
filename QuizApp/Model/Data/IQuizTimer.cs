@@ -13,8 +13,8 @@ namespace QuizApp.Model.Data
         int Counter { get; }
         bool IsActive { get; }
 
-        event EventHandler ElapseStarted;
+        event EventHandler<QuizTimerEventArgs> ElapseStarted;
         event EventHandler ElapseFinished;
-        event EventHandler<QuizTimerElapsedEventArgs> Elapsed;
+        event EventHandler<QuizTimerEventArgs> Elapsed;
     }
 }

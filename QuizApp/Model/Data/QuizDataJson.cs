@@ -16,14 +16,18 @@ namespace QuizApp.Model.Data
         Quiz _quiz;
         QuizTimer _timer;
 
-        public event EventHandler QuizTimerStarted;
+        public event EventHandler<QuizTimerEventArgs> QuizTimerStarted;
         public event EventHandler QuizTimerFinished;
-        public event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
+        public event EventHandler<QuizTimerEventArgs> QuizTimerElapsed;
 
         public Quiz Quiz => _quiz;
 
         public QuizDataJson(string fileName)
         {
+
+#if DEBUG
+            Debug.CreateQuizJSON(fileName);
+#endif
             string fileContent = File.ReadAllText(fileName);
 
             Quiz temp_quiz = JsonConvert.DeserializeObject<Quiz>(fileContent);
@@ -52,11 +56,11 @@ namespace QuizApp.Model.Data
             Console.WriteLine("Отобрано вопросов: " + quiz.Questions.Length);
 #endif
 
-            _timer = new QuizTimer();
+            _timer = new QuizTimer(quiz.Setting.LimitTimer);
 
-            _timer.ElapseStarted += delegate (object s, EventArgs e) { QuizTimerStarted?.Invoke(this, e); };
+            _timer.ElapseStarted += delegate (object s, QuizTimerEventArgs e) { QuizTimerStarted?.Invoke(this, e); };
             _timer.ElapseFinished += delegate (object s, EventArgs e) { QuizTimerFinished?.Invoke(this, e); };
-            _timer.Elapsed += delegate (object s, QuizTimerElapsedEventArgs e) { QuizTimerElapsed?.Invoke(this, e); };
+            _timer.Elapsed += delegate (object s, QuizTimerEventArgs e) { QuizTimerElapsed?.Invoke(this, e); };
 
             _quiz = quiz;
         }

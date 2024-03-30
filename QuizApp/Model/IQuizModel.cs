@@ -18,9 +18,9 @@ namespace QuizApp.Model
         int CurrentQuestionId { get; }
         int TimerLimit { get; }
 
-        event EventHandler QuizTimerStarted;
-        event EventHandler QuizTimerFinished;
-        event EventHandler<QuizTimerElapsedEventArgs> QuizTimerElapsed;
+        event EventHandler<QuizTimerEventArgs> QuizStarted;
+        event EventHandler QuizFinished;
+        event EventHandler<QuizTimerEventArgs> QuizTimerElapsed;
 
         void LoadQuestion(int id);
         void LoadNextQuestion();
