@@ -15,6 +15,22 @@ namespace QuizApp.View
 {
     public partial class QuestionForm : Form, IQuestionView
     {
+        private static QuestionForm instance;
+
+        private IAnswerView[] _answers;
+
+        // Решение проблемы с морганием MDI Формы
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+
+            }
+        }
+
         public IView ParentView { get; set; }
         public bool CanPrevQuestion 
         {
@@ -49,23 +65,8 @@ namespace QuizApp.View
             set => descriptionTextBox.Text = value;
         }
 
-        private static QuestionForm instance;
-
-        public QuestionForm()
-        {
-            InitializeComponent();
-            InitializeEvents();
-        }
-        // Решение проблемы с морганием MDI Формы
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;
-                return cp;
-
-            }
+        public IAnswerView[] Answers { 
+            get => _answers;
         }
 
         public event EventHandler LoadQuiz;
@@ -73,6 +74,12 @@ namespace QuizApp.View
         public event EventHandler PrevQuestion;
         public event EventHandler NextQuestion;
         public event EventHandler<Guid> SelectAnswer;
+
+        public QuestionForm()
+        {
+            InitializeComponent();
+            InitializeEvents();
+        }
 
         private void InitializeEvents()
         {
@@ -99,28 +106,37 @@ namespace QuizApp.View
             }
             return instance;
         }
-
-        public void AddAnswers(IAnswerView[] answersView)
+        public void SetDisplayTimer(int time, bool reverse = false)
         {
+            timerLabel.Text = (!reverse) ?
+                "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
+                "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
+        }
+
+        public void CreateAnswerRadioButtons(IAnswerView[] answersView)
+        {
+            _answers = answersView;
+
             answersPanel.SuspendLayout();
             answersPanel.Controls.Clear();
             foreach (IAnswerView answer in answersView)
             {
                 RadioButton radioButton = new RadioButton();
+                radioButton.Tag = answer;
                 radioButton.Text = answer.Content;
                 radioButton.Checked = answer.Checked;
-                radioButton.CheckedChanged += delegate { if (radioButton.Checked) SelectAnswer?.Invoke(this, answer.Guid); };
+                radioButton.CheckedChanged += RadioButton_CheckedChanged;
                 radioButton.Dock = DockStyle.Top;
                 answersPanel.Controls.Add(radioButton);
             }
             answersPanel.ResumeLayout();
         }
 
-        public void SetDisplayTimer(int time, bool reverse = false)
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            timerLabel.Text = (!reverse) ?
-                "Прошло: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss") :
-                "Осталось: " + TimeSpan.FromSeconds(time).ToString("hh\\:mm\\:ss");
+            RadioButton radioButton = sender as RadioButton;
+            IAnswerView answerView = (IAnswerView)radioButton.Tag;
+            answerView.Checked = radioButton.Checked;
         }
     }
 }

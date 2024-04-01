@@ -22,7 +22,6 @@ namespace QuizApp.Presenter
             View.NextQuestion += View_NextQuestion;
             View.PrevQuestion += View_PrevQuestion;
             View.FinishQuiz += View_FinishQuiz;
-            View.SelectAnswer += View_SelectAnswer;
             Model.QuizTimerElapsed += Model_QuizTimerElapsed;
             Model.QuizStarted += Model_QuizStarted; ;
             Model.QuizFinished += Model_QuizFinished;
@@ -30,15 +29,11 @@ namespace QuizApp.Presenter
             View.Show();
         }
 
-        private void View_SelectAnswer(object sender, Guid e)
-        {
-            Model.SendReply(e.ToString());
-        }
-
         private void View_PrevQuestion(object sender, EventArgs e)
         {
+            (View.ParentView as IMainView).AppStatus = "Отправляем ответ...";
+            SendAnswerForQuestion();
             (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
-
             Model.LoadPrevQuestion();
 
             int id = Model.CurrentQuestionId;
@@ -53,20 +48,23 @@ namespace QuizApp.Presenter
             }
             RefreshQuestionViewContent();
         }
-
         private void View_NextQuestion(object sender, EventArgs e)
         {
-            (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
 
             int id = Model.CurrentQuestionId;
             int last_id = Model.MaxQuestions - 1;
             if (id >= last_id)
             {
+                (View.ParentView as IMainView).AppStatus = "Отправляем ответ...";
+                SendAnswerForQuestion();
                 (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
                 Model.StopQuiz();
             }
             else
             {
+                (View.ParentView as IMainView).AppStatus = "Отправляем ответ...";
+                SendAnswerForQuestion();
+                (View.ParentView as IMainView).AppStatus = "Загрузка вопроса...";
                 Model.LoadNextQuestion();
                 id = Model.CurrentQuestionId;
 
@@ -81,18 +79,17 @@ namespace QuizApp.Presenter
                 RefreshQuestionViewContent();
             }
         }
-
         private void View_LoadQuiz(object sender, EventArgs e)
         {
             Model.StartQuiz();
         }
-
         private void View_FinishQuiz(object sender, EventArgs e)
         {
+            (View.ParentView as IMainView).AppStatus = "Отправляем ответ...";
+            SendAnswerForQuestion();
             (View.ParentView as IMainView).AppStatus = "Завершение тестирования...";
             Model.StopQuiz();
         }
-
 
         private void Model_QuizStarted(object sender, QuizTimerEventArgs e)
         {
@@ -134,7 +131,21 @@ namespace QuizApp.Presenter
         }
 
         /// <summary>
-        /// Обновить содержимое вопроса
+        /// Отправить ответ на вопрос
+        /// </summary>
+        private void SendAnswerForQuestion()
+        {
+            foreach(IAnswerView answer in View.Answers)
+            {
+                if (answer.Checked == true)
+                {
+                    Model.SendReply(answer.Guid.ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обновить вопрос с вариантами ответа
         /// </summary>
         private void RefreshQuestionViewContent()
         {
@@ -153,7 +164,7 @@ namespace QuizApp.Presenter
                     Checked = answer.Checked
                 };
             }
-            View.AddAnswers(answerViews);
+            View.CreateAnswerRadioButtons(answerViews);
 
             (View.ParentView as IMainView).AppStatus = string.Format("Всего вопросов: {0} | Текущий вопрос: {1}{2}",
                 Model.MaxQuestions,
