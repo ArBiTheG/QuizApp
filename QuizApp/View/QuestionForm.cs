@@ -27,7 +27,7 @@ namespace QuizApp.View
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
                 return cp;
-
+        
             }
         }
 
@@ -44,11 +44,19 @@ namespace QuizApp.View
             {
                 if (value)
                 {
+                    nextButton.BackColor = Color.FromArgb(215, 223, 255);
+                    nextButton.FlatAppearance.BorderColor = Color.FromArgb(119, 127, 159);
+                    nextButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(167, 175, 207);
+                    nextButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(191, 199, 231);
                     nextButton.ForeColor = Color.Black;
                     nextButton.Text = "Следующий вопрос";
                 }
                 else
                 {
+                    nextButton.BackColor = Color.FromArgb(255, 223, 223);
+                    nextButton.FlatAppearance.BorderColor = Color.FromArgb(159, 127, 127);
+                    nextButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(207, 175, 175);
+                    nextButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 199, 199);
                     nextButton.ForeColor = Color.Maroon;
                     nextButton.Text = "Завершить тестирование";
                 }

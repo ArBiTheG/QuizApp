@@ -131,13 +131,20 @@
             // 
             // startButton
             // 
+            this.startButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(223)))), ((int)(((byte)(255)))));
             this.startButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(127)))), ((int)(((byte)(159)))));
+            this.startButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(175)))), ((int)(((byte)(207)))));
+            this.startButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(199)))), ((int)(((byte)(231)))));
+            this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.startButton.Image = global::QuizApp.Properties.Resources.logo;
+            this.startButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.startButton.Location = new System.Drawing.Point(256, 3);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(247, 34);
             this.startButton.TabIndex = 0;
             this.startButton.Text = "Начать тестирование";
-            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.UseVisualStyleBackColor = false;
             // 
             // PrepareForm
             // 

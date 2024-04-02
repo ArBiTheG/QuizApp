@@ -390,13 +390,20 @@
             // 
             // exitButton
             // 
+            this.exitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(223)))), ((int)(((byte)(255)))));
             this.exitButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.exitButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(127)))), ((int)(((byte)(159)))));
+            this.exitButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(175)))), ((int)(((byte)(207)))));
+            this.exitButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(199)))), ((int)(((byte)(231)))));
+            this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exitButton.Image = global::QuizApp.Properties.Resources.exit;
+            this.exitButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.exitButton.Location = new System.Drawing.Point(255, 3);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(246, 34);
             this.exitButton.TabIndex = 0;
             this.exitButton.Text = "Выход";
-            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.UseVisualStyleBackColor = false;
             // 
             // titleLabel
             // 

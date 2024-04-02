@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.finishButton = new System.Windows.Forms.Button();
             this.formPanel = new System.Windows.Forms.Panel();
             this.contentSplitContainer = new System.Windows.Forms.SplitContainer();
             this.descriptionTextBox = new System.Windows.Forms.RichTextBox();
@@ -36,8 +35,9 @@
             this.answersLabel = new System.Windows.Forms.Label();
             this.infoPanel = new System.Windows.Forms.TableLayoutPanel();
             this.numberLabel = new System.Windows.Forms.Label();
-            this.timerLabel = new System.Windows.Forms.Label();
             this.handlePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.finishButton = new System.Windows.Forms.Button();
+            this.timerLabel = new System.Windows.Forms.Label();
             this.nextButton = new System.Windows.Forms.Button();
             this.prevButton = new System.Windows.Forms.Button();
             this.formPanel.SuspendLayout();
@@ -48,17 +48,6 @@
             this.infoPanel.SuspendLayout();
             this.handlePanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // finishButton
-            // 
-            this.finishButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.finishButton.ForeColor = System.Drawing.Color.Maroon;
-            this.finishButton.Location = new System.Drawing.Point(509, 3);
-            this.finishButton.Name = "finishButton";
-            this.finishButton.Size = new System.Drawing.Size(248, 34);
-            this.finishButton.TabIndex = 1;
-            this.finishButton.Text = "Завершить тестирование";
-            this.finishButton.UseVisualStyleBackColor = true;
             // 
             // formPanel
             // 
@@ -73,6 +62,7 @@
             // 
             // contentSplitContainer
             // 
+            this.contentSplitContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.contentSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentSplitContainer.Location = new System.Drawing.Point(0, 40);
             this.contentSplitContainer.Name = "contentSplitContainer";
@@ -92,12 +82,12 @@
             // 
             // descriptionTextBox
             // 
-            this.descriptionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.descriptionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.descriptionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.descriptionTextBox.Location = new System.Drawing.Point(0, 0);
             this.descriptionTextBox.Name = "descriptionTextBox";
             this.descriptionTextBox.ReadOnly = true;
-            this.descriptionTextBox.Size = new System.Drawing.Size(760, 186);
+            this.descriptionTextBox.Size = new System.Drawing.Size(758, 184);
             this.descriptionTextBox.TabIndex = 0;
             this.descriptionTextBox.Text = "";
             // 
@@ -106,7 +96,7 @@
             this.answersPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.answersPanel.Location = new System.Drawing.Point(0, 23);
             this.answersPanel.Name = "answersPanel";
-            this.answersPanel.Size = new System.Drawing.Size(760, 244);
+            this.answersPanel.Size = new System.Drawing.Size(758, 242);
             this.answersPanel.TabIndex = 1;
             // 
             // answersLabel
@@ -114,7 +104,7 @@
             this.answersLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.answersLabel.Location = new System.Drawing.Point(0, 0);
             this.answersLabel.Name = "answersLabel";
-            this.answersLabel.Size = new System.Drawing.Size(760, 23);
+            this.answersLabel.Size = new System.Drawing.Size(758, 23);
             this.answersLabel.TabIndex = 0;
             this.answersLabel.Text = "Варианты ответа:";
             // 
@@ -145,16 +135,6 @@
             this.numberLabel.Text = "Вопрос 1/9999";
             this.numberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // timerLabel
-            // 
-            this.timerLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.timerLabel.Location = new System.Drawing.Point(256, 0);
-            this.timerLabel.Name = "timerLabel";
-            this.timerLabel.Size = new System.Drawing.Size(247, 40);
-            this.timerLabel.TabIndex = 3;
-            this.timerLabel.Text = "Прошло: 00:00:00";
-            this.timerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // handlePanel
             // 
             this.handlePanel.ColumnCount = 3;
@@ -171,25 +151,69 @@
             this.handlePanel.Size = new System.Drawing.Size(760, 40);
             this.handlePanel.TabIndex = 2;
             // 
+            // finishButton
+            // 
+            this.finishButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.finishButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finishButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(159)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.finishButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this.finishButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(199)))), ((int)(((byte)(199)))));
+            this.finishButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.finishButton.ForeColor = System.Drawing.Color.Maroon;
+            this.finishButton.Image = global::QuizApp.Properties.Resources.exit;
+            this.finishButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.finishButton.Location = new System.Drawing.Point(509, 3);
+            this.finishButton.Name = "finishButton";
+            this.finishButton.Size = new System.Drawing.Size(248, 34);
+            this.finishButton.TabIndex = 1;
+            this.finishButton.Text = "Завершить тестирование";
+            this.finishButton.UseVisualStyleBackColor = false;
+            // 
+            // timerLabel
+            // 
+            this.timerLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.timerLabel.Image = global::QuizApp.Properties.Resources.clock;
+            this.timerLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.timerLabel.Location = new System.Drawing.Point(256, 0);
+            this.timerLabel.Name = "timerLabel";
+            this.timerLabel.Size = new System.Drawing.Size(247, 40);
+            this.timerLabel.TabIndex = 3;
+            this.timerLabel.Text = "Прошло: 00:00:00";
+            this.timerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // nextButton
             // 
+            this.nextButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(223)))), ((int)(((byte)(255)))));
             this.nextButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nextButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(127)))), ((int)(((byte)(159)))));
+            this.nextButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(175)))), ((int)(((byte)(207)))));
+            this.nextButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(199)))), ((int)(((byte)(231)))));
+            this.nextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.nextButton.Image = global::QuizApp.Properties.Resources.arrow_right;
+            this.nextButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.nextButton.Location = new System.Drawing.Point(509, 3);
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(248, 34);
             this.nextButton.TabIndex = 0;
             this.nextButton.Text = "Следующий вопрос";
-            this.nextButton.UseVisualStyleBackColor = true;
+            this.nextButton.UseVisualStyleBackColor = false;
             // 
             // prevButton
             // 
+            this.prevButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(223)))), ((int)(((byte)(255)))));
             this.prevButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.prevButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(127)))), ((int)(((byte)(159)))));
+            this.prevButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(175)))), ((int)(((byte)(207)))));
+            this.prevButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(199)))), ((int)(((byte)(231)))));
+            this.prevButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.prevButton.Image = global::QuizApp.Properties.Resources.arrow_left;
+            this.prevButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.prevButton.Location = new System.Drawing.Point(256, 3);
             this.prevButton.Name = "prevButton";
             this.prevButton.Size = new System.Drawing.Size(247, 34);
             this.prevButton.TabIndex = 1;
             this.prevButton.Text = "Предыдущий вопрос";
-            this.prevButton.UseVisualStyleBackColor = true;
+            this.prevButton.UseVisualStyleBackColor = false;
             this.prevButton.Visible = false;
             // 
             // QuestionForm
