@@ -28,33 +28,64 @@ namespace QuizApp.Model.Data.Entity
         public string Description { get; set; }
 
         /// <summary>
-        /// Правильный ответ - определяет идентификатор одного правильного ответа на вопрос
-        /// </summary>
-        [JsonRequired]
-        public Guid CorrectAnswer { get; set; }
-
-        /// <summary>
         /// Вес вопроса - определяет множитель полученных очков за правильный ответ на вопрос
         /// </summary>
         [JsonRequired]
         public double Multiplier { get; set; } = 1.0;
+        /// <summary>
+        /// Способ ответа на вопрос
+        /// </summary>
+        [JsonRequired]
+        public AnswerQuestionType AnswerQuestionType { get; set; }
+        /// <summary>
+        /// Правильный ответ - определяет идентификатор одного правильного ответа на вопрос
+        /// </summary>
+        public Guid CorrectAnswer { get; set; }
+
+        /// <summary>
+        /// Правильные ответы - определяет множество идентификаторов нескольких правильных ответов на вопрос
+        /// </summary>
+        public Guid[] CorrectAnswers { get; set; }
+
+        /// <summary>
+        /// Произвольный правильный ответ - определяет текст для правильного ответа на вопрос
+        /// </summary>
+        public string CorrectText { get; set; }
 
         /// <summary>
         /// Варианты ответов
         /// </summary>
-        [JsonRequired]
         public Answer[] Answers { get; set; }
 
         public Question()
         {
+            AnswerQuestionType = AnswerQuestionType.None;
             Guid = Guid.NewGuid();
         }
-        public Question(string description, Answer[] answers, int right_id)
+        public Question(string description, Answer[] answers, int correct_id)
         {
             Guid = Guid.NewGuid();
             Description = description;
+            AnswerQuestionType = AnswerQuestionType.CorrectOne;
             Answers = answers;
-            CorrectAnswer = answers[right_id].Guid;
+            CorrectAnswer = answers[correct_id].Guid;
+        }
+        public Question(string description, Answer[] answers, int[] correct_ids)
+        {
+            Guid = Guid.NewGuid();
+            Description = description;
+            AnswerQuestionType = AnswerQuestionType.CorrectMany;
+            Answers = answers;
+            CorrectAnswers = new Guid[correct_ids.Length];
+            for (int i = 0; i < correct_ids.Length; i++)
+                CorrectAnswers[i] = answers[i].Guid;
+        }
+        public Question(string description, string correct_text)
+        {
+            Guid = Guid.NewGuid();
+            Description = description;
+            AnswerQuestionType = AnswerQuestionType.CorrectText;
+            CorrectText = correct_text;
         }
 
         public object Clone()
@@ -67,6 +98,8 @@ namespace QuizApp.Model.Data.Entity
                 Guid = Guid,
                 Description = Description,
                 CorrectAnswer = CorrectAnswer,
+                CorrectAnswers = CorrectAnswers,
+                CorrectText = CorrectText,
                 Multiplier = Multiplier,
                 Answers = Answers
             };

@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Data\Entity\AnswerQuestionType.cs" />
     <Compile Include="Model\Data\QuizTimerEventArgs.cs" />
     <Compile Include="Model\Utils\Debug.cs" />
     <Compile Include="Model\Data\IQuizTimer.cs" />

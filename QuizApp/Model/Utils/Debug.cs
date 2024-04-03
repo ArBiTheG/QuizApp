@@ -13,6 +13,28 @@ namespace QuizApp.Model.Utils
     {
         public static void CreateQuizJSON(string file, int max_questions = 10, int limit_questions = 5, int max_answers = 4)
         {
+            Question[] questions = new Question[max_questions];
+            for (int i = 0; i < max_questions; i++)
+            {
+                Answer[] answers = new Answer[max_answers];
+                for (int j = 0; j < max_answers; j++)
+                {
+                    answers[j] = new Answer()
+                    {
+                        Text = "Answer:" + j
+                    };
+                }
+                questions[i] = new Question()
+                {
+                    Title = "Question:" + i,
+                    Description = "Question:" + i,
+                    Multiplier = 1.0,
+                    AnswerQuestionType = AnswerQuestionType.CorrectOne,
+                    CorrectAnswer = answers[0].Guid,
+                    Answers = answers,
+                };
+            }
+
             Quiz quiz = new Quiz()
             {
                 Title = "Title",
@@ -30,26 +52,8 @@ namespace QuizApp.Model.Utils
                     new Grade() { Name = "3", Description = "Удовлетворительно", Threshold = 1 },
                     new Grade() { Name = "2", Description = "Неудовлетворительно" }
                 },
-                Questions = new Question[max_questions],
+                Questions = questions,
             };
-
-            for (int i = 0; i < max_questions; i++)
-            {
-                Question question = new Question();
-
-                question.Title = "Question:" + i;
-                question.Description = "Question:" + i;
-                question.Answers = new Answer[max_answers];
-                for (int j = 0; j < max_answers; j++)
-                {
-                    Answer answer = new Answer();
-                    answer.Text = "Answer:" + j;
-                    question.Answers[j] = answer;
-                }
-                question.CorrectAnswer = question.Answers[0].Guid;
-                question.Multiplier = 1.0;
-                quiz.Questions[i] = question;
-            }
 
             if (File.Exists(file)) File.Delete(file);
             string textJson = JsonConvert.SerializeObject(quiz, Formatting.Indented);
