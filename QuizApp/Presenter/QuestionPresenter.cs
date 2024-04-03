@@ -160,7 +160,7 @@ namespace QuizApp.Presenter
                 answerViews[i] = new AnswerView()
                 {
                     Guid = answer.Guid,
-                    Content = answer.Description,
+                    Content = answer.Text,
                     Checked = answer.Checked
                 };
             }

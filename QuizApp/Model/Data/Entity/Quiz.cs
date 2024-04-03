@@ -12,16 +12,43 @@ namespace QuizApp.Model.Data.Entity
 {
     public class Quiz: ICloneable
     {
+        /// <summary>
+        /// Уникальный идентификатор тестирования
+        /// </summary>
         [JsonRequired]
         public Guid Guid { get; set; }
+
+        /// <summary>
+        /// Заголовок тестирования
+        /// </summary>
         [JsonRequired]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Описание тестирования
+        /// </summary>
         [JsonRequired]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Автор тестирования
+        /// </summary>
         public string Author { get; set; }
-        public QuizSetting Setting { get; set; }
+
+        /// <summary>
+        /// Конфигурация тестирования
+        /// </summary>
+        public QuizConfig Config { get; set; }
+
+        /// <summary>
+        /// Массив с оценками
+        /// </summary>
         [JsonRequired]
         public Grade[] Grades { get; set; }
+
+        /// <summary>
+        /// Вопросы к тестированию
+        /// </summary>
         [JsonRequired]
         public Question[] Questions { get; set; }
         public Quiz()
@@ -46,7 +73,7 @@ namespace QuizApp.Model.Data.Entity
                 Title = Title,
                 Description = Description,
                 Author = Author,
-                Setting = Setting,
+                Config = Config,
                 Grades = Grades,
                 Questions = Questions,
             };

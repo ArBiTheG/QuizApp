@@ -9,20 +9,32 @@ namespace QuizApp.Model.Data.Entity
 {
     public class Answer : ICloneable
     {
+        /// <summary>
+        /// Уникальный идентификатор ответа
+        /// </summary>
         [JsonRequired]
         public Guid Guid { get; set; }
+
+        /// <summary>
+        /// Текст ответа на вопрос
+        /// </summary>
         [JsonRequired]
-        public string Description { get; set; }
+        public string Text { get; set; }
+
+        /// <summary>
+        /// Выделенный
+        /// </summary>
         [JsonIgnore]
         public bool Checked { get; set; }
+
         public Answer()
         {
             Guid = Guid.NewGuid();
         }
-        public Answer(string description)
+        public Answer(string text)
         {
             Guid = Guid.NewGuid();
-            Description = description;
+            Text = text;
         }
         public object Clone()
         {
@@ -32,13 +44,13 @@ namespace QuizApp.Model.Data.Entity
             return new Answer()
             {
                 Guid = Guid,
-                Description = Description,
+                Text = Text,
                 Checked= Checked
             };
         }
         public bool IsValidated()
         {
-            if (!string.IsNullOrEmpty(Description))
+            if (!string.IsNullOrEmpty(Text))
             {
                 return true;
             }

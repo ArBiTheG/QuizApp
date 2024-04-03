@@ -13,43 +13,47 @@ namespace QuizApp.Model.Utils
     {
         public static void CreateQuizJSON(string file, int max_questions = 10, int limit_questions = 5, int max_answers = 4)
         {
-            Quiz quiz = new Quiz();
-            quiz.Title = "Title";
-            quiz.Description = "Description";
-            quiz.Author = "Daniil";
-
-            quiz.Setting = new QuizSetting()
+            Quiz quiz = new Quiz()
             {
-                LimitQuestions = limit_questions,
-                LimitTimer = 0,
+                Title = "Title",
+                Description = "Description",
+                Author = "Daniil",
+                Config = new QuizConfig()
+                {
+                    QuestionsLimit = limit_questions,
+                    TimerLimit = 0,
+                },
+                Grades = new Grade[4]
+                {
+                    new Grade() { Name = "5", Description = "Отлично", Threshold = 4 },
+                    new Grade() { Name = "4", Description = "Хорошо", Threshold = 3 },
+                    new Grade() { Name = "3", Description = "Удовлетворительно", Threshold = 1 },
+                    new Grade() { Name = "2", Description = "Неудовлетворительно" }
+                },
+                Questions = new Question[max_questions],
             };
-            quiz.Grades = new Grade[4];
-            quiz.Grades[0] = new Grade() { Title = "5", Description = "Отлично", Threshold = 4 };
-            quiz.Grades[1] = new Grade() { Title = "4", Description = "Хорошо", Threshold = 3 };
-            quiz.Grades[2] = new Grade() { Title = "3", Description = "Удовлетворительно", Threshold = 1 };
-            quiz.Grades[3] = new Grade() { Title = "2", Description = "Неудовлетворительно" };
 
-            quiz.Questions = new Question[max_questions];
             for (int i = 0; i < max_questions; i++)
             {
                 Question question = new Question();
 
+                question.Title = "Question:" + i;
                 question.Description = "Question:" + i;
                 question.Answers = new Answer[max_answers];
                 for (int j = 0; j < max_answers; j++)
                 {
                     Answer answer = new Answer();
-                    answer.Description = "Answer:" + j;
+                    answer.Text = "Answer:" + j;
                     question.Answers[j] = answer;
                 }
-                question.RightAnswer = question.Answers[0].Guid;
-                question.Multiplier = 1.1;
+                question.CorrectAnswer = question.Answers[0].Guid;
+                question.Multiplier = 1.0;
                 quiz.Questions[i] = question;
             }
 
             if (File.Exists(file)) File.Delete(file);
             string textJson = JsonConvert.SerializeObject(quiz, Formatting.Indented);
-            File.WriteAllText("test.json", textJson);
+            File.WriteAllText(file, textJson);
         }
     }
 }

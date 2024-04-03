@@ -9,16 +9,42 @@ namespace QuizApp.Model.Data.Entity
 {
     public class Question : ICloneable
     {
+        /// <summary>
+        /// Уникальный идентификатор вопроса
+        /// </summary>
         [JsonRequired]
         public Guid Guid { get; set; }
+
+        /// <summary>
+        /// Заголовок вопроса
+        /// </summary>
+        [JsonRequired]
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Описание вопроса
+        /// </summary>
         [JsonRequired]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Правильный ответ - определяет идентификатор одного правильного ответа на вопрос
+        /// </summary>
         [JsonRequired]
-        public Guid RightAnswer { get; set; }
+        public Guid CorrectAnswer { get; set; }
+
+        /// <summary>
+        /// Вес вопроса - определяет множитель полученных очков за правильный ответ на вопрос
+        /// </summary>
         [JsonRequired]
         public double Multiplier { get; set; } = 1.0;
+
+        /// <summary>
+        /// Варианты ответов
+        /// </summary>
         [JsonRequired]
         public Answer[] Answers { get; set; }
+
         public Question()
         {
             Guid = Guid.NewGuid();
@@ -28,7 +54,7 @@ namespace QuizApp.Model.Data.Entity
             Guid = Guid.NewGuid();
             Description = description;
             Answers = answers;
-            RightAnswer = answers[right_id].Guid;
+            CorrectAnswer = answers[right_id].Guid;
         }
 
         public object Clone()
@@ -40,7 +66,7 @@ namespace QuizApp.Model.Data.Entity
             {
                 Guid = Guid,
                 Description = Description,
-                RightAnswer = RightAnswer,
+                CorrectAnswer = CorrectAnswer,
                 Multiplier = Multiplier,
                 Answers = Answers
             };

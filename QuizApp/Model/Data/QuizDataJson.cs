@@ -44,7 +44,7 @@ namespace QuizApp.Model.Data
             if (temp_questions.Count <= 0) throw new QuizInvalidException("Отсутствуют корректные вопросы");
 
             Quiz quiz = (Quiz)temp_quiz.Clone();
-            quiz.Questions = QuizUtils.ShuffleAndCutQuestions(temp_questions.ToArray(), quiz.Setting.LimitQuestions);
+            quiz.Questions = QuizUtils.ShuffleAndCutQuestions(temp_questions.ToArray(), quiz.Config.QuestionsLimit);
             foreach (var question in quiz.Questions)
             {
                 question.Answers = QuizUtils.ShuffleAnswers(question.Answers);
@@ -56,7 +56,7 @@ namespace QuizApp.Model.Data
             Console.WriteLine("Отобрано вопросов: " + quiz.Questions.Length);
 #endif
 
-            _timer = new QuizTimer(quiz.Setting.LimitTimer);
+            _timer = new QuizTimer(quiz.Config.TimerLimit);
 
             _timer.ElapseStarted += delegate (object s, QuizTimerEventArgs e) { QuizTimerStarted?.Invoke(this, e); };
             _timer.ElapseFinished += delegate (object s, EventArgs e) { QuizTimerFinished?.Invoke(this, e); };
@@ -74,7 +74,7 @@ namespace QuizApp.Model.Data
             double maxScoreCount = 0;
             foreach (Question question in _quiz.Questions)
             {
-                Answer answer = question.Answers.First((a) => a.Guid == question.RightAnswer);
+                Answer answer = question.Answers.First((a) => a.Guid == question.CorrectAnswer);
                 if (answer != null)
                 {
                     if (answer.Checked)
@@ -101,7 +101,7 @@ namespace QuizApp.Model.Data
 
             Result result = new Result();
             result.Guid = Guid.NewGuid();
-            result.Grade = grade.Title;
+            result.Grade = grade.Name;
             result.GradeDescription = grade.Description;
             result.Score = scoreCount;
             result.MaxScore = maxScoreCount;

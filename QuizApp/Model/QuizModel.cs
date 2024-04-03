@@ -18,7 +18,7 @@ namespace QuizApp.Model
         public string Description { get => _data.Quiz.Description; }
         public string Author { get => _data.Quiz.Author; }
         public int MaxQuestions { get => _data.Quiz.Questions.Length; }
-        public int TimerLimit => _data.Quiz.Setting.LimitTimer;
+        public int TimerLimit => _data.Quiz.Config.TimerLimit;
 
         public Question Question { get => _question; }
         public int CurrentQuestionId { get => _currentQuestionId; }
