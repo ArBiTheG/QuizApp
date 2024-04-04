@@ -97,6 +97,7 @@ namespace QuizApp.Model.Data.Entity
             {
                 Guid = Guid,
                 Description = Description,
+                AnswerQuestionType = AnswerQuestionType,
                 CorrectAnswer = CorrectAnswer,
                 CorrectAnswers = CorrectAnswers,
                 CorrectText = CorrectText,
