@@ -34,6 +34,7 @@ namespace QuizApp.Model.Utils
                     Answers = answers,
                 };
             }
+            questions[1].AnswerQuestionType = AnswerQuestionType.CorrectMany;
 
             Quiz quiz = new Quiz()
             {
