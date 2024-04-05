@@ -82,9 +82,9 @@ namespace QuizApp.Model
         /// <summary>
         /// Выбрать ответ на вопрос вопрос
         /// </summary>
-        public void SendReply(params string[] answer)
+        public void SendAnswer(string answer, bool stage = true)
         {
-            _data.DoReply(Question.Guid, answer);
+            _data.SendAnswer(Question.Guid, answer, stage);
         }
 
         /// <summary>

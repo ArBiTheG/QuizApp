@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using QuizApp.Model.Data.Entity;
 using QuizApp.View.Entity;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace QuizApp.View
     {
         private static QuestionForm instance;
 
+        private string _answerText;
         private IAnswerView[] _answers;
 
         // Решение проблемы с морганием MDI Формы
@@ -73,6 +75,10 @@ namespace QuizApp.View
             set => descriptionTextBox.Text = value;
         }
 
+        public string AnswerText
+        {
+            get => _answerText;
+        }
         public IAnswerView[] Answers { 
             get => _answers;
         }
@@ -145,6 +151,52 @@ namespace QuizApp.View
             RadioButton radioButton = sender as RadioButton;
             IAnswerView answerView = (IAnswerView)radioButton.Tag;
             answerView.Checked = radioButton.Checked;
+        }
+
+        public void CreateAnswerCheckBoxes(IAnswerView[] answersView)
+        {
+            _answers = answersView;
+
+            answersPanel.SuspendLayout();
+            answersPanel.Controls.Clear();
+            foreach (IAnswerView answer in answersView)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Tag = answer;
+                checkBox.Text = answer.Content;
+                checkBox.Checked = answer.Checked;
+                checkBox.CheckedChanged += CheckBox_CheckedChanged;
+                checkBox.Dock = DockStyle.Top;
+                answersPanel.Controls.Add(checkBox);
+            }
+            answersPanel.ResumeLayout();
+        }
+
+        private void CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            IAnswerView answerView = (IAnswerView)checkBox.Tag;
+            answerView.Checked = checkBox.Checked;
+        }
+        public void CreateAnswerTextBox(string answerText)
+        {
+            _answerText = answerText;
+            answersPanel.SuspendLayout();
+            answersPanel.Controls.Clear();
+
+            TextBox textBox = new TextBox();
+            textBox.Text = answerText;
+            textBox.TextChanged += TextBox_TextChanged; ;
+            textBox.Dock = DockStyle.Top;
+            answersPanel.Controls.Add(textBox);
+
+            answersPanel.ResumeLayout();
+        }
+
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            _answerText = textBox.Text;
         }
     }
 }

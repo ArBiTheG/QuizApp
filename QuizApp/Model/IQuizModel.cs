@@ -27,7 +27,7 @@ namespace QuizApp.Model
         void LoadPrevQuestion();
         void LoadFirstQuestion();
         void LoadLastQuestion();
-        void SendReply(params string[] answer);
+        void SendAnswer(string answer, bool param = true);
         Result GetResult();
         void StartQuiz();
         void StopQuiz();

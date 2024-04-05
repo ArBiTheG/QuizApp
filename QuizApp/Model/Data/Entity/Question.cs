@@ -43,10 +43,15 @@ namespace QuizApp.Model.Data.Entity
         public Guid CorrectAnswer { get; set; }
 
         /// <summary>
-        /// Правильные ответы - определяет множество идентификаторов нескольких правильных ответов на вопрос
+        /// Правильные ответы - определяет идентификаторы нескольких правильных ответов на вопрос
         /// </summary>
         public Guid[] CorrectAnswers { get; set; }
 
+        /// <summary>
+        /// Введенный ответ пользователем
+        /// </summary>
+        [JsonIgnore]
+        public string SelectText { get; set; }
         /// <summary>
         /// Произвольный правильный ответ - определяет текст для правильного ответа на вопрос
         /// </summary>

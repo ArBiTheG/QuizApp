@@ -24,17 +24,43 @@ namespace QuizApp.Model.Utils
                         Text = "Answer:" + j
                     };
                 }
-                questions[i] = new Question()
+                switch (i % 3)
                 {
-                    Title = "Question:" + i,
-                    Description = "Question:" + i,
-                    Multiplier = 1.0,
-                    AnswerQuestionType = AnswerQuestionType.CorrectOne,
-                    CorrectAnswer = answers[0].Guid,
-                    Answers = answers,
-                };
+                    case 0:
+                        questions[i] = new Question()
+                        {
+                            Title = "Question:" + i,
+                            Description = "Question:" + i,
+                            Multiplier = 1.0,
+                            AnswerQuestionType = AnswerQuestionType.CorrectOne,
+                            CorrectAnswer = answers[0].Guid,
+                            Answers = answers,
+                        };
+                        break;
+                    case 1:
+                        questions[i] = new Question()
+                        {
+                            Title = "Question:" + i,
+                            Description = "Question:" + i,
+                            Multiplier = 1.0,
+                            AnswerQuestionType = AnswerQuestionType.CorrectMany,
+                            CorrectAnswers = new Guid[2]{ answers[0].Guid, answers[1].Guid },
+                            Answers = answers,
+                        };
+                        break;
+                    case 2:
+                        questions[i] = new Question()
+                        {
+                            Title = "Question:" + i,
+                            Description = "Question:" + i,
+                            Multiplier = 1.0,
+                            AnswerQuestionType = AnswerQuestionType.CorrectText,
+                            CorrectText = "Sample",
+                            Answers = answers,
+                        };
+                        break;
+                }
             }
-            questions[1].AnswerQuestionType = AnswerQuestionType.CorrectMany;
 
             Quiz quiz = new Quiz()
             {
