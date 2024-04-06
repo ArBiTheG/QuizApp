@@ -34,10 +34,10 @@
             this.answersPanel = new System.Windows.Forms.Panel();
             this.answersLabel = new System.Windows.Forms.Label();
             this.infoPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.numberLabel = new System.Windows.Forms.Label();
-            this.handlePanel = new System.Windows.Forms.TableLayoutPanel();
             this.finishButton = new System.Windows.Forms.Button();
+            this.numberLabel = new System.Windows.Forms.Label();
             this.timerLabel = new System.Windows.Forms.Label();
+            this.handlePanel = new System.Windows.Forms.TableLayoutPanel();
             this.nextButton = new System.Windows.Forms.Button();
             this.prevButton = new System.Windows.Forms.Button();
             this.formPanel.SuspendLayout();
@@ -87,12 +87,14 @@
             this.descriptionTextBox.Location = new System.Drawing.Point(0, 0);
             this.descriptionTextBox.Name = "descriptionTextBox";
             this.descriptionTextBox.ReadOnly = true;
+            this.descriptionTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.descriptionTextBox.Size = new System.Drawing.Size(758, 184);
             this.descriptionTextBox.TabIndex = 0;
             this.descriptionTextBox.Text = "";
             // 
             // answersPanel
             // 
+            this.answersPanel.AutoScroll = true;
             this.answersPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.answersPanel.Location = new System.Drawing.Point(0, 23);
             this.answersPanel.Name = "answersPanel";
@@ -125,32 +127,6 @@
             this.infoPanel.Size = new System.Drawing.Size(760, 40);
             this.infoPanel.TabIndex = 3;
             // 
-            // numberLabel
-            // 
-            this.numberLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numberLabel.Location = new System.Drawing.Point(3, 0);
-            this.numberLabel.Name = "numberLabel";
-            this.numberLabel.Size = new System.Drawing.Size(247, 40);
-            this.numberLabel.TabIndex = 2;
-            this.numberLabel.Text = "Вопрос 1/9999";
-            this.numberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // handlePanel
-            // 
-            this.handlePanel.ColumnCount = 3;
-            this.handlePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.handlePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.handlePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.handlePanel.Controls.Add(this.nextButton, 2, 0);
-            this.handlePanel.Controls.Add(this.prevButton, 1, 0);
-            this.handlePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.handlePanel.Location = new System.Drawing.Point(0, 497);
-            this.handlePanel.Name = "handlePanel";
-            this.handlePanel.RowCount = 1;
-            this.handlePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.handlePanel.Size = new System.Drawing.Size(760, 40);
-            this.handlePanel.TabIndex = 2;
-            // 
             // finishButton
             // 
             this.finishButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
@@ -169,6 +145,16 @@
             this.finishButton.Text = "Завершить тестирование";
             this.finishButton.UseVisualStyleBackColor = false;
             // 
+            // numberLabel
+            // 
+            this.numberLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numberLabel.Location = new System.Drawing.Point(3, 0);
+            this.numberLabel.Name = "numberLabel";
+            this.numberLabel.Size = new System.Drawing.Size(247, 40);
+            this.numberLabel.TabIndex = 2;
+            this.numberLabel.Text = "Вопрос 1/9999";
+            this.numberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // timerLabel
             // 
             this.timerLabel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -180,6 +166,22 @@
             this.timerLabel.TabIndex = 3;
             this.timerLabel.Text = "Прошло: 00:00:00";
             this.timerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // handlePanel
+            // 
+            this.handlePanel.ColumnCount = 3;
+            this.handlePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.handlePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.handlePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.handlePanel.Controls.Add(this.nextButton, 2, 0);
+            this.handlePanel.Controls.Add(this.prevButton, 1, 0);
+            this.handlePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.handlePanel.Location = new System.Drawing.Point(0, 497);
+            this.handlePanel.Name = "handlePanel";
+            this.handlePanel.RowCount = 1;
+            this.handlePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.handlePanel.Size = new System.Drawing.Size(760, 40);
+            this.handlePanel.TabIndex = 2;
             // 
             // nextButton
             // 

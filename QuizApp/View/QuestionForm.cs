@@ -131,6 +131,7 @@ namespace QuizApp.View
         {
             _answers = answersView;
 
+            answersLabel.Text = "Выберите один вариант ответа:";
             answersPanel.SuspendLayout();
             answersPanel.Controls.Clear();
             foreach (IAnswerView answer in answersView)
@@ -157,6 +158,7 @@ namespace QuizApp.View
         {
             _answers = answersView;
 
+            answersLabel.Text = "Выберите несколько вариантов ответа:";
             answersPanel.SuspendLayout();
             answersPanel.Controls.Clear();
             foreach (IAnswerView answer in answersView)
@@ -180,6 +182,7 @@ namespace QuizApp.View
         }
         public void CreateAnswerTextBox(string answerText)
         {
+            answersLabel.Text = "Напишите ответ:";
             _answerText = answerText;
             answersPanel.SuspendLayout();
             answersPanel.Controls.Clear();
