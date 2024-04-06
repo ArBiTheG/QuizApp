@@ -11,7 +11,7 @@ namespace QuizApp.Model
     public class QuizModel: IQuizModel
     {
         IQuizData _data;
-        Question _question;
+        IQuestion _question;
         int _currentQuestionId = -1;
 
         public string Title { get => _data.Quiz.Title; }
@@ -20,7 +20,7 @@ namespace QuizApp.Model
         public int MaxQuestions { get => _data.Quiz.Questions.Length; }
         public int TimerLimit => _data.Quiz.Config.TimerLimit;
 
-        public Question Question { get => _question; }
+        public IQuestion Question { get => _question; }
         public int CurrentQuestionId { get => _currentQuestionId; }
 
         public event EventHandler<QuizTimerEventArgs> QuizStarted;

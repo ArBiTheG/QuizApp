@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Model.Data.Entity
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Answer : ICloneable
     {
         /// <summary>
         /// Уникальный идентификатор ответа
         /// </summary>
         [JsonRequired]
+        [JsonProperty("guid")]
         public Guid Guid { get; set; }
 
         /// <summary>
         /// Текст ответа на вопрос
         /// </summary>
         [JsonRequired]
+        [JsonProperty("text")]
         public string Text { get; set; }
 
         /// <summary>

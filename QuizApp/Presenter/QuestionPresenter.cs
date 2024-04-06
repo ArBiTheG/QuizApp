@@ -135,18 +135,16 @@ namespace QuizApp.Presenter
         /// </summary>
         private void SendAnswerForQuestion()
         {
-            switch (Model.Question.AnswerQuestionType)
+            if (Model.Question is IQuestionAnswer)
             {
-                case AnswerQuestionType.CorrectOne:
-                case AnswerQuestionType.CorrectMany:
-                    foreach (IAnswerView answer in View.Answers)
-                    {
-                        Model.SendAnswer(answer.Guid.ToString(), answer.Checked);
-                    }
-                    break;
-                case AnswerQuestionType.CorrectText:
-                    Model.SendAnswer(View.AnswerText);
-                    break;
+                foreach (IAnswerView answer in View.Answers)
+                {
+                    Model.SendAnswer(answer.Guid.ToString(), answer.Checked);
+                }
+            }
+            else if (Model.Question is IQuestionText)
+            {
+                Model.SendAnswer(View.AnswerText);
             }
         }
 
@@ -158,30 +156,17 @@ namespace QuizApp.Presenter
             View.CurrentQuestion = Model.CurrentQuestionId + 1;
             View.Description = Model.Question.Description;
 
-            int answerCount = Model.Question.Answers.Length;
-            IAnswerView[] answerViews = new IAnswerView[answerCount];
-            for (int i = 0; i < answerCount; ++i)
+            if (Model.Question is IQuestionAnswer)
             {
-                Answer answer = Model.Question.Answers[i];
-                answerViews[i] = new AnswerView()
-                {
-                    Guid = answer.Guid,
-                    Content = answer.Text,
-                    Checked = answer.Checked
-                };
-            }
-
-            switch (Model.Question.AnswerQuestionType)
-            {
-                case AnswerQuestionType.CorrectOne:
+                IAnswerView[] answerViews = CreateAnswerViews(Model.Question as IQuestionAnswer);
+                if (Model.Question is IQuestionAnswerOne)
                     View.CreateAnswerRadioButtons(answerViews);
-                    break;
-                case AnswerQuestionType.CorrectMany:
+                else if (Model.Question is IQuestionAnswerMany)
                     View.CreateAnswerCheckBoxes(answerViews);
-                    break;
-                case AnswerQuestionType.CorrectText:
-                    View.CreateAnswerTextBox(Model.Question.SelectText);
-                    break;
+            }
+            else if (Model.Question is IQuestionText)
+            {
+                View.CreateAnswerTextBox((Model.Question as IQuestionText).SelectText);
             }
 
             (View.ParentView as IMainView).AppStatus = string.Format("Всего вопросов: {0} | Текущий вопрос: {1}{2}",
@@ -189,6 +174,22 @@ namespace QuizApp.Presenter
                 Model.CurrentQuestionId + 1,
                 (Model.MaxQuestions == Model.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
         }
+        private IAnswerView[] CreateAnswerViews(IQuestionAnswer question)
+        {
+            int answerCount = question.Answers.Length;
+            IAnswerView[] result = new IAnswerView[answerCount];
+            for (int i = 0; i < answerCount; ++i)
+            {
+                Answer answer = question.Answers[i];
+                result[i] = new AnswerView()
+                {
+                    Guid = answer.Guid,
+                    Content = answer.Text,
+                    Checked = answer.Checked
+                };
+            }
+            return result;
+        } 
 
     }
 }

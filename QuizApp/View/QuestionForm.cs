@@ -18,7 +18,7 @@ namespace QuizApp.View
     {
         private static QuestionForm instance;
 
-        private string _answerText;
+        private string _answerText = string.Empty;
         private IAnswerView[] _answers;
 
         // Решение проблемы с морганием MDI Формы

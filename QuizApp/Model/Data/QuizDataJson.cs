@@ -26,14 +26,22 @@ namespace QuizApp.Model.Data
         {
 
 #if DEBUG
-            Debug.CreateQuizJSON(fileName,10,10);
+            Debug.CreateQuizJSON(fileName,10,5);
 #endif
             string fileContent = File.ReadAllText(fileName);
 
-
-            Quiz temp_quiz = JsonConvert.DeserializeObject<Quiz>(fileContent);
-            List<Question> temp_questions = new List<Question>();
-            foreach (Question tempQuestion in temp_quiz.Questions)
+            Quiz temp_quiz = JsonConvert.DeserializeObject<Quiz>(fileContent, new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = new QuizSerializationBinder(new List<Type>()
+                {
+                    typeof(QuestionOne),
+                    typeof(QuestionMany),
+                    typeof(QuestionText),
+                })
+            });
+            List<IQuestion> temp_questions = new List<IQuestion>();
+            foreach (IQuestion tempQuestion in temp_quiz.Questions)
             {
                 if (tempQuestion.IsValidated())
                 {
@@ -49,7 +57,11 @@ namespace QuizApp.Model.Data
             quiz.Questions = QuizUtils.ShuffleAndCutQuestions(temp_questions.ToArray(), quiz.Config.QuestionsLimit);
             foreach (var question in quiz.Questions)
             {
-                question.Answers = QuizUtils.ShuffleAnswers(question.Answers);
+                if (question is IQuestionAnswer)
+                {
+                    IQuestionAnswer questionAnswer = (question as IQuestionAnswer);
+                    questionAnswer.Answers = QuizUtils.ShuffleAnswers(questionAnswer.Answers);
+                }
             }
 
 #if DEBUG
@@ -85,7 +97,6 @@ namespace QuizApp.Model.Data
             }
 
             Result result = new Result();
-            result.Guid = Guid.NewGuid();
             result.Grade = grade.Name;
             result.GradeDescription = grade.Description;
             result.MaxScore = maxQuestionsScore;
@@ -112,20 +123,18 @@ namespace QuizApp.Model.Data
 
         public void SendAnswer(Guid guid_question, string answer, bool stage = true)
         {
-            Question question = _quiz.Questions.First(q => q.Guid == guid_question);
+            IQuestion question = _quiz.Questions.First(q => q.Guid == guid_question);
 
-            switch (question.AnswerQuestionType)
+            if (question is IQuestionAnswer)
             {
-                case AnswerQuestionType.CorrectOne:
-                case AnswerQuestionType.CorrectMany:
-                    Guid guid_answer = Guid.Parse(answer);
-                    foreach (Answer a in question.Answers)
-                        if (a.Guid == guid_answer)
-                            a.Checked = stage;
-                    break;
-                case AnswerQuestionType.CorrectText:
-                    question.SelectText = answer;
-                    break;
+                Guid guid_answer = Guid.Parse(answer);
+                foreach (Answer a in (question as IQuestionAnswer).Answers)
+                    if (a.Guid == guid_answer)
+                        a.Checked = stage;
+            }
+            else if (question is IQuestionText)
+            {
+                (question as IQuestionText).SelectText = answer;
             }
         }
 
@@ -143,26 +152,27 @@ namespace QuizApp.Model.Data
             correctQuestions = 0;
             correctQuestionsScore = 0;
 
-            foreach (Question question in _quiz.Questions)
+            foreach (IQuestion question in _quiz.Questions)
             {
-                switch (question.AnswerQuestionType)
+                if (question is IQuestionAnswerOne)
                 {
-                    case AnswerQuestionType.CorrectOne:
-                        calcCorrectAnswerOne(question, ref correctQuestions, ref correctQuestionsScore);
-                        break;
-                    case AnswerQuestionType.CorrectMany:
-                        calcCorrectAnswerMany(question, ref correctQuestions, ref correctQuestionsScore);
-                        break;
-                    case AnswerQuestionType.CorrectText:
-                        calcCorrectAnswerText(question, ref correctQuestions, ref correctQuestionsScore);
-                        break;
+                    calcCorrectAnswerOne(question as IQuestionAnswerOne, ref correctQuestions, ref correctQuestionsScore);
                 }
+                else if (question is IQuestionAnswerMany)
+                {
+                    calcCorrectAnswerMany(question as IQuestionAnswerMany, ref correctQuestions, ref correctQuestionsScore);
+                }
+                else if (question is IQuestionText)
+                {
+                    calcCorrectAnswerText(question as IQuestionText, ref correctQuestions, ref correctQuestionsScore);
+                }
+
                 maxQuestions++;
                 maxQuestionsScore += question.Multiplier;
             }
         }
 
-        private void calcCorrectAnswerOne(Question question, ref int correctQuestions, ref double correctQuestionsScore)
+        private void calcCorrectAnswerOne(IQuestionAnswerOne question, ref int correctQuestions, ref double correctQuestionsScore)
         {
             Answer answer = question.Answers.First((a) => a.Guid == question.CorrectAnswer);
             if ((bool)(answer?.Checked))
@@ -172,7 +182,7 @@ namespace QuizApp.Model.Data
             }
         }
 
-        private void calcCorrectAnswerMany(Question question, ref int correctQuestions, ref double correctQuestionsScore)
+        private void calcCorrectAnswerMany(IQuestionAnswerMany question, ref int correctQuestions, ref double correctQuestionsScore)
         {
             double maxAnswers = question.CorrectAnswers.Length;
             double correctAnswers = 0;
@@ -196,7 +206,7 @@ namespace QuizApp.Model.Data
             }
         }
 
-        private void calcCorrectAnswerText(Question question, ref int correctQuestions, ref double correctQuestionsScore)
+        private void calcCorrectAnswerText(IQuestionText question, ref int correctQuestions, ref double correctQuestionsScore)
         {
             string selectText = question.SelectText;
             string correctText = question.CorrectText;

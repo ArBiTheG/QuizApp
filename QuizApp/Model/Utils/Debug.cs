@@ -13,7 +13,7 @@ namespace QuizApp.Model.Utils
     {
         public static void CreateQuizJSON(string file, int max_questions = 10, int limit_questions = 5, int max_answers = 4)
         {
-            Question[] questions = new Question[max_questions];
+            IQuestion[] questions = new IQuestion[max_questions];
             for (int i = 0; i < max_questions; i++)
             {
                 Answer[] answers = new Answer[max_answers];
@@ -27,63 +27,67 @@ namespace QuizApp.Model.Utils
                 switch (i % 3)
                 {
                     case 0:
-                        questions[i] = new Question()
+                        questions[i] = new QuestionOne()
                         {
                             Title = "Question:" + i,
                             Description = "Question:" + i,
                             Multiplier = 1.0,
-                            AnswerQuestionType = AnswerQuestionType.CorrectOne,
                             CorrectAnswer = answers[0].Guid,
                             Answers = answers,
                         };
                         break;
                     case 1:
-                        questions[i] = new Question()
+                        questions[i] = new QuestionMany()
                         {
                             Title = "Question:" + i,
                             Description = "Question:" + i,
                             Multiplier = 1.0,
-                            AnswerQuestionType = AnswerQuestionType.CorrectMany,
                             CorrectAnswers = new Guid[2]{ answers[0].Guid, answers[1].Guid },
                             Answers = answers,
                         };
                         break;
                     case 2:
-                        questions[i] = new Question()
+                        questions[i] = new QuestionText()
                         {
                             Title = "Question:" + i,
                             Description = "Question:" + i,
                             Multiplier = 1.0,
-                            AnswerQuestionType = AnswerQuestionType.CorrectText,
                             CorrectText = "Sample",
-                            Answers = answers,
                         };
                         break;
                 }
             }
 
-            Quiz quiz = new Quiz()
-            {
-                Title = "Title",
-                Description = "Description",
-                Author = "Daniil",
-                Config = new Config()
+            Quiz quiz = new Quiz(
+                title: "Title",
+                description: "Description",
+                author: "Daniil",
+                config: new Config()
                 {
                     QuestionsLimit = limit_questions,
                     TimerLimit = 0,
                 },
-                Grades = new Grade[4]
+                grades: new Grade[4]
                 {
                     new Grade() { Name = "5", Description = "Отлично", Threshold = 4 },
                     new Grade() { Name = "4", Description = "Хорошо", Threshold = 3 },
                     new Grade() { Name = "3", Description = "Удовлетворительно", Threshold = 1 },
                     new Grade() { Name = "2", Description = "Неудовлетворительно" }
                 },
-                Questions = questions,
-            };
+                questions: questions
+                );
 
             if (File.Exists(file)) File.Delete(file);
-            string textJson = JsonConvert.SerializeObject(quiz, Formatting.Indented);
+            string textJson = JsonConvert.SerializeObject(quiz, Formatting.Indented, new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = new QuizSerializationBinder(new List<Type>() 
+                { 
+                    typeof(QuestionOne),
+                    typeof(QuestionMany),
+                    typeof(QuestionText),
+                })
+            });
             File.WriteAllText(file, textJson);
         }
     }

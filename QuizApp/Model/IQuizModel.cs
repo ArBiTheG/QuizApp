@@ -12,7 +12,7 @@ namespace QuizApp.Model
     {
         string Title { get; }
         string Description { get; }
-        Question Question { get; }
+        IQuestion Question { get; }
         string Author { get; }
         int MaxQuestions { get; }
         int CurrentQuestionId { get; }

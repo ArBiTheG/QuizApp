@@ -49,7 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Data\Entity\AnswerQuestionType.cs" />
+    <Compile Include="Model\Data\Entity\IQuestionAnswer.cs" />
+    <Compile Include="Model\Data\Entity\IQuestionAnswerMany.cs" />
+    <Compile Include="Model\Data\Entity\IQuestionAnswerOne.cs" />
+    <Compile Include="Model\Data\Entity\IQuestionText.cs" />
+    <Compile Include="Model\Data\Entity\QuestionMany.cs" />
+    <Compile Include="Model\Data\Entity\QuestionOne.cs" />
+    <Compile Include="Model\Data\Entity\QuestionText.cs" />
     <Compile Include="Model\Data\QuizTimerEventArgs.cs" />
     <Compile Include="Model\Utils\Debug.cs" />
     <Compile Include="Model\Data\IQuizTimer.cs" />
@@ -58,10 +64,11 @@
     <Compile Include="Model\Data\IQuizData.cs" />
     <Compile Include="Model\Data\Entity\Result.cs" />
     <Compile Include="Model\Data\Entity\Grade.cs" />
+    <Compile Include="Model\Utils\QuizSerializationBinder.cs" />
     <Compile Include="Model\Utils\QuizUtils.cs" />
     <Compile Include="Model\IQuizModel.cs" />
     <Compile Include="Model\Data\Entity\Answer.cs" />
-    <Compile Include="Model\Data\Entity\Question.cs" />
+    <Compile Include="Model\Data\Entity\IQuestion.cs" />
     <Compile Include="Model\Data\Entity\Quiz.cs" />
     <Compile Include="Model\Data\Entity\Config.cs" />
     <Compile Include="Model\QuizModel.cs" />
