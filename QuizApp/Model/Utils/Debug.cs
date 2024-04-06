@@ -67,7 +67,7 @@ namespace QuizApp.Model.Utils
                 Title = "Title",
                 Description = "Description",
                 Author = "Daniil",
-                Config = new QuizConfig()
+                Config = new Config()
                 {
                     QuestionsLimit = limit_questions,
                     TimerLimit = 0,

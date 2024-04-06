@@ -38,7 +38,7 @@ namespace QuizApp.Model.Data.Entity
         /// <summary>
         /// Конфигурация тестирования
         /// </summary>
-        public QuizConfig Config { get; set; }
+        public Config Config { get; set; }
 
         /// <summary>
         /// Массив с оценками

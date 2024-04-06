@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Model.Data.Entity
 {
-    public class QuizConfig
+    public class Config
     {
         /// <summary>
         /// Лимит вопросов
