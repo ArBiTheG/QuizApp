@@ -10,6 +10,7 @@ namespace QuizApp.Model.Data
     {
         DateTime Started { get; }
         DateTime Finished { get; }
+        TimeSpan Passed { get; }
         int Counter { get; }
         bool IsActive { get; }
 

@@ -106,7 +106,7 @@ namespace QuizApp.Model.Data
             result.Message = "Тестирование завершено";
             result.QuizStarted = _timer.Started;
             result.QuizFinished = _timer.Finished;
-            result.QuizTimePass = (result.QuizFinished - result.QuizStarted).Seconds;
+            result.QuizTimePass = _timer.Passed;
 
             return result;
         }

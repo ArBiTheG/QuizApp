@@ -56,18 +56,25 @@ namespace QuizApp.Model.Data.Entity
 
         public bool IsValidated()
         {
-            if (!string.IsNullOrEmpty(Description))
+
+            if (string.IsNullOrEmpty(Description))
+                return false;
+
+            foreach (Guid correct_answers in CorrectAnswers)
+                if (!Answers.Any(x => x.Guid == correct_answers))
+                    return false;
+
+            if (Answers != null)
             {
-                if (Answers != null)
+                int countAnswersValid = 0;
+                for (int i = 0; i < Answers.Length; i++)
                 {
-                    int countAnswersValid = 0;
-                    for (int i = 0; i < Answers.Length; i++)
-                    {
-                        if (Answers[i].IsValidated()) countAnswersValid++;
-                    }
-                    return countAnswersValid > 1;
+                    if (Answers[i].IsValidated()) countAnswersValid++;
                 }
-            };
+
+                if (countAnswersValid > 1)
+                    return true;
+            }
             return false;
         }
     }

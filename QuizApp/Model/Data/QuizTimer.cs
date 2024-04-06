@@ -19,6 +19,7 @@ namespace QuizApp.Model.Data
 
         public DateTime Started { get => _timerStarted; }
         public DateTime Finished { get => _timerFinished; }
+        public TimeSpan Passed { get => Finished - Started; }
         public int Counter { get => _timerCounter; }
         public bool IsActive { get => _isActive; }
         public bool IsReverse { get => _isReverse; }
