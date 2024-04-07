@@ -135,12 +135,16 @@ namespace QuizApp.Presenter
         /// </summary>
         private void SendAnswerForQuestion()
         {
-            foreach(IAnswerView answer in View.Answers)
+            if (Model.Question is IQuestionAnswer)
             {
-                if (answer.Checked == true)
+                foreach (IAnswerView answer in View.Answers)
                 {
-                    Model.SendReply(answer.Guid.ToString());
+                    Model.SendAnswer(answer.Guid.ToString(), answer.Checked);
                 }
+            }
+            else if (Model.Question is IQuestionText)
+            {
+                Model.SendAnswer(View.AnswerText);
             }
         }
 
@@ -152,25 +156,40 @@ namespace QuizApp.Presenter
             View.CurrentQuestion = Model.CurrentQuestionId + 1;
             View.Description = Model.Question.Description;
 
-            int answerCount = Model.Question.Answers.Length;
-            IAnswerView[] answerViews = new IAnswerView[answerCount];
-            for (int i = 0; i < answerCount; ++i)
+            if (Model.Question is IQuestionAnswer)
             {
-                Answer answer = Model.Question.Answers[i];
-                answerViews[i] = new AnswerView()
-                {
-                    Guid = answer.Guid,
-                    Content = answer.Text,
-                    Checked = answer.Checked
-                };
+                IAnswerView[] answerViews = CreateAnswerViews(Model.Question as IQuestionAnswer);
+                if (Model.Question is IQuestionAnswerOne)
+                    View.CreateAnswerRadioButtons(answerViews);
+                else if (Model.Question is IQuestionAnswerMany)
+                    View.CreateAnswerCheckBoxes(answerViews);
             }
-            View.CreateAnswerRadioButtons(answerViews);
+            else if (Model.Question is IQuestionText)
+            {
+                View.CreateAnswerTextBox((Model.Question as IQuestionText).SelectText);
+            }
 
             (View.ParentView as IMainView).AppStatus = string.Format("Всего вопросов: {0} | Текущий вопрос: {1}{2}",
                 Model.MaxQuestions,
                 Model.CurrentQuestionId + 1,
                 (Model.MaxQuestions == Model.CurrentQuestionId + 1) ? " | Последний вопрос" : "");
         }
+        private IAnswerView[] CreateAnswerViews(IQuestionAnswer question)
+        {
+            int answerCount = question.Answers.Length;
+            IAnswerView[] result = new IAnswerView[answerCount];
+            for (int i = 0; i < answerCount; ++i)
+            {
+                Answer answer = question.Answers[i];
+                result[i] = new AnswerView()
+                {
+                    Guid = answer.Guid,
+                    Content = answer.Text,
+                    Checked = answer.Checked
+                };
+            }
+            return result;
+        } 
 
     }
 }

@@ -18,6 +18,10 @@ namespace QuizApp.Model.Data.Entity
         public int MaxQuestions { get; set; }
         public DateTime QuizStarted { get; set; }
         public DateTime QuizFinished { get; set; }
-        public int QuizTimePass { get; set; }
+        public TimeSpan QuizTimePass { get; set; }
+        public Result()
+        {
+            Guid = Guid.NewGuid();
+        }
     }
 }

@@ -20,7 +20,10 @@ namespace QuizApp.View
 
         string Description { get; set; }
         IAnswerView[] Answers { get; }
+        string AnswerText { get; }
         void CreateAnswerRadioButtons(IAnswerView[] answerView);
+        void CreateAnswerCheckBoxes(IAnswerView[] answerView);
+        void CreateAnswerTextBox(string textBox);
 
         void SetDisplayTimer(int time, bool reverse = false);
 

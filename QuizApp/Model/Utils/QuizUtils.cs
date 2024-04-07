@@ -10,7 +10,7 @@ namespace QuizApp.Model.Utils
 {
     public static class QuizUtils
     {
-        public static Question[] ShuffleAndCutQuestions(Question[] questions, int limit_count = 0)
+        public static IQuestion[] ShuffleAndCutQuestions(IQuestion[] questions, int limit_count = 0)
         {
             int all_count = questions.Length;
             int[] busyIds = new int[all_count];
@@ -22,9 +22,9 @@ namespace QuizApp.Model.Utils
             if (limit_count <= 0 || limit_count > all_count) 
                 limit_count = all_count;
 
-            Question[] result = new Question[limit_count];
+            IQuestion[] result = new IQuestion[limit_count];
             for (int id = 0; id < limit_count; ++id)
-                result[id] = (Question)questions[busyIds[id]].Clone();
+                result[id] = (IQuestion)questions[busyIds[id]].Clone();
             return result;
         }
         public static Answer[] ShuffleAnswers(Answer[] answers)

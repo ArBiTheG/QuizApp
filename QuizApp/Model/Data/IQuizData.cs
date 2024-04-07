@@ -18,6 +18,6 @@ namespace QuizApp.Model.Data
         Result GetResult();
         void StartQuiz();
         void StopQuiz();
-        void DoReply(Guid guid_question, params string[] guid_answers);
+        void SendAnswer(Guid guid_question, string answer, bool stage = true);
     }
 }

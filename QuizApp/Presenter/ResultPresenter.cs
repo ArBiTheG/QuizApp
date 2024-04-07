@@ -44,11 +44,10 @@ namespace QuizApp.Presenter
             View.RightQuestions = result.RightQuestion.ToString();
             View.TimeStarted = result.QuizStarted.ToString("HH\\:mm\\:ss\\,f");
             View.TimeFinihed = result.QuizFinished.ToString("HH\\:mm\\:ss\\,f");
-            TimeSpan timeSpan = TimeSpan.FromSeconds(result.QuizTimePass);
-            View.TimePassed = string.Format("{0} час. {1} мин. {2} сек.", timeSpan.Hours, timeSpan.Minutes, timeSpan.TotalSeconds);
+            View.TimePassed = result.QuizTimePass.ToString("hh\\:mm\\:ss");
 
-            (View.ParentView as IMainView).AppStatus = string.Format("Тестирование завершено за {0:hh\\:mm\\:ss}, оценка {1}", 
-                timeSpan, 
+            (View.ParentView as IMainView).AppStatus = string.Format("Тестирование завершено за {0:hh\\:mm\\:ss}, оценка {1}",
+                result.QuizTimePass, 
                 result.Grade);
         }
     }
