@@ -14,12 +14,16 @@ namespace QuizApp
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(params string[] args)
         {
+#if DEBUG
+            Console.WriteLine("Параметры приложения: " + string.Join(" ", args));
+#endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             IMainView mainView = new MainForm();
+
             IMainPresenter mainPresenter = new MainPresenter(mainView);
             ApplicationContext context = new ApplicationContext();
             context.MainForm = (MainForm)mainView;
