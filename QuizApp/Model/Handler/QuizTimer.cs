@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace QuizApp.Model.Data
+namespace QuizApp.Model.Handler
 {
     public class QuizTimer: IQuizTimer
     {
@@ -25,7 +25,7 @@ namespace QuizApp.Model.Data
         public bool IsReverse { get => _isReverse; }
 
         public event EventHandler<QuizTimerEventArgs> ElapseStarted;
-        public event EventHandler ElapseFinished;
+        public event EventHandler<QuizTimerEventArgs> ElapseFinished;
         public event EventHandler<QuizTimerEventArgs> Elapsed;
         public QuizTimer(int left_time = 0) 
         {
@@ -90,7 +90,7 @@ namespace QuizApp.Model.Data
             _timer.Stop();
             _timerFinished = DateTime.Now;
             _isActive = false;
-            ElapseFinished?.Invoke(this, EventArgs.Empty);
+            ElapseFinished?.Invoke(this, _elapsedEventArgs);
 #if DEBUG
             Console.WriteLine("Таймер тестирования остановлен!");
 #endif

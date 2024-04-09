@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizApp.Model.Data
+namespace QuizApp.Model.Handler
 {
     public class QuizTimerEventArgs : EventArgs
     {

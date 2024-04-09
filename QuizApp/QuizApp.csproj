@@ -59,9 +59,12 @@
     <Compile Include="Model\Data\Entity\QuestionMany.cs" />
     <Compile Include="Model\Data\Entity\QuestionOne.cs" />
     <Compile Include="Model\Data\Entity\QuestionText.cs" />
-    <Compile Include="Model\Data\QuizTimerEventArgs.cs" />
+    <Compile Include="Model\Handler\QuizTimerEventArgs.cs" />
+    <Compile Include="Model\Handler\IQuizHandler.cs" />
+    <Compile Include="Model\Handler\QuizHandler.cs" />
+    <Compile Include="Model\Utils\CalculatorCorrectAnswer.cs" />
     <Compile Include="Model\Utils\Debug.cs" />
-    <Compile Include="Model\Data\IQuizTimer.cs" />
+    <Compile Include="Model\Handler\IQuizTimer.cs" />
     <Compile Include="Model\Data\QuizDataJson.cs" />
     <Compile Include="Model\Data\QuizInvalidException.cs" />
     <Compile Include="Model\Data\IQuizData.cs" />
@@ -75,7 +78,7 @@
     <Compile Include="Model\Data\Entity\Quiz.cs" />
     <Compile Include="Model\Data\Entity\Config.cs" />
     <Compile Include="Model\QuizModel.cs" />
-    <Compile Include="Model\Data\QuizTimer.cs" />
+    <Compile Include="Model\Handler\QuizTimer.cs" />
     <Compile Include="Presenter\IPreparePresenter.cs" />
     <Compile Include="Presenter\IQuestionPresenter.cs" />
     <Compile Include="Presenter\IResultPresenter.cs" />
@@ -184,5 +187,6 @@
     <Content Include="icon.ico" />
     <Content Include="Resources\icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

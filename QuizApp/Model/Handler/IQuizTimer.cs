@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizApp.Model.Data
+namespace QuizApp.Model.Handler
 {
     public interface IQuizTimer
     {
@@ -15,7 +15,7 @@ namespace QuizApp.Model.Data
         bool IsActive { get; }
 
         event EventHandler<QuizTimerEventArgs> ElapseStarted;
-        event EventHandler ElapseFinished;
+        event EventHandler<QuizTimerEventArgs> ElapseFinished;
         event EventHandler<QuizTimerEventArgs> Elapsed;
     }
 }

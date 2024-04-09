@@ -31,10 +31,10 @@ namespace QuizApp.Presenter
 
         private void View_LoadResult(object sender, EventArgs e)
         {
-            Result result = Model.GetResult();
-            View.Title = Model.Title;
-            View.Description = Model.Description;
-            View.Author = Model.Author;
+            Result result = Model.Quiz.GetResult();
+            View.Title = Model.Quiz.Title;
+            View.Description = Model.Quiz.Description;
+            View.Author = Model.Quiz.Author;
             View.Message = result.Message;
             View.Grade = result.Grade;
             View.GradeDescr = result.GradeDescription;
